@@ -76,8 +76,8 @@ function PortraitPlaceholder() {
             <stop offset="100%" stopColor="#1a1a1f" />
           </linearGradient>
           <linearGradient id="portraitAccent" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#7c3aed" stopOpacity="0.4" />
+            <stop offset="0%" stopColor="#bef264" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#a3e635" stopOpacity="0.4" />
           </linearGradient>
           <pattern
             id="portraitGrid"
@@ -88,7 +88,7 @@ function PortraitPlaceholder() {
             <path
               d="M 32 0 L 0 0 0 32"
               fill="none"
-              stroke="rgba(124,58,237,0.12)"
+              stroke="rgba(163,230,53,0.12)"
               strokeWidth="1"
             />
           </pattern>
@@ -102,7 +102,7 @@ function PortraitPlaceholder() {
           fill="url(#portraitAccent)"
           opacity="0.45"
         />
-        <g stroke="#7c3aed" strokeOpacity="0.45" strokeWidth="1">
+        <g stroke="#a3e635" strokeOpacity="0.45" strokeWidth="1">
           <line x1="0" y1="120" x2="400" y2="120" />
           <line x1="0" y1="380" x2="400" y2="380" />
         </g>

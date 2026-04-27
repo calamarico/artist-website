@@ -30,6 +30,7 @@ const ICONS: Record<string, IconType> = {
 
 const STREAMING = new Set([
   "Spotify",
+  "SoundCloud",
   "Apple Music",
   "Deezer",
   "Tidal",

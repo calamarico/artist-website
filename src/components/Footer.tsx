@@ -9,7 +9,7 @@ const NAV = [
 
 export function Footer() {
   useEffect(() => {
-    console.log("%c🎵 Kalamarico", "font-size:20px; color:#7c3aed;");
+    console.log("%c🎵 Kalamarico", "font-size:20px; color:#a3e635;");
     console.log("Beta-Time Records | Electronic Music Producer");
   }, []);
 

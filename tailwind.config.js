@@ -13,9 +13,13 @@ export default {
           500: "#3a3a44",
         },
         accent: {
-          DEFAULT: "#7c3aed",
-          soft: "#a78bfa",
-          glow: "#8b5cf6",
+          DEFAULT: "#a3e635",
+          soft: "#bef264",
+          glow: "#84cc16",
+        },
+        "accent-fire": {
+          DEFAULT: "#f97316",
+          glow: "#ef4444",
         },
       },
       fontFamily: {
