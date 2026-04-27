@@ -176,7 +176,13 @@ export function AvatarHero() {
         loading="eager"
         decoding="async"
         initial={{ opacity: reduceMotion ? 0 : 0, scale: 0.94 }}
-        className="absolute inset-0 h-full w-full select-none object-contain"
+        className="absolute inset-0 h-full w-full select-none rounded-[4rem] object-contain"
+        style={{
+          WebkitMaskImage:
+            "radial-gradient(circle at center, black 65%, transparent 100%)",
+          maskImage:
+            "radial-gradient(circle at center, black 65%, transparent 100%)",
+        }}
         draggable={false}
       />
 
@@ -188,7 +194,13 @@ export function AvatarHero() {
         loading="eager"
         decoding="async"
         initial={{ opacity: reduceMotion ? 1 : 0, scale: reduceMotion ? 1 : 0.95 }}
-        className="absolute inset-0 h-full w-full select-none object-contain"
+        className="absolute inset-0 h-full w-full select-none rounded-[4rem] object-contain"
+        style={{
+          WebkitMaskImage:
+            "radial-gradient(circle at center, black 65%, transparent 100%)",
+          maskImage:
+            "radial-gradient(circle at center, black 65%, transparent 100%)",
+        }}
         draggable={false}
       />
 
