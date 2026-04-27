@@ -2,14 +2,113 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Kalamarico — Electronic Music Producer | Co-CEO of Beta-Time Records. Madrid, Spain." />
-    <meta name="theme-color" content="#0a0a0a" />
-    <meta property="og:title" content="Kalamarico — Electronic Music Producer" />
-    <meta property="og:description" content="Electronic music producer based in Madrid. Co-CEO of Beta-Time Records." />
-    <meta property="og:type" content="website" />
+
     <title>Kalamarico — Electronic Music Producer</title>
+    <meta name="description" content="Kalamarico — Electronic music producer & techno DJ from Madrid. Co-CEO of Beta-Time Records. Stream releases on Spotify, Apple Music, Beatport and more." />
+    <meta name="author" content="Kalamarico" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="canonical" href="https://www.kalamarico.com/" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Kalamarico" />
+    <meta property="og:type" content="music.musician" />
+    <meta property="og:title" content="Kalamarico — Electronic Music Producer" />
+    <meta property="og:description" content="Electronic music producer & techno DJ from Madrid. Co-CEO of Beta-Time Records." />
+    <meta property="og:url" content="https://www.kalamarico.com/" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content="https://www.kalamarico.com/avatars/avatar-green.jpeg" />
+    <meta property="og:image:width" content="1024" />
+    <meta property="og:image:height" content="1024" />
+    <meta property="og:image:alt" content="Kalamarico — portrait of the artist surrounded by a green energy ring" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Kalamarico — Electronic Music Producer" />
+    <meta name="twitter:description" content="Electronic music producer & techno DJ from Madrid. Co-CEO of Beta-Time Records." />
+    <meta name="twitter:image" content="https://www.kalamarico.com/avatars/avatar-green.jpeg" />
+    <meta name="twitter:image:alt" content="Kalamarico — portrait of the artist surrounded by a green energy ring" />
+
+    <!-- Performance: connect early, preload hero LCP image, swap fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+    <link rel="preload" as="image" href="/avatars/avatar-green.jpeg" fetchpriority="high" />
+
+    <!--
+      JSON-LD structured data — keep in sync with src/data/artist.ts
+      when adding tracks, socials or label info. Crawlers (FB, Twitter,
+      LinkedIn) do not execute JS, so this block must live in static HTML.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "MusicGroup",
+        "name": "Kalamarico",
+        "url": "https://www.kalamarico.com/",
+        "image": "https://www.kalamarico.com/avatars/avatar-green.jpeg",
+        "genre": ["Electronic", "Techno"],
+        "description": "Electronic music producer & techno DJ from Madrid. Co-CEO of Beta-Time Records.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Madrid",
+          "addressCountry": "ES"
+        },
+        "sameAs": [
+          "https://open.spotify.com/intl-es/artist/69pHpbXQUapyazWqZw1O2d",
+          "https://soundcloud.com/kalamarico",
+          "https://www.instagram.com/kalamarico/",
+          "https://www.facebook.com/profile.php?id=61555786563900",
+          "https://www.youtube.com/@Kalamarico",
+          "https://geo.music.apple.com/us/artist/kalamarico/1647473536",
+          "https://www.beatport.com/artist/kalamarico/1173551",
+          "https://kalamarico.bandcamp.com/",
+          "https://www.deezer.com/us/artist/175032397",
+          "https://tidal.com/browse/artist/32959332"
+        ],
+        "track": [
+          {
+            "@type": "MusicRecording",
+            "name": "Too Late",
+            "url": "https://soundcloud.com/kalamarico/too-late",
+            "datePublished": "2026"
+          },
+          {
+            "@type": "MusicRecording",
+            "name": "Nice Shot",
+            "url": "https://soundcloud.com/kalamarico/nice-shot-1",
+            "datePublished": "2026"
+          },
+          {
+            "@type": "MusicRecording",
+            "name": "Winter Chaser",
+            "url": "https://soundcloud.com/kalamarico/winterchaser",
+            "datePublished": "2026"
+          },
+          {
+            "@type": "MusicRecording",
+            "name": "Prometheus Solar Bust",
+            "url": "https://soundcloud.com/kalamarico/prometheus-solar-bust",
+            "datePublished": "2025"
+          },
+          {
+            "@type": "MusicRecording",
+            "name": "The Journey",
+            "url": "https://soundcloud.com/kalamarico/the-journey-1",
+            "datePublished": "2025"
+          }
+        ],
+        "recordLabel": {
+          "@type": "Organization",
+          "name": "Beta-Time Records",
+          "url": "https://www.beta-time.de/Start.htm"
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
