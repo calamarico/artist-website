@@ -13,13 +13,13 @@ export default {
           500: "#3a3a44",
         },
         accent: {
-          DEFAULT: "#a3e635",
-          soft: "#bef264",
-          glow: "#84cc16",
+          DEFAULT: "rgb(var(--color-accent) / <alpha-value>)",
+          soft: "rgb(var(--color-accent-soft) / <alpha-value>)",
+          glow: "rgb(var(--color-accent-glow) / <alpha-value>)",
         },
         "accent-fire": {
-          DEFAULT: "#f97316",
-          glow: "#ef4444",
+          DEFAULT: "rgb(var(--color-accent-fire) / <alpha-value>)",
+          glow: "rgb(var(--color-accent-fire-glow) / <alpha-value>)",
         },
       },
       fontFamily: {

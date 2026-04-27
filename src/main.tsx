@@ -4,6 +4,21 @@ import App from "./App";
 import "./index.css";
 
 const rootElement = document.getElementById("root");
+
+console.log(
+  `%c Designed by:\n` +
+  `%c` +
+  ` ██╗  ██╗ █████╗ ██╗      █████╗ ███╗   ███╗ █████╗ ██████╗ ██╗ ██████╗ ██████╗ \n` +
+  ` ██║ ██╔╝██╔══██╗██║     ██╔══██╗████╗ ████║██╔══██╗██╔══██╗██║██╔════╝██╔═══██╗\n` +
+  ` █████╔╝ ███████║██║     ███████║██╔████╔██║███████║██████╔╝██║██║     ██║   ██║\n` +
+  ` ██╔═██╗ ██╔══██║██║     ██╔══██║██║╚██╔╝██║██╔══██║██╔══██╗██║██║     ██║   ██║\n` +
+  ` ██║  ██╗██║  ██║███████╗██║  ██║██║ ╚═╝ ██║██║  ██║██║  ██║██║╚██████╗╚██████╔╝\n` +
+  ` ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═════╝ \n\n` +
+  ` 🔗 @calamarico\n`,
+  'color: #aaa; font-size: 14px; font-weight: normal;',
+  'color: #e0a0ff; font-size: 10px; font-family: monospace; font-weight: bold;'
+)
+
 if (!rootElement) throw new Error("Root element #root not found");
 
 createRoot(rootElement).render(

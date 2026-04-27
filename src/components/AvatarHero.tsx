@@ -6,11 +6,29 @@ const FIRE_SRC = "/avatars/avatar-fire.jpeg";
 const GREEN_SRC = "/avatars/avatar-green.jpeg";
 
 type Phase = "fire" | "flashpoint" | "green";
+type Theme = "green" | "fire";
+
+const IDLE_INTENSITY: Record<Theme, number> = {
+  green: 0.55,
+  fire: 0.5,
+};
+
+const PALETTE_FOR: Record<Theme, ParticlePalette> = {
+  green: "embers",
+  fire: "fire",
+};
+
+const PHASE_FOR: Record<Theme, Phase> = {
+  green: "green",
+  fire: "fire",
+};
 
 export function AvatarHero() {
   const reduceMotion = useReducedMotion();
   const intensityRef = useRef(0);
-  const playRef = useRef<() => void>(() => {});
+  const interactRef = useRef<() => void>(() => {});
+  // Estado actual / destino de la última transición. Tras el intro: "green".
+  const currentTargetRef = useRef<Theme>("green");
   const [palette, setPalette] = useState<ParticlePalette>("fire");
   const [phase, setPhase] = useState<Phase>("fire");
   const [fireScope, animateFire] = useAnimate();
@@ -19,9 +37,20 @@ export function AvatarHero() {
 
   useEffect(() => {
     if (reduceMotion) {
+      // Sin intro: arrancamos en green-idle y permitimos toggle instantáneo.
       intensityRef.current = 0;
       setPalette("embers");
       setPhase("green");
+      currentTargetRef.current = "green";
+      document.documentElement.dataset.theme = "green";
+      interactRef.current = () => {
+        const next: Theme =
+          currentTargetRef.current === "green" ? "fire" : "green";
+        currentTargetRef.current = next;
+        setPalette(PALETTE_FOR[next]);
+        setPhase(PHASE_FOR[next]);
+        document.documentElement.dataset.theme = next;
+      };
       return;
     }
 
@@ -38,7 +67,6 @@ export function AvatarHero() {
       timeouts.length = 0;
     };
 
-    // Ramp de intensidad gestionado en bucle suave.
     let target = 0;
     let raf = 0;
     const tickIntensity = () => {
@@ -48,90 +76,136 @@ export function AvatarHero() {
     };
     raf = requestAnimationFrame(tickIntensity);
 
-    // Una sola pasada lenta: fuego emerge → arde → flashpoint → verde emerge
-    // → idle estable. ~9.7s en total. Se vuelve a disparar en hover.
-    const play = () => {
+    /**
+     * Reproduce la transición hacia `to`.
+     *  - `isInitial=true`: intro completo (~9.7s) — el fuego emerge desde 0.
+     *  - `isInitial=false`: toggle entre estados idle (~3.2s) — el avatar
+     *    saliente ya es visible.
+     * En ambos casos: ramp-up del saliente → flashpoint con SWAP de
+     * data-theme global → emergencia del entrante → settle en idle.
+     */
+    const playTransition = (to: Theme, isInitial: boolean) => {
       if (isPlaying || cancelled) return;
       isPlaying = true;
       clearTimeouts();
+      currentTargetRef.current = to;
 
-      // Fundido del verde y flash suave para enmascarar el reset (en replays
-      // el verde está visible en idle; en el primer arranque, ambos están a 0).
-      animateFlash(
-        flashScope.current,
-        { opacity: [0, 0.6, 0] },
-        { duration: 0.5, ease: "easeOut" },
-      );
-      animateGreen(greenScope.current, { opacity: 0 }, { duration: 0.3 });
+      const from: Theme = to === "green" ? "fire" : "green";
+      const fromScope = from === "fire" ? fireScope : greenScope;
+      const toScope = to === "fire" ? fireScope : greenScope;
+      const animateFrom = from === "fire" ? animateFire : animateGreen;
+      const animateTo = to === "fire" ? animateFire : animateGreen;
 
-      // t=0: fuego emerge (lento, 2s).
-      setPalette("fire");
-      setPhase("fire");
-      target = 0.7;
-      animateFire(
-        fireScope.current,
-        {
-          opacity: [0, 1],
-          scale: [0.94, 1],
-          filter: ["blur(8px)", "blur(0px)"],
-        },
-        { duration: 2.0, ease: "easeOut" },
-      );
+      // Timings ~2x más rápidos que la versión "lenta cinematográfica".
+      const T = isInitial
+        ? {
+            rampUp: 3000,
+            flash: 3750,
+            emerge: 3850,
+            settle: 4750,
+            done: 4850,
+            rampDur: 0.75,
+            flashDur: 0.35,
+            emergeDur: 0.9,
+          }
+        : {
+            rampUp: 0,
+            flash: 500,
+            emerge: 600,
+            settle: 1100,
+            done: 1200,
+            rampDur: 0.5,
+            flashDur: 0.2,
+            emergeDur: 0.5,
+          };
 
-      // t=6.0: ramp-up del fuego (1.5s)
-      at(6000, () => {
-        target = 1;
+      // === SETUP ===
+      if (isInitial) {
+        // Ambos avatares parten invisibles. El fuego emerge despacio.
+        animateGreen(greenScope.current, { opacity: 0 }, { duration: 0 });
+        animateFlash(
+          flashScope.current,
+          { opacity: [0, 0.6, 0] },
+          { duration: 0.5, ease: "easeOut" },
+        );
+        setPalette("fire");
+        setPhase("fire");
+        target = 0.7;
         animateFire(
           fireScope.current,
+          {
+            opacity: [0, 1],
+            scale: [0.94, 1],
+            filter: ["blur(8px)", "blur(0px)"],
+          },
+          { duration: 1.0, ease: "easeOut" },
+        );
+      }
+      // En toggles, el estado idle del `from` ya es coherente.
+
+      // === RAMP-UP del avatar saliente ===
+      at(T.rampUp, () => {
+        target = 1;
+        animateFrom(
+          fromScope.current,
           { scale: [1, 1.05] },
-          { duration: 1.5, ease: "easeIn" },
+          { duration: T.rampDur, ease: "easeIn" },
         );
       });
 
-      // t=7.5: flashpoint (0.7s)
-      at(7500, () => {
+      // === FLASHPOINT: snap de tema + flash + fade-out del saliente ===
+      at(T.flash, () => {
         animateFlash(
           flashScope.current,
           { opacity: [0, 0.85, 0] },
-          { duration: 0.7, ease: "easeOut" },
+          { duration: T.flashDur, ease: "easeOut" },
         );
-        animateFire(
-          fireScope.current,
+        animateFrom(
+          fromScope.current,
           { opacity: 0, scale: 1.12, filter: "blur(8px)" },
-          { duration: 0.7, ease: "easeOut" },
+          { duration: T.flashDur, ease: "easeOut" },
         );
         setPhase("flashpoint");
+        // BOOM: cambio de tema global de la página.
+        document.documentElement.dataset.theme = to;
       });
 
-      // t=7.7: verde emerge (1.8s)
-      at(7700, () => {
-        setPalette("embers");
-        target = 0.55;
-        setPhase("green");
-        animateGreen(
-          greenScope.current,
+      // === EMERGENCIA del entrante ===
+      at(T.emerge, () => {
+        setPalette(PALETTE_FOR[to]);
+        setPhase(PHASE_FOR[to]);
+        target = 0.7;
+        animateTo(
+          toScope.current,
           {
             opacity: [0, 1],
             scale: [0.95, 1],
             filter: ["blur(8px)", "blur(0px)"],
           },
-          { duration: 1.8, ease: "easeOut" },
+          { duration: T.emergeDur, ease: "easeOut" },
         );
       });
 
-      // t=9.5: idle estable verde
-      at(9500, () => {
-        target = 0.4;
+      // === SETTLE en idle ===
+      at(T.settle, () => {
+        target = IDLE_INTENSITY[to];
       });
 
-      // t=9.7: animación lista para volver a dispararse en hover
-      at(9700, () => {
+      at(T.done, () => {
         isPlaying = false;
       });
     };
 
-    playRef.current = play;
-    play();
+    // Handler de interacción (hover desktop / tap móvil).
+    interactRef.current = () => {
+      if (isPlaying) return;
+      const next: Theme =
+        currentTargetRef.current === "green" ? "fire" : "green";
+      playTransition(next, false);
+    };
+
+    // Intro: arranca con avatar de fuego, termina en green-idle.
+    playTransition("green", true);
 
     return () => {
       cancelled = true;
@@ -141,29 +215,30 @@ export function AvatarHero() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduceMotion]);
 
+  const handleInteract = () => interactRef.current();
+
   return (
     <div
-      className="relative mx-auto aspect-square w-full max-w-[480px] sm:max-w-[420px] lg:max-w-[480px]"
-      onMouseEnter={() => playRef.current()}
+      className="relative mx-auto aspect-square w-full max-w-[480px] cursor-pointer sm:max-w-[420px] lg:max-w-[480px]"
+      onMouseEnter={handleInteract}
+      onClick={handleInteract}
     >
-      {/* Glow base detrás del avatar */}
+      {/* Glow base detrás del avatar. Hereda del tema activo a través de
+          `bg-accent` / `bg-accent-glow`. */}
       <div
         aria-hidden
         className={`pointer-events-none absolute inset-[-15%] rounded-full blur-[80px] transition-colors duration-700 ${
-          phase === "green"
-            ? "bg-accent/25"
-            : phase === "flashpoint"
-              ? "bg-accent-fire-glow/40"
-              : "bg-accent-fire/30"
+          phase === "flashpoint" ? "bg-accent-glow/50" : "bg-accent/25"
         }`}
       />
 
-      {/* Partículas */}
+      {/* Partículas — canvas extendido para que los rayos verdes
+          puedan escapar más allá del avatar en el estado idle. */}
       {!reduceMotion && (
         <ParticleCanvas
           palette={palette}
           intensityRef={intensityRef}
-          className="absolute inset-0 h-full w-full"
+          className="pointer-events-none absolute -inset-[10%] h-[120%] w-[120%]"
         />
       )}
 
@@ -186,7 +261,7 @@ export function AvatarHero() {
         draggable={false}
       />
 
-      {/* Avatar verde (estado final) */}
+      {/* Avatar verde */}
       <motion.img
         ref={greenScope}
         src={GREEN_SRC}

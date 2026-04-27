@@ -71,12 +71,16 @@ export function ParticleCanvas({ palette, intensityRef, className }: Props) {
     const spawn = (p: Particle) => {
       const cx = width / 2;
       const cy = height / 2;
-      // Radio del aro: ligeramente menor que el lado corto.
-      const radius = Math.min(width, height) * 0.42;
+      // Radio del aro de spawn: alineado con el aro de energía del artwork.
+      // Con canvas extendido al 120% del avatar, 0.36 deja el spawn en ~85% del
+      // radio del avatar.
+      const radius = Math.min(width, height) * 0.36;
       const angle = Math.random() * Math.PI * 2;
       const jitter = (Math.random() - 0.5) * radius * 0.18;
-      p.x = cx + Math.cos(angle) * (radius + jitter);
-      p.y = cy + Math.sin(angle) * (radius + jitter);
+      const dx = Math.cos(angle);
+      const dy = Math.sin(angle);
+      p.x = cx + dx * (radius + jitter);
+      p.y = cy + dy * (radius + jitter);
       p.seed = Math.random() * Math.PI * 2;
 
       if (paletteRef.current === "fire") {
@@ -88,13 +92,14 @@ export function ParticleCanvas({ palette, intensityRef, className }: Props) {
         p.size = 2 + Math.random() * 3.5;
         p.hue = 8 + Math.random() * 38; // rojo → naranja → amarillo
       } else {
-        // Embers verdes: deriva lenta, vida larga.
-        const speed = 0.15 + Math.random() * 0.4;
-        p.vx = (Math.random() - 0.5) * 0.25;
-        p.vy = -speed;
-        p.maxLife = 110 + Math.random() * 90;
-        p.size = 1.2 + Math.random() * 2.2;
-        p.hue = 70 + Math.random() * 30; // lima → verde
+        // Embers verdes: rayos radiales hacia afuera + sesgo hacia arriba,
+        // como llamas de energía escapando del aro.
+        const speed = 0.5 + Math.random() * 0.7;
+        p.vx = dx * speed + (Math.random() - 0.5) * 0.18;
+        p.vy = dy * speed - 0.18;
+        p.maxLife = 90 + Math.random() * 80;
+        p.size = 1.5 + Math.random() * 2.5;
+        p.hue = 80 + Math.random() * 35; // lima → verde puro
       }
       p.life = p.maxLife;
     };
@@ -139,8 +144,12 @@ export function ParticleCanvas({ palette, intensityRef, className }: Props) {
           p.y += p.vy * (0.6 + intensity * 0.8);
           p.vy -= 0.015; // acelera hacia arriba
         } else {
-          p.x += p.vx + Math.sin((p.life + p.seed) * 0.04) * 0.25;
-          p.y += p.vy;
+          // Embers radiales: motion outward escalado por intensidad +
+          // turbulencia y arrastre superior leve (efecto llamas).
+          const speedFactor = 0.7 + intensity * 0.6;
+          p.x += p.vx * speedFactor + Math.sin((p.life + p.seed) * 0.04) * 0.28;
+          p.y += p.vy * speedFactor + Math.cos((p.life + p.seed) * 0.05) * 0.18;
+          p.vy -= 0.0025;
         }
 
         p.life -= 1;

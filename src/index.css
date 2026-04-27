@@ -5,6 +5,7 @@
 @tailwind utilities;
 
 :root {
+  /* Base palette (theme-independent) */
   --color-bg: #050507;
   --color-bg-elev: #0a0a0c;
   --color-surface: #111114;
@@ -13,11 +14,25 @@
   --color-text: #f5f5f7;
   --color-text-dim: #9ca3af;
   --color-text-muted: #6b7280;
-  --color-accent: #a3e635;
-  --color-accent-soft: #bef264;
-  --color-accent-glow: #84cc16;
-  --color-accent-fire: #f97316;
-  --color-accent-fire-glow: #ef4444;
+
+  /* Default theme: GREEN.
+     RGB tuples (space-separated) so Tailwind utilities can compose
+     opacity via the `<alpha-value>` syntax: rgb(var(--color-accent) / 0.2). */
+  --color-accent: 163 230 53;        /* lime — primary */
+  --color-accent-soft: 190 242 100;
+  --color-accent-glow: 132 204 22;
+  --color-accent-fire: 249 115 22;   /* orange — complement (used by accent-fire-* classes) */
+  --color-accent-fire-glow: 239 68 68;
+}
+
+:root[data-theme="fire"] {
+  /* FIRE theme: invert primary and complement so existing accent-* classes
+     swap automatically across the entire site. */
+  --color-accent: 249 115 22;        /* orange — primary */
+  --color-accent-soft: 251 146 60;
+  --color-accent-glow: 239 68 68;
+  --color-accent-fire: 163 230 53;   /* lime — complement */
+  --color-accent-fire-glow: 132 204 22;
 }
 
 html {
@@ -37,8 +52,21 @@ body {
   overflow-x: hidden;
 }
 
+/* Theme swap: smooth transition on color-related properties only.
+   Layout-affecting properties (width, transform, etc.) are unaffected. */
+body,
+body * {
+  transition:
+    background-color 500ms ease-out,
+    border-color 500ms ease-out,
+    color 500ms ease-out,
+    box-shadow 500ms ease-out,
+    fill 500ms ease-out,
+    stroke 500ms ease-out;
+}
+
 ::selection {
-  background: var(--color-accent);
+  background: rgb(var(--color-accent));
   color: #ffffff;
 }
 
@@ -47,9 +75,9 @@ body {
     background: linear-gradient(
       135deg,
       #ffffff 0%,
-      var(--color-accent-soft) 40%,
-      var(--color-accent) 70%,
-      var(--color-accent-fire) 100%
+      rgb(var(--color-accent-soft)) 40%,
+      rgb(var(--color-accent)) 70%,
+      rgb(var(--color-accent-fire)) 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
@@ -62,25 +90,25 @@ body {
 
   .bg-grid {
     background-image:
-      linear-gradient(to right, rgba(163, 230, 53, 0.06) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(163, 230, 53, 0.06) 1px, transparent 1px);
+      linear-gradient(to right, rgb(var(--color-accent) / 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--color-accent) / 0.06) 1px, transparent 1px);
     background-size: 48px 48px;
   }
 
   .glow-accent {
     box-shadow:
-      0 0 0 1px rgba(163, 230, 53, 0.4),
-      0 0 32px -4px rgba(163, 230, 53, 0.55);
+      0 0 0 1px rgb(var(--color-accent) / 0.4),
+      0 0 32px -4px rgb(var(--color-accent) / 0.55);
   }
 
   .ring-accent {
-    box-shadow: 0 0 0 1px rgba(163, 230, 53, 0.35);
+    box-shadow: 0 0 0 1px rgb(var(--color-accent) / 0.35);
   }
 
   .glow-fire {
     box-shadow:
-      0 0 0 1px rgba(249, 115, 22, 0.4),
-      0 0 32px -4px rgba(239, 68, 68, 0.55);
+      0 0 0 1px rgb(var(--color-accent-fire) / 0.4),
+      0 0 32px -4px rgb(var(--color-accent-fire-glow) / 0.55);
   }
 }
 
