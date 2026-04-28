@@ -50,12 +50,19 @@ export function generateMarkdown(
     lines.push("");
   }
 
-  if (artist.tracks.length) {
+  if (artist.releases.length) {
     lines.push("## Releases");
     lines.push("");
-    const sorted = [...artist.tracks].sort((a, b) => b.year - a.year);
-    for (const track of sorted) {
-      lines.push(`- **${track.title}** (${track.year}) — ${track.url}`);
+    const sorted = [...artist.releases].sort((a, b) =>
+      b.date.localeCompare(a.date),
+    );
+    for (const release of sorted) {
+      const year = release.date.slice(0, 4);
+      const typeLabel =
+        release.type === "EP" ? `EP, ${release.trackCount} tracks` : "Single";
+      lines.push(
+        `- **${release.name}** (${year}, ${typeLabel}) — ${release.spotifyUrl}`,
+      );
     }
     lines.push("");
   }
