@@ -1,4 +1,12 @@
-import { releases } from "./catalog.generated";
+import { labelStats, releases } from "./catalog.generated";
+
+export { labelStats };
+
+export type LabelStats = {
+  releases: number;
+  artists: number;
+  founded: number;
+};
 
 export type ReleaseType =
   | "SINGLE"

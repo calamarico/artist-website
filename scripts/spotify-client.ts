@@ -119,6 +119,33 @@ export async function paginate<T>(
   return out;
 }
 
+/**
+ * Search albums by label name. Spotify supports `label:"name"` filter on
+ * the search endpoint. This is the only way to enumerate a label's catalogue
+ * (Spotify has no first-class label entity).
+ *
+ * Note: Spotify search returns max 1000 results across pages, so very large
+ * labels would get truncated — fine for Beta-Time scale.
+ */
+export async function searchAlbumsByLabel(
+  label: string,
+  token: string,
+  market = "ES",
+): Promise<SpotifyAlbumSummary[]> {
+  const out: SpotifyAlbumSummary[] = [];
+  const q = encodeURIComponent(`label:"${label}"`);
+  let url: string | null = `/search?q=${q}&type=album&limit=10&market=${market}`;
+  while (url) {
+    const res: { albums: Page<SpotifyAlbumSummary> } = await fetchSpotify(
+      url,
+      token,
+    );
+    out.push(...res.albums.items);
+    url = res.albums.next;
+  }
+  return out;
+}
+
 // NOTE: Spotify's batch `/albums?ids=...` endpoint returns 403 Forbidden as of
 // late 2024 for Client Credentials apps, even with a single ID. We use
 // per-album fetches via `getAlbum()` instead.

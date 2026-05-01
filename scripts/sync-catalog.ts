@@ -6,6 +6,7 @@ import {
   getAlbum,
   getToken,
   paginate,
+  searchAlbumsByLabel,
   withConcurrency,
   type SpotifyAlbumDetail,
   type SpotifyAlbumSummary,
@@ -13,6 +14,7 @@ import {
 } from "./spotify-client.js";
 import type {
   DatePrecision,
+  LabelStats,
   Release,
   ReleaseArtist,
   ReleaseType,
@@ -20,6 +22,11 @@ import type {
 } from "../src/data/artist.js";
 
 const KALAMARICO_ID = "69pHpbXQUapyazWqZw1O2d";
+const LABEL_NAME = "Beta-Time Records";
+// Spotify can't tell us a label's founding year — only its oldest release.
+// Override with the real founding date so the stat reflects the business, not
+// the catalogue.
+const LABEL_FOUNDED_YEAR = 2022;
 const MARKET = "ES";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -114,12 +121,46 @@ async function main() {
     ),
   };
 
-  await writeOutput(releases);
+  console.log(`\n→ Fetching label catalogue ("${LABEL_NAME}")…`);
+  const labelAlbums = await searchAlbumsByLabel(LABEL_NAME, token);
+  const labelArtists = collectLabelArtists(labelAlbums);
+  const labelStats = computeLabelStats(labelAlbums, labelArtists);
+  console.log(
+    `  · ${labelAlbums.length} releases · ${labelStats.artists} artists · founded ${labelStats.founded}`,
+  );
+  console.log(`  · roster: ${[...labelArtists].sort().join(", ")}`);
+
+  await writeOutput(releases, labelStats);
 
   console.log("\n✓ Sync complete");
   console.log(`  ${counts.total} releases  (${counts.singles} singles · ${counts.eps} EPs · ${counts.albums} albums · ${counts.compilations} compilations · ${counts.appearsOn} appears_on)`);
   console.log(`  ${counts.tracks} tracks total  (${counts.collabTracks} collab tracks)`);
+  console.log(`  Label: ${labelStats.releases} releases · ${labelStats.artists} artists · founded ${labelStats.founded}`);
   console.log(`  → ${OUTPUT_PATH}`);
+}
+
+function collectLabelArtists(albums: SpotifyAlbumSummary[]): Set<string> {
+  const artists = new Set<string>();
+  for (const album of albums) {
+    for (const a of album.artists) {
+      // Skip "Various Artists" — that's a generic compilation tag, not a real roster artist.
+      if (a.name && a.name.toLowerCase() !== "various artists") {
+        artists.add(a.name);
+      }
+    }
+  }
+  return artists;
+}
+
+function computeLabelStats(
+  albums: SpotifyAlbumSummary[],
+  artists: Set<string>,
+): LabelStats {
+  return {
+    releases: albums.length,
+    artists: artists.size,
+    founded: LABEL_FOUNDED_YEAR,
+  };
 }
 
 function mapAlbumToRelease(
@@ -204,19 +245,20 @@ function normalizeDate(date: string, precision: "year" | "month" | "day"): strin
   return date;
 }
 
-async function writeOutput(releases: Release[]) {
-  const header = [
+async function writeOutput(releases: Release[], labelStats: LabelStats) {
+  const lines = [
     "// AUTO-GENERATED — do not edit by hand.",
     "// Run `npm run sync:catalog` to refresh.",
     `// Generated at ${new Date().toISOString()}`,
     "",
-    'import type { Release } from "./artist";',
+    'import type { LabelStats, Release } from "./artist";',
     "",
-    "export const releases: Release[] = ",
-  ].join("\n");
-
-  const body = JSON.stringify(releases, null, 2);
-  const content = `${header}${body};\n`;
+    `export const labelStats: LabelStats = ${JSON.stringify(labelStats, null, 2)};`,
+    "",
+    `export const releases: Release[] = ${JSON.stringify(releases, null, 2)};`,
+    "",
+  ];
+  const content = lines.join("\n");
 
   await mkdir(dirname(OUTPUT_PATH), { recursive: true });
   await writeFile(OUTPUT_PATH, content, "utf8");

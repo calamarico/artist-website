@@ -1,7 +1,10 @@
 import { SiBeatport } from "react-icons/si";
 import { HiArrowTopRightOnSquare } from "react-icons/hi2";
-import { artist } from "../data/artist";
+import { artist, labelStats } from "../data/artist";
 import { SectionHead } from "./SectionHead";
+
+// Round releases down to the nearest 10 for an editorial "90+" feel.
+const releasesLabel = `${Math.floor(labelStats.releases / 10) * 10}+`;
 
 export function Label() {
   const { label } = artist;
@@ -84,9 +87,9 @@ export function Label() {
 
             <div className="flex flex-col gap-5 min-[700px]:gap-6">
               <div className="mt-5 grid grid-cols-3 gap-px border border-white/[0.08] bg-white/[0.08] min-[700px]:mt-0">
-                <Stat value="90+" label="Releases" />
-                <Stat value="15" label="Artists" />
-                <Stat value="2022" label="Founded" />
+                <Stat value={releasesLabel} label="Releases" />
+                <Stat value={String(labelStats.artists)} label="Artists" />
+                <Stat value={String(labelStats.founded)} label="Founded" />
               </div>
               <div className="flex flex-col flex-wrap gap-3 min-[700px]:flex-row">
                 <a
