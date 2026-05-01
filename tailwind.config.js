@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     extend: {
       colors: {
@@ -59,11 +62,26 @@ export default {
           "0%, 100%": { backgroundPosition: "0% 50%" },
           "50%": { backgroundPosition: "100% 50%" },
         },
+        "wordmark-shift": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        "ticker-scroll": {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-50%)" },
+        },
+        "blink": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.35" },
+        },
       },
       animation: {
         "fade-up": "fade-up 0.7s ease-out both",
         "pulse-glow": "pulse-glow 6s ease-in-out infinite",
         "gradient-shift": "gradient-shift 12s ease infinite",
+        "wordmark-shift": "wordmark-shift 14s ease-in-out infinite",
+        "ticker-scroll": "ticker-scroll 60s linear infinite",
+        "blink": "blink 2.4s ease-in-out infinite",
       },
     },
   },

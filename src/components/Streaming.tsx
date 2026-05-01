@@ -1,5 +1,4 @@
 import type { ComponentType } from "react";
-import { motion } from "framer-motion";
 import {
   FaSpotify,
   FaSoundcloud,
@@ -12,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { SiBeatport, SiTidal } from "react-icons/si";
 import { artist, type Social } from "../data/artist";
+import { SectionHead } from "./SectionHead";
 
 type IconType = ComponentType<{ size?: number | string; className?: string }>;
 
@@ -45,22 +45,20 @@ export function Streaming() {
   return (
     <section
       id="listen"
-      className="relative border-t border-ink-700/60 bg-ink-950 py-28"
+      className="relative bg-ink-950 py-16 min-[700px]:py-20 min-[900px]:py-[120px]"
     >
-      <div className="mx-auto max-w-6xl px-6">
-        <p className="font-mono text-xs uppercase tracking-[0.3em] text-accent-soft">
-          Everywhere
-        </p>
-        <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
-          Listen & <span className="text-gradient-accent">Download</span>
-        </h2>
-        <p className="mt-4 max-w-xl text-gray-400">
-          Stream Kalamarico on every major platform, or follow on social for the
-          latest drops.
-        </p>
+      <div className="mx-auto max-w-[1280px] px-5 min-[700px]:px-8">
+        <SectionHead num="03 / 04" label="Listen">
+          Listen &amp;{" "}
+          <span className="font-normal not-italic text-accent-soft">
+            follow
+          </span>
+        </SectionHead>
 
-        <Group title="Streaming & stores" items={streaming} delayBase={0} />
-        <Group title="Social" items={social} delayBase={4} />
+        <Group title="Streaming & stores" items={streaming} action="Stream" />
+        <div className="mt-12">
+          <Group title="Social" items={social} action="Follow" />
+        </div>
       </div>
     </section>
   );
@@ -69,50 +67,68 @@ export function Streaming() {
 function Group({
   title,
   items,
-  delayBase,
+  action,
 }: {
   title: string;
   items: Social[];
-  delayBase: number;
+  action: string;
 }) {
   return (
-    <div className="mt-14">
-      <p className="font-mono text-xs uppercase tracking-[0.3em] text-gray-500">
+    <div>
+      <p className="m-0 mb-4 font-mono text-[11px] uppercase tracking-[0.28em] text-gray-500">
         {title}
       </p>
-      <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-        {items.map((item, i) => (
-          <PlatformLink key={item.url} item={item} delay={(delayBase + i) * 0.05} />
+      <ul
+        className="
+          grid list-none grid-cols-2 gap-px border border-white/[0.08] bg-white/[0.08]
+          max-[420px]:gap-px
+          min-[800px]:grid-cols-4
+        "
+      >
+        {items.map((s, i) => (
+          <Tile key={s.label} item={s} index={i} action={action} />
         ))}
       </ul>
     </div>
   );
 }
 
-function PlatformLink({ item, delay }: { item: Social; delay: number }) {
-  const Icon = ICONS[item.label];
-
+function Tile({
+  item,
+  index,
+  action,
+}: {
+  item: Social;
+  index: number;
+  action: string;
+}) {
+  const Glyph = ICONS[item.label];
   return (
-    <motion.li
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.4, delay, ease: "easeOut" }}
-    >
+    <li className="group relative flex cursor-pointer flex-col gap-3 overflow-hidden bg-ink-950 p-4 px-4 transition-colors duration-200 hover:bg-ink-900 min-[700px]:gap-4 min-[700px]:p-7 min-[700px]:px-6">
       <a
         href={item.url}
         target="_blank"
         rel="noreferrer noopener"
-        className="group flex items-center gap-3 rounded-xl border border-ink-700 bg-ink-900/60 px-4 py-3.5 text-sm font-medium text-gray-200 transition-all hover:-translate-y-0.5 hover:border-accent hover:bg-ink-800 hover:text-white hover:shadow-lg hover:shadow-accent/10"
-      >
-        {Icon ? (
-          <Icon
-            className="text-accent-soft transition-colors group-hover:text-white"
-            size={18}
-          />
-        ) : null}
-        <span className="truncate">{item.label}</span>
-      </a>
-    </motion.li>
+        className="absolute inset-0"
+        aria-label={`${action} on ${item.label}`}
+      />
+      <span className="absolute right-2.5 top-2.5 font-mono text-[9px] tracking-[0.18em] text-gray-600 min-[700px]:right-3.5 min-[700px]:top-3.5 min-[700px]:text-[10px]">
+        {String(index + 1).padStart(2, "0")}
+      </span>
+      <div className="inline-flex h-6 w-6 items-center justify-center text-accent-soft min-[700px]:h-8 min-[700px]:w-8">
+        {Glyph ? <Glyph size={28} /> : null}
+      </div>
+      <div>
+        <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-gray-500 min-[700px]:text-[10px] min-[700px]:tracking-[0.22em]">
+          {action}
+        </div>
+        <div className="mt-1 font-display text-[14px] font-semibold tracking-[-0.005em] text-white min-[700px]:text-[18px]">
+          {item.label}
+        </div>
+      </div>
+      <span className="absolute bottom-3 right-3 font-mono text-[9px] uppercase tracking-[0.18em] text-gray-500 transition-all duration-200 group-hover:translate-x-1 group-hover:text-accent-soft min-[700px]:bottom-4 min-[700px]:right-4 min-[700px]:text-[11px] min-[700px]:tracking-[0.22em]">
+        Open ↗
+      </span>
+    </li>
   );
 }
