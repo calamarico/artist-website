@@ -219,7 +219,7 @@ export function AvatarHero() {
 
   return (
     <div
-      className="relative mx-auto aspect-square w-full max-w-[480px] cursor-pointer sm:max-w-[420px] lg:max-w-[480px]"
+      className="relative mx-auto aspect-square w-full max-w-[480px] cursor-pointer sm:max-w-[460px] lg:max-w-[540px]"
       onMouseEnter={handleInteract}
       onClick={handleInteract}
     >

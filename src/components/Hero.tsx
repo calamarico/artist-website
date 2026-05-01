@@ -65,7 +65,7 @@ export function Hero() {
           </span>
         </div>
 
-        <div className="relative grid grid-cols-1 items-center gap-12 min-[900px]:grid-cols-[1.4fr_minmax(0,1fr)] min-[900px]:gap-16">
+        <div className="relative grid grid-cols-1 items-center gap-12 min-[900px]:grid-cols-[1.15fr_minmax(0,1fr)] min-[900px]:gap-12">
           <div className="text-center min-[900px]:text-left">
             <p className="m-0 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.28em] text-accent-soft">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
