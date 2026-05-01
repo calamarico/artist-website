@@ -17,15 +17,15 @@ type View = "grid" | "list" | "timeline";
 const FEATURED_COUNT = 3;
 
 function readView(): View {
-  if (typeof window === "undefined") return "grid";
+  if (typeof window === "undefined") return "timeline";
   const v = new URLSearchParams(window.location.search).get("view");
-  return v === "list" || v === "timeline" ? v : "grid";
+  return v === "grid" || v === "list" ? v : "timeline";
 }
 
 function writeView(v: View) {
   if (typeof window === "undefined") return;
   const url = new URL(window.location.href);
-  if (v === "grid") url.searchParams.delete("view");
+  if (v === "timeline") url.searchParams.delete("view");
   else url.searchParams.set("view", v);
   window.history.replaceState(null, "", url.toString());
 }
