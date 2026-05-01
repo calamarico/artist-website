@@ -9,6 +9,10 @@ const fadeIn = {
   transition: { duration: 0.6, ease: "easeOut" as const },
 };
 
+const FIRST_RELEASE_YEAR = Math.min(
+  ...artist.releases.map((r) => new Date(r.date).getUTCFullYear()),
+);
+
 export function About() {
   const paragraphs = artist.bio.split(/\n\s*\n/);
   const firstChar = paragraphs[0]?.charAt(0) ?? "";
@@ -49,7 +53,7 @@ export function About() {
             <div className="grid grid-cols-2 gap-px border border-white/[0.08] bg-white/[0.08]">
               <Stat value={String(artist.releases.length)} unit="releases" label="Discography" />
               <Stat value={String(artist.labels.length)} label="Active labels" />
-              <Stat value="30" unit="yrs" label="Producing" />
+              <Stat value={String(FIRST_RELEASE_YEAR)} label="Active since" />
               <Stat value="MAD" label="Based in" />
             </div>
           </motion.aside>
