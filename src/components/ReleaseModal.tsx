@@ -1,14 +1,20 @@
 import { useEffect, useMemo } from "react";
 import { FaSpotify, FaSoundcloud } from "react-icons/fa";
 import { HiXMark } from "react-icons/hi2";
-import { artist, type Release } from "../data/artist";
-import { catalogCode, formatDay } from "../lib/catalog";
+import { artist, type Release, type Track } from "../data/artist";
+import {
+  catalogCode,
+  formatDay,
+  formatDuration,
+  isAppearsOn,
+  otherArtists,
+} from "../lib/catalog";
 import { Cover } from "./Cover";
 
 const SOUNDCLOUD =
   artist.socials.find((s) => s.label === "SoundCloud")?.url ?? "#";
 
-const VARIANTS = [
+const SYNTH_VARIANTS = [
   "Original Mix",
   "Extended Mix",
   "Dub Mix",
@@ -16,18 +22,26 @@ const VARIANTS = [
   "Beta-Time Edit",
 ];
 
-function synthesizeTracks(
-  release: Release,
-): { name: string; dur: string }[] {
+/** Fallback when the release has no synced tracks (legacy / new data without sync). */
+function synthesizeTracks(release: Release): { name: string; dur: string; artists: string[]; isCollab: boolean }[] {
   return Array.from({ length: release.trackCount }, (_, i) => {
     const name =
       release.trackCount === 1 || i === 0
         ? release.name
-        : `${release.name} (${VARIANTS[(i - 1) % VARIANTS.length]})`;
+        : `${release.name} (${SYNTH_VARIANTS[(i - 1) % SYNTH_VARIANTS.length]})`;
     const seconds = (20 + (i * 7) % 40).toString().padStart(2, "0");
     const dur = `${4 + (i % 3)}:${seconds}`;
-    return { name, dur };
+    return { name, dur, artists: [], isCollab: false };
   });
+}
+
+function realTracks(tracks: Track[]) {
+  return tracks.map((t) => ({
+    name: t.name,
+    dur: formatDuration(t.durationMs),
+    artists: otherArtists(t.artists),
+    isCollab: t.isCollab,
+  }));
 }
 
 type Props = {
@@ -50,10 +64,13 @@ export function ReleaseModal({ release, onClose }: Props) {
     };
   }, [release, onClose]);
 
-  const tracks = useMemo(
-    () => (release ? synthesizeTracks(release) : []),
-    [release],
-  );
+  const tracks = useMemo(() => {
+    if (!release) return [];
+    if (release.tracks && release.tracks.length > 0) {
+      return realTracks(release.tracks);
+    }
+    return synthesizeTracks(release);
+  }, [release]);
 
   const open = !!release;
 
@@ -105,7 +122,7 @@ export function ReleaseModal({ release, onClose }: Props) {
             <div className="flex flex-col gap-5 px-5 pb-10 pt-7 min-[700px]:gap-6 min-[700px]:p-10">
               <p className="m-0 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.28em] text-accent-soft">
                 <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-                {catalogCode(release)}
+                {isAppearsOn(release) ? "FEAT." : catalogCode(release)}
               </p>
 
               <h2
@@ -119,19 +136,34 @@ export function ReleaseModal({ release, onClose }: Props) {
                 <Meta
                   label="Type"
                   value={
-                    release.type === "EP"
-                      ? `EP · ${release.trackCount} tracks`
-                      : "Single"
+                    release.type === "APPEARS_ON"
+                      ? "Featured appearance"
+                      : release.type === "EP"
+                        ? `EP · ${release.trackCount} tracks`
+                        : release.type === "ALBUM"
+                          ? `Album · ${release.trackCount} tracks`
+                          : release.type === "COMPILATION"
+                            ? `Compilation · ${release.trackCount} tracks`
+                            : "Single"
                   }
                 />
                 <Meta label="Released" value={formatDay(release)} />
-                <Meta label="Artist" value="Kalamarico" />
+                <Meta
+                  label="Artist"
+                  value={
+                    release.artists && release.artists.length > 0
+                      ? release.artists.map((a) => a.name).join(", ")
+                      : "Kalamarico"
+                  }
+                />
                 <Meta
                   label="Label"
                   value={
-                    release.type === "EP"
-                      ? "Beta-Time Records"
-                      : "Kalamarico"
+                    release.label
+                      ? release.label
+                      : release.type === "EP" || release.type === "ALBUM"
+                        ? "Beta-Time Records"
+                        : "Kalamarico"
                   }
                 />
               </div>
@@ -154,8 +186,17 @@ export function ReleaseModal({ release, onClose }: Props) {
                       <span className="font-mono text-[11px] tracking-[0.18em] text-gray-500">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className="font-display text-[14px] font-medium text-gray-100 transition-colors duration-200 group-hover:text-accent-soft min-[700px]:text-[15px]">
-                        {t.name}
+                      <span className="flex flex-col gap-0.5">
+                        <span className="font-display text-[14px] font-medium text-gray-100 transition-colors duration-200 group-hover:text-accent-soft min-[700px]:text-[15px]">
+                          {t.name}
+                        </span>
+                        {t.isCollab && t.artists.length > 0 && (
+                          <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-accent-soft min-[700px]:text-[10px] min-[700px]:tracking-[0.22em]">
+                            {isAppearsOn(release)
+                              ? `with ${t.artists.join(", ")}`
+                              : `feat. ${t.artists.join(", ")}`}
+                          </span>
+                        )}
                       </span>
                       <span className="font-mono text-[12px] text-gray-400">
                         {t.dur}

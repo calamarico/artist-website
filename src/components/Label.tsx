@@ -84,9 +84,9 @@ export function Label() {
 
             <div className="flex flex-col gap-5 min-[700px]:gap-6">
               <div className="mt-5 grid grid-cols-3 gap-px border border-white/[0.08] bg-white/[0.08] min-[700px]:mt-0">
-                <Stat value="42+" label="Releases" />
-                <Stat value="18" label="Artists" />
-                <Stat value="2023" label="Founded" />
+                <Stat value="90+" label="Releases" />
+                <Stat value="15" label="Artists" />
+                <Stat value="2022" label="Founded" />
               </div>
               <div className="flex flex-col flex-wrap gap-3 min-[700px]:flex-row">
                 <a

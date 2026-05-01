@@ -4,8 +4,11 @@ import { FaPlay } from "react-icons/fa";
 import { artist, type Release } from "../data/artist";
 import {
   catalogCode,
+  collaboratorLabel,
   formatDay,
   formatMonth,
+  isAppearsOn,
+  otherArtists,
   releaseYear,
 } from "../lib/catalog";
 import { Cover } from "./Cover";
@@ -224,21 +227,30 @@ function FeaturedCard({
       </div>
       <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-[0.2em] text-gray-500">
         <span className="text-accent-soft">
-          {release.type === "EP"
-            ? `EP · ${release.trackCount} tracks`
-            : "Single"}
+          {release.type === "APPEARS_ON"
+            ? "Featured"
+            : release.type === "EP"
+              ? `EP · ${release.trackCount} tracks`
+              : "Single"}
         </span>
         <span>{formatDay(release)}</span>
       </div>
-      <h3
-        className={`m-0 font-display font-semibold tracking-[-0.01em] text-white transition-colors duration-200 hover:text-accent-soft ${
-          first
-            ? "text-[22px] min-[700px]:text-[32px]"
-            : "text-[20px] min-[700px]:text-[22px]"
-        }`}
-      >
-        {release.name}
-      </h3>
+      <div>
+        <h3
+          className={`m-0 font-display font-semibold tracking-[-0.01em] text-white transition-colors duration-200 hover:text-accent-soft ${
+            first
+              ? "text-[22px] min-[700px]:text-[32px]"
+              : "text-[20px] min-[700px]:text-[22px]"
+          }`}
+        >
+          {release.name}
+        </h3>
+        {collaboratorLabel(release) && (
+          <p className="m-0 mt-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-accent-soft min-[700px]:text-[11px]">
+            {collaboratorLabel(release)}
+          </p>
+        )}
+      </div>
       <span className="inline-flex items-center gap-2 pt-1 font-mono text-[11px] uppercase tracking-[0.2em] text-gray-300">
         <FaPlay size={10} aria-hidden /> Listen
       </span>
@@ -271,15 +283,24 @@ function GridCard({
       <div className="aspect-square">
         <Cover release={release} />
       </div>
-      <div className="flex items-baseline justify-between gap-2">
-        <h4 className="m-0 font-display text-[13px] font-semibold leading-tight tracking-[-0.005em] text-white transition-colors duration-200 group-hover:text-accent-soft min-[700px]:text-[15px]">
-          {release.name}
-        </h4>
-        <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-gray-500 min-[700px]:text-[10px] min-[700px]:tracking-[0.2em]">
-          {release.type === "EP"
-            ? `EP · ${release.trackCount}`
-            : releaseYear(release)}
-        </span>
+      <div>
+        <div className="flex items-baseline justify-between gap-2">
+          <h4 className="m-0 font-display text-[13px] font-semibold leading-tight tracking-[-0.005em] text-white transition-colors duration-200 group-hover:text-accent-soft min-[700px]:text-[15px]">
+            {release.name}
+          </h4>
+          <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-gray-500 min-[700px]:text-[10px] min-[700px]:tracking-[0.2em]">
+            {release.type === "APPEARS_ON"
+              ? releaseYear(release)
+              : release.type === "EP"
+                ? `EP · ${release.trackCount}`
+                : releaseYear(release)}
+          </span>
+        </div>
+        {collaboratorLabel(release) && (
+          <div className="mt-1 line-clamp-1 font-mono text-[9px] uppercase tracking-[0.18em] text-accent-soft min-[700px]:text-[10px] min-[700px]:tracking-[0.2em]">
+            {collaboratorLabel(release)}
+          </div>
+        )}
       </div>
     </motion.li>
   );
@@ -318,7 +339,7 @@ function ListView({
           "
         >
           <span className="hidden font-mono text-[11px] tracking-[0.18em] text-gray-500 min-[800px]:block">
-            {catalogCode(r)}
+            {isAppearsOn(r) ? "FEAT." : catalogCode(r)}
           </span>
           <div className="h-14 w-14">
             <Cover release={r} variant="mini" />
@@ -326,15 +347,28 @@ function ListView({
           <span className="flex flex-col gap-1 font-display text-[14px] font-medium tracking-[-0.005em] text-white transition-colors duration-200 group-hover:text-accent-soft min-[700px]:text-[16px]">
             <span>{r.name}</span>
             <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-gray-500 min-[700px]:text-[10px] min-[700px]:tracking-[0.2em]">
-              Kalamarico · {formatMonth(r)}
+              {(() => {
+                const others = otherArtists(r.artists);
+                if (isAppearsOn(r)) {
+                  return `by ${others.join(", ")} · ${formatMonth(r)}`;
+                }
+                if (others.length > 0) {
+                  return `Kalamarico, ${others.join(", ")} · ${formatMonth(r)}`;
+                }
+                return `Kalamarico · ${formatMonth(r)}`;
+              })()}
             </span>
           </span>
           <span
             className={`hidden font-mono text-[10px] uppercase tracking-[0.22em] min-[800px]:block ${
-              r.type === "EP" ? "text-accent-soft" : "text-gray-300"
+              r.type === "EP"
+                ? "text-accent-soft"
+                : r.type === "APPEARS_ON"
+                  ? "text-accent-soft"
+                  : "text-gray-300"
             }`}
           >
-            {r.type}
+            {r.type === "APPEARS_ON" ? "FEAT." : r.type}
           </span>
           <span className="hidden font-mono text-[12px] text-gray-300 min-[800px]:block">
             {releaseYear(r)}
@@ -367,7 +401,7 @@ function Timeline({
       <div className="-mx-5 min-[700px]:-mx-8">
         <div
           className="
-            flex items-end gap-5 overflow-x-auto p-6 px-5
+            flex items-start gap-5 overflow-x-auto p-6 px-5
             [scroll-snap-type:x_mandatory] [scrollbar-color:rgb(var(--color-accent))_transparent] [scrollbar-width:thin]
             [&::-webkit-scrollbar-thumb]:bg-accent [&::-webkit-scrollbar-track]:bg-white/[0.08] [&::-webkit-scrollbar]:h-1
             min-[700px]:gap-8 min-[700px]:p-8
@@ -389,23 +423,32 @@ function Timeline({
                 {year}
               </div>
             </div>,
-            ...items.map((r) => (
-              <div
-                key={r.id}
-                onClick={() => onOpenRelease(r)}
-                className="group flex w-[160px] cursor-pointer flex-none flex-col gap-3 [scroll-snap-align:start] min-[700px]:w-[220px]"
-              >
-                <div className="aspect-square w-full">
-                  <Cover release={r} />
+            ...items.map((r) => {
+              const collab = collaboratorLabel(r);
+              return (
+                <div
+                  key={r.id}
+                  onClick={() => onOpenRelease(r)}
+                  className="group flex w-[160px] cursor-pointer flex-none flex-col gap-3 [scroll-snap-align:start] min-[700px]:w-[220px]"
+                >
+                  <div className="aspect-square w-full">
+                    <Cover release={r} />
+                  </div>
+                  <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-gray-500 min-[700px]:text-[10px] min-[700px]:tracking-[0.22em]">
+                    {isAppearsOn(r) ? "FEAT." : catalogCode(r)} ·{" "}
+                    {r.type === "APPEARS_ON" ? "FEATURED" : r.type}
+                  </div>
+                  <div className="line-clamp-2 min-h-[2.5em] font-display text-[14px] font-semibold leading-[1.2] tracking-[-0.005em] text-white transition-colors duration-200 group-hover:text-accent-soft min-[700px]:text-[16px]">
+                    {r.name}
+                  </div>
+                  {collab && (
+                    <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-accent-soft min-[700px]:text-[10px] min-[700px]:tracking-[0.22em]">
+                      {collab}
+                    </div>
+                  )}
                 </div>
-                <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-gray-500 min-[700px]:text-[10px] min-[700px]:tracking-[0.22em]">
-                  {catalogCode(r)} · {r.type}
-                </div>
-                <div className="font-display text-[14px] font-semibold tracking-[-0.005em] text-white transition-colors duration-200 group-hover:text-accent-soft min-[700px]:text-[16px]">
-                  {r.name}
-                </div>
-              </div>
-            )),
+              );
+            }),
           ])}
         </div>
       </div>

@@ -19,7 +19,9 @@
   "include": [
     "vite.config.ts",
     "src/data/artist.ts",
+    "src/data/catalog.generated.ts",
     "src/lib/generateMarkdown.ts",
-    "src/lib/generateJsonLd.ts"
+    "src/lib/generateJsonLd.ts",
+    "scripts/**/*.ts"
   ]
 }

@@ -1,6 +1,11 @@
 import { FaPlay } from "react-icons/fa";
 import { type Release } from "../data/artist";
-import { catalogCode, releaseNumber, releaseYear } from "../lib/catalog";
+import {
+  catalogCode,
+  isAppearsOn,
+  releaseNumber,
+  releaseYear,
+} from "../lib/catalog";
 
 type CoverProps = {
   release: Release;
@@ -45,10 +50,14 @@ export function Cover({ release, variant = "default", big = false }: CoverProps)
 
       {!isMini && (
         <>
-          <span className="absolute left-2.5 top-2 z-[2] font-mono text-[8px] uppercase tracking-[0.2em] text-white/80 min-[700px]:left-3.5 min-[700px]:top-3 min-[700px]:text-[10px] min-[700px]:tracking-[0.25em]">
-            {catalogCode(release)}
+          <span
+            className={`absolute left-2.5 top-2 z-[2] inline-flex items-center border border-white/10 bg-ink-950/65 px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-[0.2em] backdrop-blur-md min-[700px]:left-3.5 min-[700px]:top-3 min-[700px]:px-2 min-[700px]:py-1 min-[700px]:text-[10px] min-[700px]:tracking-[0.25em] ${
+              isAppearsOn(release) ? "text-accent-soft" : "text-white/90"
+            }`}
+          >
+            {isAppearsOn(release) ? "FEAT." : catalogCode(release)}
           </span>
-          <span className="absolute right-2.5 top-2 z-[2] font-mono text-[8px] tracking-[0.2em] text-white/80 min-[700px]:right-3.5 min-[700px]:top-3 min-[700px]:text-[10px] min-[700px]:tracking-[0.25em]">
+          <span className="absolute right-2.5 top-2 z-[2] inline-flex items-center border border-white/10 bg-ink-950/65 px-1.5 py-0.5 font-mono text-[8px] tracking-[0.2em] text-white/90 backdrop-blur-md min-[700px]:right-3.5 min-[700px]:top-3 min-[700px]:px-2 min-[700px]:py-1 min-[700px]:text-[10px] min-[700px]:tracking-[0.25em]">
             {releaseYear(release)}
           </span>
 

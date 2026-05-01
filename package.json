@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "lint": "tsc -b --noEmit"
+    "lint": "tsc -b --noEmit",
+    "sync:catalog": "tsx scripts/sync-catalog.ts"
   },
   "dependencies": {
     "framer-motion": "^11.11.17",
@@ -16,12 +17,15 @@
     "react-icons": "^5.4.0"
   },
   "devDependencies": {
+    "@types/node": "^25.6.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
+    "dotenv": "^17.4.2",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
+    "tsx": "^4.21.0",
     "typescript": "^5.6.3",
     "vite": "^5.4.11"
   }
