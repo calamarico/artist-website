@@ -1,6 +1,6 @@
 // AUTO-GENERATED — do not edit by hand.
 // Run `npm run sync:catalog` to refresh.
-// Generated at 2026-05-01T21:52:07.240Z
+// Generated at 2026-05-02T15:55:08.485Z
 
 import type { LabelStats, Release } from "./artist";
 
@@ -1870,41 +1870,6 @@ export const releases: Release[] = [
         "trackNumber": 1,
         "durationMs": 312500,
         "spotifyUrl": "https://open.spotify.com/track/1RaGPEucRIaRdIXodNljSW",
-        "artists": [
-          {
-            "id": "69pHpbXQUapyazWqZw1O2d",
-            "name": "Kalamarico",
-            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
-          }
-        ],
-        "isCollab": false
-      }
-    ]
-  },
-  {
-    "id": "3qSDSaQ9LvpDiCmNXYrXWL",
-    "name": "Top-Level-Await",
-    "type": "SINGLE",
-    "date": "2022-10-11",
-    "datePrecision": "DAY",
-    "trackCount": 1,
-    "coverArt": "https://i.scdn.co/image/ab67616d0000b273b4bbe831471418129e89c8ad",
-    "spotifyUrl": "https://open.spotify.com/album/3qSDSaQ9LvpDiCmNXYrXWL",
-    "artists": [
-      {
-        "id": "69pHpbXQUapyazWqZw1O2d",
-        "name": "Kalamarico",
-        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
-      }
-    ],
-    "isPrimaryArtist": true,
-    "tracks": [
-      {
-        "id": "0uZPSQPawtizqaE5pVwEu4",
-        "name": "Top-Level-Await",
-        "trackNumber": 1,
-        "durationMs": 312718,
-        "spotifyUrl": "https://open.spotify.com/track/0uZPSQPawtizqaE5pVwEu4",
         "artists": [
           {
             "id": "69pHpbXQUapyazWqZw1O2d",
