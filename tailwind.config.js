@@ -74,6 +74,10 @@ export default {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.35" },
         },
+        "accent-ping": {
+          "0%, 100%": { boxShadow: "0 0 0 0 rgb(var(--color-accent) / 0.18)" },
+          "50%": { boxShadow: "0 0 0 8px rgb(var(--color-accent) / 0)" },
+        },
       },
       animation: {
         "fade-up": "fade-up 0.7s ease-out both",
@@ -82,6 +86,7 @@ export default {
         "wordmark-shift": "wordmark-shift 14s ease-in-out infinite",
         "ticker-scroll": "ticker-scroll 60s linear infinite",
         "blink": "blink 2.4s ease-in-out infinite",
+        "accent-ping": "accent-ping 1.8s ease-in-out infinite",
       },
     },
   },
