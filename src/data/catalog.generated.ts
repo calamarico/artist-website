@@ -1,16 +1,51 @@
 // AUTO-GENERATED — do not edit by hand.
 // Run `npm run sync:catalog` to refresh.
-// Generated at 2026-05-03T20:45:08.825Z
+// Generated at 2026-05-07T22:46:56.965Z
 
 import type { LabelStats, Release } from "./artist";
 
 export const labelStats: LabelStats = {
-  "releases": 96,
+  "releases": 99,
   "artists": 16,
   "founded": 2022
 };
 
 export const releases: Release[] = [
+  {
+    "id": "6eT3Tyvusa7Lgij6Woa4Y3",
+    "name": "Harmøny",
+    "type": "SINGLE",
+    "date": "2026-05-08",
+    "datePrecision": "DAY",
+    "trackCount": 1,
+    "coverArt": "https://i.scdn.co/image/ab67616d0000b2735e48beb2b1cbcb35189cfb07",
+    "spotifyUrl": "https://open.spotify.com/album/6eT3Tyvusa7Lgij6Woa4Y3",
+    "artists": [
+      {
+        "id": "69pHpbXQUapyazWqZw1O2d",
+        "name": "Kalamarico",
+        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+      }
+    ],
+    "isPrimaryArtist": true,
+    "tracks": [
+      {
+        "id": "7MF0IXVyTy8yTa6XfiLqQO",
+        "name": "Harmøny",
+        "trackNumber": 1,
+        "durationMs": 233602,
+        "spotifyUrl": "https://open.spotify.com/track/7MF0IXVyTy8yTa6XfiLqQO",
+        "artists": [
+          {
+            "id": "69pHpbXQUapyazWqZw1O2d",
+            "name": "Kalamarico",
+            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+          }
+        ],
+        "isCollab": false
+      }
+    ]
+  },
   {
     "id": "0QYS4uncZjCoZNz4GQijBS",
     "name": "Too Late",
