@@ -9,14 +9,21 @@ const NAV_LINKS = [
   { href: "#listen", label: "Listen" },
 ] as const;
 
-const SECTION_IDS = ["about", "tracks", "listen", "label"] as const;
+const SECTION_IDS = [
+  "about",
+  "tracks",
+  "videolab",
+  "listen",
+  "label",
+] as const;
 type SectionId = (typeof SECTION_IDS)[number];
 
 const SECTION_META: Record<SectionId, { num: string; label: string }> = {
   about: { num: "01", label: "About" },
   tracks: { num: "02", label: "Releases" },
-  listen: { num: "03", label: "Listen" },
-  label: { num: "04", label: "The Label" },
+  videolab: { num: "03", label: "Video Lab" },
+  listen: { num: "04", label: "Listen" },
+  label: { num: "05", label: "The Label" },
 };
 
 export function Navbar() {
@@ -82,7 +89,7 @@ export function Navbar() {
             >
               {meta ? (
                 <>
-                  <span className="text-accent">{meta.num} / 04</span>
+                  <span className="text-accent">{meta.num} / 05</span>
                   <span className="hidden text-gray-300 min-[420px]:inline">
                     {meta.label}
                   </span>

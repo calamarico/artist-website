@@ -63,6 +63,24 @@ export type LabelInfo = {
   beatport: string;
 };
 
+export type Video = {
+  id: string;
+  title: string;
+  duration: string;
+};
+
+export type VideoLab = {
+  djMixes: {
+    playlistUrl: string;
+    featuredIds: [string, string];
+    videos: Video[];
+  };
+  session: Video & {
+    eyebrow: string;
+    description: string;
+  };
+};
+
 export type Artist = {
   name: string;
   tagline: string;
@@ -72,6 +90,7 @@ export type Artist = {
   releases: Release[];
   socials: Social[];
   label: LabelInfo;
+  videoLab: VideoLab;
 };
 
 export const artist: Artist = {
@@ -117,5 +136,58 @@ As Co-CEO of Beta-Time Records, I manage projects, curate releases, and collabor
     role: "Co-CEO",
     website: "https://www.beta-time.de/Start.htm",
     beatport: "https://www.beatport.com/label/beta-time-records/115999",
+  },
+  videoLab: {
+    djMixes: {
+      playlistUrl:
+        "https://www.youtube.com/playlist?list=PLUDlAM_gad50mc22HSoxlZU-4tgZHEj5o",
+      featuredIds: ["QIKEQFocXQI", "HsugPL6Wph0"],
+      videos: [
+        {
+          id: "QIKEQFocXQI",
+          title:
+            "Best DJ Mixes - Kalamarico VS Fragma - Eugenie 100 VS Everytime You Need Me - #betatimerecords",
+          duration: "5:20",
+        },
+        {
+          id: "_D35wLU4mzo",
+          title:
+            "Best DJ Mixes vol.2 - Kalamarico - Sönar VS Control Representative #betatimerecords",
+          duration: "2:49",
+        },
+        {
+          id: "HsugPL6Wph0",
+          title:
+            "Best DJ Mixes vol.3 - Kalamarico - Elude VS Motiv 8 & Kym Mazelle - Searching For The Golden Eye",
+          duration: "4:41",
+        },
+        {
+          id: "ZdzEhbzhdeM",
+          title:
+            "Best DJ Mixes vol.4 - MAGO VS Kalamarico - Clang! VS Percthusiasm - #betatimerecords",
+          duration: "4:57",
+        },
+        {
+          id: "uLYRVVvganE",
+          title:
+            "Best DJ Mixes vol.5 - Federado VS Interrumption 24h - #betatimerecords",
+          duration: "4:48",
+        },
+        {
+          id: "T_9XPAof-v8",
+          title:
+            "Best DJ Mixes vol.6 - Through the Dragon's Gate VS Dans tes Yeux - MAGO & Spacey Panda & Kalamarico",
+          duration: "4:03",
+        },
+      ],
+    },
+    session: {
+      id: "z2jl_qwJBGM",
+      title: "Electronic/Techno short set #betatimerecords",
+      duration: "11:43",
+      eyebrow: "FULL SESSION · BETA-TIME RECORDS ONLY",
+      description:
+        "An eleven-minute set built exclusively from Beta-Time Records releases — the sound of the label, in one continuous flow.",
+    },
   },
 };

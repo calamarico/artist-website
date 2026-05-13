@@ -24,7 +24,7 @@ export function About() {
       className="relative bg-ink-950 py-16 min-[700px]:py-20 min-[900px]:py-[120px]"
     >
       <div className="mx-auto max-w-[1280px] px-5 min-[700px]:px-8">
-        <SectionHead num="01 / 04" label="About">
+        <SectionHead num="01 / 05" label="About">
           Sound exploration,
           <br />
           <span className="font-normal not-italic text-accent-soft">

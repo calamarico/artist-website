@@ -6,8 +6,9 @@ import { artist } from "../data/artist";
 const SECTIONS = [
   { num: "01", id: "about", label: "About" },
   { num: "02", id: "tracks", label: "Releases" },
-  { num: "03", id: "listen", label: "Listen" },
-  { num: "04", id: "label", label: "The Label" },
+  { num: "03", id: "videolab", label: "Video Lab" },
+  { num: "04", id: "listen", label: "Listen" },
+  { num: "05", id: "label", label: "The Label" },
 ] as const;
 
 type Props = {
@@ -94,7 +95,7 @@ export function MobileMenu({ open, onClose }: Props) {
                       className="group grid items-baseline gap-4 border-b border-white/[0.08] py-5 text-white transition-colors duration-200 [grid-template-columns:60px_1fr_24px]"
                     >
                       <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-accent">
-                        {s.num} / 04
+                        {s.num} / 05
                       </span>
                       <span
                         className="font-display font-semibold tracking-[-0.015em] transition-colors duration-200 group-hover:text-accent-soft"

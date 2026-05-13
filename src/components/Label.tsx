@@ -12,7 +12,7 @@ export function Label() {
       className="relative bg-ink-900 py-16 min-[700px]:py-20 min-[900px]:py-[120px]"
     >
       <div className="mx-auto max-w-[1280px] px-5 min-[700px]:px-8">
-        <SectionHead num="04 / 04" label="The Label">
+        <SectionHead num="05 / 05" label="The Label">
           Curating{" "}
           <span className="font-normal not-italic text-accent-soft">
             electronic music

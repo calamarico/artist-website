@@ -97,7 +97,7 @@ export function Tracks({ onOpenRelease }: Props) {
       className="relative bg-ink-900 py-16 min-[700px]:py-20 min-[900px]:py-[120px]"
     >
       <div className="mx-auto max-w-[1280px] px-5 min-[700px]:px-8">
-        <SectionHead num="02 / 04" label="Discography">
+        <SectionHead num="02 / 05" label="Discography">
           Latest{" "}
           <span className="font-normal not-italic text-accent-soft">
             releases

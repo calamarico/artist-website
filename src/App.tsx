@@ -3,6 +3,7 @@ import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
 import { About } from "./components/About";
 import { Tracks } from "./components/Tracks";
+import { VideoLab } from "./components/VideoLab";
 import { Streaming } from "./components/Streaming";
 import { Label } from "./components/Label";
 import { Footer } from "./components/Footer";
@@ -19,6 +20,7 @@ export default function App() {
         <Hero />
         <About />
         <Tracks onOpenRelease={setActiveRelease} />
+        <VideoLab />
         <Streaming />
         <Label />
       </main>

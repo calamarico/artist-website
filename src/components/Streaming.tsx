@@ -48,7 +48,7 @@ export function Streaming() {
       className="relative bg-ink-950 py-16 min-[700px]:py-20 min-[900px]:py-[120px]"
     >
       <div className="mx-auto max-w-[1280px] px-5 min-[700px]:px-8">
-        <SectionHead num="03 / 04" label="Listen">
+        <SectionHead num="04 / 05" label="Listen">
           Listen &amp;{" "}
           <span className="font-normal not-italic text-accent-soft">
             follow
