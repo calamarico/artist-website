@@ -18,7 +18,7 @@ const STREAMING_LABELS = new Set([
  */
 export function generateMarkdown(
   artist: Artist,
-  canonicalUrl = "https://www.kalamarico.com/",
+  canonicalUrl = "https://kalamarico.com/",
 ): string {
   const lines: string[] = [];
 

@@ -8,7 +8,7 @@ import type { Artist, Release } from "../data/artist";
  */
 export function generateJsonLd(
   artist: Artist,
-  canonicalUrl = "https://www.kalamarico.com/",
+  canonicalUrl = "https://kalamarico.com/",
 ): string {
   const image = `${canonicalUrl.replace(/\/$/, "")}/avatars/avatar-green.jpeg`;
   const byArtist = { "@type": "MusicGroup", name: artist.name };
