@@ -6,13 +6,14 @@ import { MobileMenu } from "./MobileMenu";
 const NAV_LINKS = [
   { href: "#about", label: "About" },
   { href: "#tracks", label: "Releases" },
+  { href: "#video", label: "Video" },
   { href: "#listen", label: "Listen" },
 ] as const;
 
 const SECTION_IDS = [
   "about",
   "tracks",
-  "videolab",
+  "video",
   "listen",
   "label",
 ] as const;
@@ -21,7 +22,7 @@ type SectionId = (typeof SECTION_IDS)[number];
 const SECTION_META: Record<SectionId, { num: string; label: string }> = {
   about: { num: "01", label: "About" },
   tracks: { num: "02", label: "Releases" },
-  videolab: { num: "03", label: "Video Lab" },
+  video: { num: "03", label: "Video Lab" },
   listen: { num: "04", label: "Listen" },
   label: { num: "05", label: "The Label" },
 };

@@ -6,7 +6,7 @@ import { artist } from "../data/artist";
 const SECTIONS = [
   { num: "01", id: "about", label: "About" },
   { num: "02", id: "tracks", label: "Releases" },
-  { num: "03", id: "videolab", label: "Video Lab" },
+  { num: "03", id: "video", label: "Video Lab" },
   { num: "04", id: "listen", label: "Listen" },
   { num: "05", id: "label", label: "The Label" },
 ] as const;

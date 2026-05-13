@@ -25,15 +25,15 @@ export function VideoLab() {
 
   return (
     <section
-      id="videolab"
+      id="video"
       className="relative border-t border-ink-700/60 bg-ink-900 py-16 min-[700px]:py-20 min-[900px]:py-[120px]"
     >
       <div className="mx-auto max-w-[1280px] px-5 min-[700px]:px-8">
         <div
           className="
-            mb-8 grid grid-cols-1 items-start gap-3 border-b border-white/[0.08] pb-6 text-center
+            mb-8 grid grid-cols-1 items-start gap-3 border-b border-white/[0.08] pb-6 text-left
             min-[700px]:mb-10 min-[700px]:gap-4 min-[700px]:pb-8
-            min-[800px]:items-end min-[800px]:gap-12 min-[800px]:text-left min-[800px]:[grid-template-columns:200px_1fr]
+            min-[800px]:items-end min-[800px]:gap-12 min-[800px]:[grid-template-columns:200px_1fr]
             min-[900px]:mb-16 min-[900px]:pb-14
           "
         >
@@ -45,7 +45,7 @@ export function VideoLab() {
             <h2
               className="m-0 font-display font-semibold leading-[1.02] tracking-[-0.02em] text-white"
               style={{
-                fontSize: "clamp(32px, 5.2vw, 76px)",
+                fontSize: "clamp(28px, 4.2vw, 52px)",
                 textWrap: "pretty" as never,
               }}
             >
@@ -103,7 +103,7 @@ export function VideoLab() {
           ))}
         </ul>
 
-        <div className="mt-10 flex">
+        <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
           <a
             href={djMixes.playlistUrl}
             target="_blank"
@@ -113,18 +113,22 @@ export function VideoLab() {
             <FaYoutube size={16} aria-hidden /> Watch full playlist on YouTube
             <span aria-hidden>→</span>
           </a>
+          <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-gray-500">
+            6 videos · ~27 min total
+          </span>
         </div>
 
         <div className="mt-24 border-t border-ink-700/60 pt-16">
           <p className="m-0 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.28em] text-accent-soft">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent animate-accent-ping" />
-            Full session
+            Closing piece
           </p>
           <h3
             className="m-0 mt-5 font-display font-semibold leading-[1.05] tracking-[-0.02em] text-white"
             style={{ fontSize: "clamp(26px, 3.2vw, 42px)" }}
           >
-            Eleven minutes, Beta-Time only
+            Eleven minutes,{" "}
+            <span className="text-accent-soft">Beta-Time only</span>
           </h3>
           <p className="m-0 mt-4 max-w-[60ch] font-display text-[15px] leading-[1.55] text-gray-300 min-[700px]:text-[17px]">
             {session.description}
@@ -320,7 +324,7 @@ function CompactMixCard({
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-950/70 via-ink-950/0 to-ink-950/0" />
           <span className="absolute left-2 top-2 rounded-full border border-ink-700/60 bg-ink-950/70 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.22em] text-accent-soft backdrop-blur">
-            Vol {String(vol).padStart(2, "0")} / {String(total).padStart(2, "0")}
+            Mix {String(vol).padStart(2, "0")} / {String(total).padStart(2, "0")}
           </span>
           <span className="absolute bottom-2 right-2 rounded bg-ink-950/80 px-1.5 py-0.5 font-mono text-[10px] tracking-wide text-white backdrop-blur">
             {video.duration}
