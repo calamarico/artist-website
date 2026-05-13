@@ -3,6 +3,7 @@ import { artist } from "../data/artist";
 const SITE = [
   { href: "#about", label: "About" },
   { href: "#tracks", label: "Releases" },
+  { href: "#video", label: "Video Lab" },
   { href: "#listen", label: "Listen" },
   { href: "#label", label: "Label" },
 ];
