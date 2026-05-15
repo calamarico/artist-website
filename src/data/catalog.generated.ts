@@ -1,16 +1,51 @@
 // AUTO-GENERATED — do not edit by hand.
 // Run `npm run sync:catalog` to refresh.
-// Generated at 2026-05-14T20:28:21.205Z
+// Generated at 2026-05-15T20:45:07.057Z
 
 import type { LabelStats, Release } from "./artist";
 
 export const labelStats: LabelStats = {
-  "releases": 99,
+  "releases": 100,
   "artists": 16,
   "founded": 2022
 };
 
 export const releases: Release[] = [
+  {
+    "id": "7qsPhxh9LMKf0qX6GWX4zR",
+    "name": "Top-Level-Await",
+    "type": "SINGLE",
+    "date": "2026-05-15",
+    "datePrecision": "DAY",
+    "trackCount": 1,
+    "coverArt": "https://i.scdn.co/image/ab67616d0000b273ca324ef6013215419af7ec5d",
+    "spotifyUrl": "https://open.spotify.com/album/7qsPhxh9LMKf0qX6GWX4zR",
+    "artists": [
+      {
+        "id": "69pHpbXQUapyazWqZw1O2d",
+        "name": "Kalamarico",
+        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+      }
+    ],
+    "isPrimaryArtist": true,
+    "tracks": [
+      {
+        "id": "3LGoezKRv9TCXWR3vyoYeX",
+        "name": "Top-Level-Await",
+        "trackNumber": 1,
+        "durationMs": 312421,
+        "spotifyUrl": "https://open.spotify.com/track/3LGoezKRv9TCXWR3vyoYeX",
+        "artists": [
+          {
+            "id": "69pHpbXQUapyazWqZw1O2d",
+            "name": "Kalamarico",
+            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+          }
+        ],
+        "isCollab": false
+      }
+    ]
+  },
   {
     "id": "6eT3Tyvusa7Lgij6Woa4Y3",
     "name": "Harmøny",
