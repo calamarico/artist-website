@@ -55,7 +55,9 @@ export function Tracks({ onOpenRelease }: Props) {
   useEffect(() => writeView(view), [view]);
 
   const releases = artist.releases;
-  const featured = releases.slice(0, FEATURED_COUNT);
+  const featured = releases
+    .filter((r) => r.type !== "APPEARS_ON")
+    .slice(0, FEATURED_COUNT);
 
   const counts = useMemo(
     () => ({
