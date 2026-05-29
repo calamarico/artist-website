@@ -1,6 +1,6 @@
 // AUTO-GENERATED — do not edit by hand.
 // Run `npm run sync:catalog` to refresh.
-// Generated at 2026-05-26T21:03:01.269Z
+// Generated at 2026-05-29T08:48:38.761Z
 
 import type { LabelStats, Release } from "./artist";
 
@@ -11,6 +11,41 @@ export const labelStats: LabelStats = {
 };
 
 export const releases: Release[] = [
+  {
+    "id": "3LrFHqofvBE7VSsGK0huuV",
+    "name": "Electric Isolation",
+    "type": "SINGLE",
+    "date": "2026-05-29",
+    "datePrecision": "DAY",
+    "trackCount": 1,
+    "coverArt": "https://i.scdn.co/image/ab67616d0000b273b81379ec9e4f423fdc2bece2",
+    "spotifyUrl": "https://open.spotify.com/album/3LrFHqofvBE7VSsGK0huuV",
+    "artists": [
+      {
+        "id": "69pHpbXQUapyazWqZw1O2d",
+        "name": "Kalamarico",
+        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+      }
+    ],
+    "isPrimaryArtist": true,
+    "tracks": [
+      {
+        "id": "5HjCc4gBclVOa3q7MhZS9j",
+        "name": "Electric Isolation",
+        "trackNumber": 1,
+        "durationMs": 324368,
+        "spotifyUrl": "https://open.spotify.com/track/5HjCc4gBclVOa3q7MhZS9j",
+        "artists": [
+          {
+            "id": "69pHpbXQUapyazWqZw1O2d",
+            "name": "Kalamarico",
+            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+          }
+        ],
+        "isCollab": false
+      }
+    ]
+  },
   {
     "id": "7qsPhxh9LMKf0qX6GWX4zR",
     "name": "Top-Level-Await",
