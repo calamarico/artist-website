@@ -79,6 +79,17 @@ export type VideoLab = {
     eyebrow: string;
     description: string;
   };
+  labelPick?: {
+    artist: string;
+    channelHandle: string;
+    channelUrl: string;
+    videosUrl: string;
+    logo: string;
+    eyebrow: string;
+    description: string;
+    tags: string[];
+    channelMeta: string;
+  };
 };
 
 export type Artist = {
@@ -188,6 +199,24 @@ As Co-CEO of Beta-Time Records, I manage projects, curate releases, and collabor
       eyebrow: "FULL SESSION · BETA-TIME RECORDS ONLY",
       description:
         "An eleven-minute set built exclusively from Beta-Time Records releases — the sound of the label, in one continuous flow.",
+    },
+    labelPick: {
+      artist: "MAGO",
+      channelHandle: "@xMAGAJNAx",
+      channelUrl: "https://www.youtube.com/@xMAGAJNAx",
+      videosUrl: "https://www.youtube.com/@xMAGAJNAx/videos",
+      logo: "/mago-tv-logo.jpg",
+      eyebrow: "Beta-Time family · YouTube channel",
+      description:
+        "Retro Electro, straight from the Beta-Time family. MAGO TV is a broadcast station for original synthwave, electro and futuristic soundscapes — where every release is a transmission in an ongoing cinematic universe built on classic video games, cyberpunk aesthetics, arcade culture and analog technology. Tune the dial and let it run.",
+      tags: [
+        "Synthwave",
+        "Electro",
+        "Cyberpunk",
+        "Arcade culture",
+        "Beta-Time Records",
+      ],
+      channelMeta: "CH 01 → CH 105 · transmitting",
     },
   },
 };
