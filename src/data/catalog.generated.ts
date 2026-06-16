@@ -1,11 +1,11 @@
 // AUTO-GENERATED — do not edit by hand.
 // Run `npm run sync:catalog` to refresh.
-// Generated at 2026-06-14T20:53:14.790Z
+// Generated at 2026-06-16T22:00:58.456Z
 
 import type { LabelStats, Release } from "./artist";
 
 export const labelStats: LabelStats = {
-  "releases": 100,
+  "releases": 105,
   "artists": 16,
   "founded": 2022
 };

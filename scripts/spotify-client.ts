@@ -120,30 +120,47 @@ export async function paginate<T>(
 }
 
 /**
- * Search albums by label name. Spotify supports `label:"name"` filter on
- * the search endpoint. This is the only way to enumerate a label's catalogue
- * (Spotify has no first-class label entity).
+ * Enumerate a label's full catalogue. Spotify supports a `label:"name"` filter
+ * on the search endpoint — the only way to enumerate a label (Spotify has no
+ * first-class label entity).
  *
- * Note: Spotify search returns max 1000 results across pages, so very large
- * labels would get truncated — fine for Beta-Time scale.
+ * Spotify quirk: the search endpoint HARD-CAPS `label:"name"` at 100 results.
+ * It reports `total: 100` and stops returning `next` at offset 100, no matter
+ * how large the label actually is. (The old "max 1000" assumption is wrong as
+ * of 2025+.) To get the whole catalogue we slice the query by release year
+ * (`label:"name" year:YYYY`) so each slice stays well under the cap, then
+ * union the results deduped by album id. The unfiltered query is kept as a
+ * first pass to catch any release the year filter might miss.
  */
 export async function searchAlbumsByLabel(
   label: string,
   token: string,
+  fromYear: number,
   market = "ES",
 ): Promise<SpotifyAlbumSummary[]> {
-  const out: SpotifyAlbumSummary[] = [];
-  const q = encodeURIComponent(`label:"${label}"`);
-  let url: string | null = `/search?q=${q}&type=album&limit=10&market=${market}`;
-  while (url) {
-    const res: { albums: Page<SpotifyAlbumSummary> } = await fetchSpotify(
-      url,
-      token,
-    );
-    out.push(...res.albums.items);
-    url = res.albums.next;
+  const byId = new Map<string, SpotifyAlbumSummary>();
+  const currentYear = new Date().getFullYear();
+
+  const queries = [`label:"${label}"`];
+  for (let year = fromYear; year <= currentYear; year++) {
+    queries.push(`label:"${label}" year:${year}`);
   }
-  return out;
+
+  for (const rawQuery of queries) {
+    const q = encodeURIComponent(rawQuery);
+    let url: string | null = `/search?q=${q}&type=album&limit=10&market=${market}`;
+    while (url) {
+      const res: { albums: Page<SpotifyAlbumSummary> } = await fetchSpotify(
+        url,
+        token,
+      );
+      for (const item of res.albums.items) {
+        if (!byId.has(item.id)) byId.set(item.id, item);
+      }
+      url = res.albums.next;
+    }
+  }
+  return [...byId.values()];
 }
 
 // NOTE: Spotify's batch `/albums?ids=...` endpoint returns 403 Forbidden as of

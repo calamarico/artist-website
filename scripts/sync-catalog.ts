@@ -85,21 +85,7 @@ async function main() {
   );
 
   // Final dedupe by name+isoDate, picking the one available in MARKET if possible.
-  const byKey = new Map<string, SpotifyAlbumDetail>();
-  for (const d of details) {
-    const key = `${d.name.toLowerCase().trim()}|${d.release_date}`;
-    const existing = byKey.get(key);
-    if (!existing) {
-      byKey.set(key, d);
-      continue;
-    }
-    const existingHasMarket = existing.available_markets?.includes(MARKET);
-    const dHasMarket = d.available_markets?.includes(MARKET);
-    if (!existingHasMarket && dHasMarket) {
-      byKey.set(key, d);
-    }
-  }
-  const deduped = [...byKey.values()];
+  const deduped = dedupeByNameAndDate(details);
 
   const releases = deduped
     .map((album) =>
@@ -122,7 +108,9 @@ async function main() {
   };
 
   console.log(`\n→ Fetching label catalogue ("${LABEL_NAME}")…`);
-  const labelAlbums = await searchAlbumsByLabel(LABEL_NAME, token);
+  const labelAlbums = dedupeByNameAndDate(
+    await searchAlbumsByLabel(LABEL_NAME, token, LABEL_FOUNDED_YEAR),
+  );
   const labelArtists = collectLabelArtists(labelAlbums);
   const labelStats = computeLabelStats(labelAlbums, labelArtists);
   console.log(
@@ -137,6 +125,27 @@ async function main() {
   console.log(`  ${counts.tracks} tracks total  (${counts.collabTracks} collab tracks)`);
   console.log(`  Label: ${labelStats.releases} releases · ${labelStats.artists} artists · founded ${labelStats.founded}`);
   console.log(`  → ${OUTPUT_PATH}`);
+}
+
+// Spotify often returns several regional masters of the same release (same
+// name + date, different id per market). Collapse them to one, preferring the
+// copy available in MARKET so the count reflects distinct releases, not masters.
+function dedupeByNameAndDate<T extends SpotifyAlbumSummary>(albums: T[]): T[] {
+  const byKey = new Map<string, T>();
+  for (const album of albums) {
+    const key = `${album.name.toLowerCase().trim()}|${album.release_date}`;
+    const existing = byKey.get(key);
+    if (!existing) {
+      byKey.set(key, album);
+      continue;
+    }
+    const existingHasMarket = existing.available_markets?.includes(MARKET);
+    const albumHasMarket = album.available_markets?.includes(MARKET);
+    if (!existingHasMarket && albumHasMarket) {
+      byKey.set(key, album);
+    }
+  }
+  return [...byKey.values()];
 }
 
 function collectLabelArtists(albums: SpotifyAlbumSummary[]): Set<string> {
