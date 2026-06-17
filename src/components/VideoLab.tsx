@@ -207,115 +207,132 @@ export function VideoLab() {
           </motion.a>
         </div>
 
-        {labelPick && (
-          <div className="mt-24 border-t border-ink-700/60 pt-16">
-            <p className="m-0 mb-7 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.28em] text-accent-soft">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent animate-accent-ping" />
-              From the label · Worth a watch
-            </p>
+        {labelPick && <MagoTvCard labelPick={labelPick} />}
+      </div>
+    </section>
+  );
+}
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              className="
-                group relative grid grid-cols-1 overflow-hidden rounded-2xl border border-white/10
-                transition-all duration-300 hover:border-accent hover:shadow-2xl hover:shadow-accent/20
-                min-[860px]:[grid-template-columns:320px_1fr]
-              "
-              style={{
-                background:
-                  "radial-gradient(120% 140% at 85% 0%, rgb(var(--color-accent) / 0.10) 0%, transparent 55%), linear-gradient(135deg, #111114 0%, #050507 100%)",
-              }}
-            >
-              {/* Left — channel avatar */}
-              <div className="flex flex-col items-center justify-center gap-[18px] border-b border-white/[0.08] px-7 py-10 min-[860px]:border-b-0 min-[860px]:border-r">
-                <div
-                  className="relative h-[168px] w-[168px] rounded-full p-1"
-                  style={{
-                    background:
-                      "conic-gradient(from 180deg, rgb(var(--color-accent)), rgb(var(--color-accent-fire)), rgb(var(--color-accent-soft)), rgb(var(--color-accent)))",
-                    boxShadow: "0 0 40px -6px rgb(var(--color-accent) / 0.5)",
-                  }}
-                >
-                  <img
-                    src={labelPick.logo}
-                    alt={`${labelPick.artist} ⚡ Retro Electro ⚡ TV channel logo`}
-                    loading="lazy"
-                    decoding="async"
-                    className="block h-full w-full rounded-full border-[3px] border-ink-950 bg-ink-950 object-cover"
-                  />
-                </div>
-                <span className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.26em] text-accent-soft">
-                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent animate-accent-ping" />
-                  On air · {labelPick.channelHandle}
-                </span>
-                <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-gray-500">
-                  {labelPick.channelMeta}
-                </span>
-              </div>
+type LabelPick = NonNullable<typeof artist.videoLab.labelPick>;
 
-              {/* Right — pitch */}
-              <div className="flex flex-col gap-[18px] px-6 py-8 min-[860px]:p-11">
-                <p className="m-0 font-mono text-[10px] uppercase tracking-[0.26em] text-accent-soft">
-                  {labelPick.eyebrow}
-                </p>
-                <h3
-                  className="m-0 font-display font-semibold leading-[1.04] tracking-[-0.02em] text-white"
-                  style={{ fontSize: "clamp(28px, 3.4vw, 44px)" }}
-                >
-                  MAGO <span className="text-accent">⚡</span> Retro Electro{" "}
-                  <span className="text-accent">⚡</span> TV
+function MagoTvCard({ labelPick }: { labelPick: LabelPick }) {
+  return (
+    <div className="mt-24 border-t border-ink-700/60 pt-16">
+      <p className="m-0 mb-7 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.28em] text-accent-soft">
+        <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent animate-accent-ping" />
+        From the label · Worth a watch
+      </p>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="mago-card"
+      >
+        {/* Left — electric channel avatar with an occasional power surge */}
+        <div className="mago-visual">
+          <div className="mago-avatar-stage">
+            <span className="mago-shock" aria-hidden />
+            <span className="mago-shock mago-shock--s2" aria-hidden />
+            <div className="mago-avatar-ring">
+              <img
+                src={labelPick.logo}
+                alt={`${labelPick.artist} Retro Electro TV channel logo`}
+                loading="lazy"
+                decoding="async"
+                className="mago-avatar"
+              />
+              <span className="mago-flash" aria-hidden />
+            </div>
+          </div>
+          <span className="mago-live">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent animate-accent-ping" />
+            On air · {labelPick.channelHandle}
+          </span>
+          <span className="mago-ch">{labelPick.channelMeta}</span>
+        </div>
+
+        {/* Right — the channel, playing on a retro CRT television */}
+        <div className="mago-body">
+          <div className="mago-tv-set">
+            <div className="mago-tv-screen">
+              <span className="mago-tv-ch" aria-hidden>
+                CH 105
+              </span>
+              <span className="mago-tv-badge" aria-hidden>
+                <span className="rec" /> MAGO TV
+              </span>
+              <div className="mago-tv-content">
+                <p className="mago-kicker">{labelPick.eyebrow}</p>
+                <h3 className="mago-name">
+                  {labelPick.artist}{" "}
+                  <span className="bolt" aria-hidden>
+                    ⚡
+                  </span>{" "}
+                  Retro Electro{" "}
+                  <span className="bolt" aria-hidden>
+                    ⚡
+                  </span>{" "}
+                  TV
                 </h3>
-                <p className="m-0 max-w-[56ch] font-display text-[16px] leading-[1.6] text-gray-300 min-[700px]:text-[17px]">
-                  {labelPick.description}
-                </p>
-                <ul className="m-0 mt-0.5 flex list-none flex-wrap gap-2 p-0">
+                <p className="mago-desc">{labelPick.description}</p>
+                <ul className="mago-tags">
                   {labelPick.tags.map((tag) => (
-                    <li
-                      key={tag}
-                      className="whitespace-nowrap rounded-full border border-white/[0.14] bg-white/[0.02] px-[11px] py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-gray-300"
-                    >
-                      {tag}
-                    </li>
+                    <li key={tag}>{tag}</li>
                   ))}
                 </ul>
-                <div className="mt-1.5 flex flex-wrap gap-3">
+                <div className="mago-actions">
                   <a
+                    className="mago-btn"
                     href={labelPick.channelUrl}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="inline-flex items-center gap-2.5 whitespace-nowrap rounded-full bg-accent px-[22px] py-3 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-ink-950 transition-all duration-200 hover:-translate-y-px hover:bg-accent-soft"
                   >
                     <FaYoutube size={15} aria-hidden /> Visit MAGO TV
                     <span aria-hidden>→</span>
                   </a>
                   <a
+                    className="mago-ghost"
                     href={labelPick.videosUrl}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="inline-flex items-center gap-2.5 whitespace-nowrap rounded-full border border-white/[0.14] px-[22px] py-3 font-mono text-[11px] uppercase tracking-[0.22em] text-gray-200 transition-colors duration-200 hover:border-accent hover:text-accent-soft"
                   >
                     Latest transmissions
                   </a>
                 </div>
               </div>
-
-              {/* Faint CRT scanlines — a nod to "Retro Electro TV", over the whole card */}
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 opacity-50 mix-blend-overlay"
-                style={{
-                  backgroundImage:
-                    "repeating-linear-gradient(to bottom, rgba(255,255,255,0.05) 0 1px, transparent 1px 3px)",
-                }}
-              />
-            </motion.div>
+            </div>
+            <div className="mago-tv-controls">
+              <div className="mago-tv-left">
+                <div className="mago-tv-grille" aria-hidden>
+                  {Array.from({ length: 8 }).map((_, i) => (
+                    <span key={i} />
+                  ))}
+                </div>
+                <div className="mago-tv-brand" aria-hidden>
+                  <span className="mago-tv-led" /> Model · Neonic 19 · 1984
+                </div>
+              </div>
+              <div className="mago-tv-knobs" aria-hidden>
+                <div className="mago-knob-wrap">
+                  <span className="mago-knob-lbl">Tuning</span>
+                  <div className="mago-knob mago-knob--r1" />
+                </div>
+                <div className="mago-knob-wrap">
+                  <span className="mago-knob-lbl">Volume</span>
+                  <div className="mago-knob mago-knob--r2" />
+                </div>
+                <div className="mago-knob-wrap">
+                  <span className="mago-knob-lbl">Channel</span>
+                  <div className="mago-knob mago-knob--r3" />
+                </div>
+              </div>
+            </div>
           </div>
-        )}
-      </div>
-    </section>
+        </div>
+      </motion.div>
+    </div>
   );
 }
 

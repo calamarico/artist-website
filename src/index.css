@@ -176,3 +176,603 @@ body * {
     scroll-behavior: auto !important;
   }
 }
+
+/* ============================================================
+   VIDEO LAB · "From the label" — MAGO ⚡ Retro Electro ⚡ TV
+   Self-contained block: an electric-overload channel avatar +
+   a retro CRT television. Mirrors the mockup pixel-for-pixel,
+   re-pointed onto the repo's live tokens (rgb(var(--color-*))).
+   ============================================================ */
+
+/* ----- outer recommendation card ----- */
+.mago-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    radial-gradient(120% 140% at 85% 0%, rgb(var(--color-accent) / 0.1) 0%, transparent 55%),
+    linear-gradient(135deg, #111114 0%, #050507 100%);
+  display: grid;
+  grid-template-columns: 1fr;
+  transition:
+    border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (min-width: 860px) {
+  .mago-card {
+    grid-template-columns: 320px 1fr;
+  }
+}
+.mago-card:hover {
+  border-color: rgb(var(--color-accent));
+  box-shadow: 0 30px 80px -20px rgb(var(--color-accent) / 0.25);
+}
+/* faint CRT scanlines over the whole card — a nod to "Retro Electro TV" */
+.mago-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.05) 0 1px,
+    transparent 1px 3px
+  );
+}
+
+/* ----- left column: electric channel avatar ----- */
+.mago-visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 40px 28px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+@media (min-width: 860px) {
+  .mago-visual {
+    border-bottom: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+  }
+}
+.mago-avatar-stage {
+  position: relative;
+  width: 210px;
+  height: 210px;
+  display: grid;
+  place-items: center;
+}
+/* expanding shockwave rings — fired only during a power surge */
+.mago-shock {
+  position: absolute;
+  width: 168px;
+  height: 168px;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 0;
+  border: 2px solid rgb(var(--color-accent) / 0.9);
+  box-shadow: 0 0 16px rgb(var(--color-accent) / 0.7);
+  opacity: 0;
+  animation: magoShock 6.5s cubic-bezier(0.2, 0.7, 0.3, 1) infinite;
+}
+.mago-shock--s2 {
+  animation-delay: 0.2s;
+  border-color: rgba(255, 255, 255, 0.8);
+}
+.mago-avatar-ring {
+  position: relative;
+  width: 168px;
+  height: 168px;
+  border-radius: 999px;
+  padding: 4px;
+  z-index: 1;
+  background: conic-gradient(
+    from 180deg,
+    rgb(var(--color-accent)),
+    rgb(var(--color-accent-fire)),
+    rgb(var(--color-accent-soft)),
+    rgb(var(--color-accent))
+  );
+  box-shadow: 0 0 40px -6px rgb(var(--color-accent) / 0.45);
+  animation: magoCharge 6.5s ease-in-out infinite;
+}
+.mago-avatar {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 999px;
+  border: 3px solid #050507;
+  object-fit: cover;
+  background: #050507;
+  animation: magoJitter 6.5s steps(1, end) infinite;
+}
+/* clipped overload flash sitting on top of the logo */
+.mago-flash {
+  position: absolute;
+  inset: 7px;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 2;
+  mix-blend-mode: screen;
+  opacity: 0;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.95),
+    rgb(var(--color-accent) / 0.6) 45%,
+    transparent 72%
+  );
+  animation: magoFlash 6.5s steps(1, end) infinite;
+}
+@keyframes magoCharge {
+  0%,
+  80% {
+    box-shadow: 0 0 40px -6px rgb(var(--color-accent) / 0.45);
+    transform: scale(1);
+  }
+  83% {
+    box-shadow: 0 0 22px -8px rgb(var(--color-accent) / 0.55);
+    transform: scale(0.985);
+  }
+  86% {
+    box-shadow:
+      0 0 64px 8px rgb(var(--color-accent) / 0.95),
+      0 0 96px 14px rgba(255, 255, 255, 0.45);
+    transform: scale(1.045);
+  }
+  89% {
+    box-shadow: 0 0 40px 0 rgb(var(--color-accent) / 0.7);
+    transform: scale(1);
+  }
+  92% {
+    box-shadow: 0 0 56px 4px rgb(var(--color-accent) / 0.85);
+    transform: scale(1.025);
+  }
+  96%,
+  100% {
+    box-shadow: 0 0 40px -6px rgb(var(--color-accent) / 0.45);
+    transform: scale(1);
+  }
+}
+@keyframes magoShock {
+  0%,
+  84% {
+    opacity: 0;
+    transform: scale(0.78);
+  }
+  86% {
+    opacity: 0.9;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.85);
+  }
+}
+@keyframes magoFlash {
+  0%,
+  85% {
+    opacity: 0;
+  }
+  86% {
+    opacity: 0.95;
+  }
+  88% {
+    opacity: 0.15;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  93%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes magoJitter {
+  0%,
+  85% {
+    transform: translate(0, 0);
+    filter: none;
+  }
+  86% {
+    transform: translate(-2px, 1px);
+    filter: brightness(1.7) contrast(1.25);
+  }
+  87% {
+    transform: translate(2px, -1px);
+    filter: brightness(1.3);
+  }
+  88% {
+    transform: translate(-1px, 0);
+    filter: brightness(1.5);
+  }
+  90% {
+    transform: translate(0, 0);
+    filter: brightness(1.15);
+  }
+  92%,
+  100% {
+    transform: translate(0, 0);
+    filter: none;
+  }
+}
+.mago-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.26em;
+  color: rgb(var(--color-accent-soft));
+  white-space: nowrap;
+}
+.mago-ch {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: #6b7280;
+}
+
+/* ----- right column: retro CRT television ----- */
+.mago-body {
+  display: block;
+  padding: 22px;
+}
+@media (min-width: 860px) {
+  .mago-body {
+    padding: 26px 26px 26px 22px;
+  }
+}
+.mago-tv-set {
+  position: relative;
+  border-radius: 20px;
+  padding: 16px 16px 0;
+  background: linear-gradient(180deg, #3a3a42, #232329 55%, #15151a);
+  border: 1px solid rgba(0, 0, 0, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.35),
+    0 24px 50px -24px rgba(0, 0, 0, 0.8);
+}
+.mago-tv-screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 26px / 46px;
+  border: 3px solid #060608;
+  padding: 40px 34px;
+  background:
+    radial-gradient(150% 120% at 72% 4%, rgb(var(--color-accent) / 0.12), transparent 52%),
+    radial-gradient(130% 135% at 50% 40%, rgba(10, 30, 20, 0), rgba(0, 0, 0, 0.6) 80%),
+    linear-gradient(160deg, #0c1410, #06080a);
+  box-shadow:
+    inset 0 0 0 2px rgba(0, 0, 0, 0.7),
+    inset 0 0 34px rgba(0, 0, 0, 0.85),
+    inset 0 0 90px rgba(0, 0, 0, 0.55);
+}
+@media (min-width: 700px) {
+  .mago-tv-screen {
+    padding: 46px 42px;
+  }
+}
+/* curved-glass sheen */
+.mago-tv-screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: radial-gradient(80% 55% at 30% 0%, rgba(255, 255, 255, 0.07), transparent 60%);
+}
+/* scanlines + subtle flicker, above the content */
+.mago-tv-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  mix-blend-mode: overlay;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.05) 0 1px,
+    transparent 1px 3px
+  );
+  animation: magoTvFlicker 5s steps(1, end) infinite;
+}
+@keyframes magoTvFlicker {
+  0%,
+  97%,
+  100% {
+    opacity: 0.55;
+  }
+  98% {
+    opacity: 0.35;
+  }
+  99% {
+    opacity: 0.7;
+  }
+}
+.mago-tv-ch {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  z-index: 5;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  color: #ffe04a;
+  text-shadow: 0 0 9px rgba(255, 224, 74, 0.55);
+}
+.mago-tv-badge {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgb(var(--color-accent-soft));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 3px 8px;
+}
+.mago-tv-badge .rec {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgb(var(--color-accent-fire));
+  box-shadow: 0 0 7px rgb(var(--color-accent-fire));
+}
+.mago-tv-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 14px;
+}
+.mago-kicker {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.26em;
+  color: rgb(var(--color-accent-soft));
+}
+.mago-name {
+  margin: 0;
+  font-family: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: #f4fff7;
+  font-size: clamp(26px, 3.2vw, 42px);
+  text-shadow: 0 0 22px rgb(var(--color-accent) / 0.25);
+}
+.mago-name .bolt {
+  color: rgb(var(--color-accent));
+}
+.mago-desc {
+  margin: 0;
+  max-width: 54ch;
+  font-family: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #e5e7eb;
+  text-wrap: pretty;
+}
+@media (min-width: 700px) {
+  .mago-desc {
+    font-size: 17px;
+  }
+}
+.mago-tags {
+  list-style: none;
+  margin: 2px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.mago-tags li {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #e5e7eb;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 6px 11px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.mago-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 6px;
+}
+.mago-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgb(var(--color-accent));
+  padding: 13px 22px;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: #050507;
+  text-decoration: none;
+  border-radius: 999px;
+  white-space: nowrap;
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mago-btn:hover {
+  transform: translateY(-1px);
+  background: rgb(var(--color-accent-soft));
+}
+.mago-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 13px 22px;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: #e5e7eb;
+  text-decoration: none;
+  border-radius: 999px;
+  white-space: nowrap;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+.mago-ghost:hover {
+  border-color: rgb(var(--color-accent));
+  color: rgb(var(--color-accent-soft));
+}
+
+/* control panel under the screen */
+.mago-tv-controls {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 16px 6px 8px;
+}
+.mago-tv-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mago-tv-grille {
+  display: flex;
+  gap: 4px;
+}
+.mago-tv-grille span {
+  width: 3px;
+  height: 26px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #0d0d10, #2a2a30);
+  box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.12);
+}
+.mago-tv-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+.mago-tv-led {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgb(var(--color-accent));
+  box-shadow: 0 0 9px rgb(var(--color-accent) / 0.95);
+}
+.mago-tv-knobs {
+  display: flex;
+  gap: 20px;
+}
+.mago-knob-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.mago-knob-lbl {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+.mago-knob {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #000;
+  background: radial-gradient(circle at 36% 28%, #50505a, #1a1a1e 72%);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.18),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.6),
+    0 2px 5px rgba(0, 0, 0, 0.5);
+}
+.mago-knob::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  width: 2px;
+  height: 12px;
+  margin-left: -1px;
+  border-radius: 2px;
+  background: rgb(var(--color-accent-soft));
+  box-shadow: 0 0 6px rgb(var(--color-accent) / 0.7);
+  transform-origin: 50% 15px;
+}
+.mago-knob--r1::after {
+  transform: rotate(-42deg);
+}
+.mago-knob--r2::after {
+  transform: rotate(18deg);
+}
+.mago-knob--r3::after {
+  transform: rotate(120deg);
+}
+
+/* Narrow phones: the screen is overflow:hidden, so let the CTAs wrap (rather
+   than clip) and reclaim a little inner width for the longest tag pill. */
+@media (max-width: 699px) {
+  .mago-tv-screen {
+    padding: 34px 22px;
+  }
+  .mago-btn,
+  .mago-ghost {
+    white-space: normal;
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+  .mago-tags li {
+    letter-spacing: 0.14em;
+    padding: 6px 9px;
+  }
+}
+
+/* Honour reduced-motion: the avatar sits calm, no surge / flicker. */
+@media (prefers-reduced-motion: reduce) {
+  .mago-shock,
+  .mago-avatar-ring,
+  .mago-avatar,
+  .mago-flash,
+  .mago-tv-screen::after {
+    animation: none;
+  }
+  .mago-shock {
+    opacity: 0;
+  }
+}
