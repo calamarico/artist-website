@@ -1,16 +1,51 @@
 // AUTO-GENERATED — do not edit by hand.
 // Run `npm run sync:catalog` to refresh.
-// Generated at 2026-06-19T10:30:15.153Z
+// Generated at 2026-06-26T10:30:14.124Z
 
 import type { LabelStats, Release } from "./artist";
 
 export const labelStats: LabelStats = {
-  "releases": 105,
+  "releases": 106,
   "artists": 16,
   "founded": 2022
 };
 
 export const releases: Release[] = [
+  {
+    "id": "2z4FWcsG7n2EuKZ08PdnKK",
+    "name": "Nullish Coalescing",
+    "type": "SINGLE",
+    "date": "2026-06-26",
+    "datePrecision": "DAY",
+    "trackCount": 1,
+    "coverArt": "https://i.scdn.co/image/ab67616d0000b2735f406e408d0291bdb8cc5574",
+    "spotifyUrl": "https://open.spotify.com/album/2z4FWcsG7n2EuKZ08PdnKK",
+    "artists": [
+      {
+        "id": "69pHpbXQUapyazWqZw1O2d",
+        "name": "Kalamarico",
+        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+      }
+    ],
+    "isPrimaryArtist": true,
+    "tracks": [
+      {
+        "id": "3XXPiUPur8LCQFucN99ZFY",
+        "name": "Nullish Coalescing",
+        "trackNumber": 1,
+        "durationMs": 290687,
+        "spotifyUrl": "https://open.spotify.com/track/3XXPiUPur8LCQFucN99ZFY",
+        "artists": [
+          {
+            "id": "69pHpbXQUapyazWqZw1O2d",
+            "name": "Kalamarico",
+            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+          }
+        ],
+        "isCollab": false
+      }
+    ]
+  },
   {
     "id": "3LrFHqofvBE7VSsGK0huuV",
     "name": "Electric Isolation",
