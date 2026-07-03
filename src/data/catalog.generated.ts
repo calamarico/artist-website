@@ -1,16 +1,61 @@
 // AUTO-GENERATED — do not edit by hand.
 // Run `npm run sync:catalog` to refresh.
-// Generated at 2026-06-28T20:47:44.836Z
+// Generated at 2026-07-03T10:30:10.352Z
 
 import type { LabelStats, Release } from "./artist";
 
 export const labelStats: LabelStats = {
-  "releases": 106,
+  "releases": 107,
   "artists": 16,
   "founded": 2022
 };
 
 export const releases: Release[] = [
+  {
+    "id": "780lPsn6rfS5AIEnU9zo5n",
+    "name": "DragonWave",
+    "type": "SINGLE",
+    "date": "2026-07-03",
+    "datePrecision": "DAY",
+    "trackCount": 1,
+    "coverArt": "https://i.scdn.co/image/ab67616d0000b2730714e8d85a525b7f6b6bece3",
+    "spotifyUrl": "https://open.spotify.com/album/780lPsn6rfS5AIEnU9zo5n",
+    "artists": [
+      {
+        "id": "3gVFRT6XP0P1DSbgI0MF0w",
+        "name": "Mago",
+        "spotifyUrl": "https://open.spotify.com/artist/3gVFRT6XP0P1DSbgI0MF0w"
+      },
+      {
+        "id": "69pHpbXQUapyazWqZw1O2d",
+        "name": "Kalamarico",
+        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+      }
+    ],
+    "isPrimaryArtist": true,
+    "tracks": [
+      {
+        "id": "1pahWt9CliNzRFfBZQNLnF",
+        "name": "DragonWave",
+        "trackNumber": 1,
+        "durationMs": 224789,
+        "spotifyUrl": "https://open.spotify.com/track/1pahWt9CliNzRFfBZQNLnF",
+        "artists": [
+          {
+            "id": "3gVFRT6XP0P1DSbgI0MF0w",
+            "name": "Mago",
+            "spotifyUrl": "https://open.spotify.com/artist/3gVFRT6XP0P1DSbgI0MF0w"
+          },
+          {
+            "id": "69pHpbXQUapyazWqZw1O2d",
+            "name": "Kalamarico",
+            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+          }
+        ],
+        "isCollab": true
+      }
+    ]
+  },
   {
     "id": "2z4FWcsG7n2EuKZ08PdnKK",
     "name": "Nullish Coalescing",
