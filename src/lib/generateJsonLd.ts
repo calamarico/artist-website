@@ -46,11 +46,17 @@ export function generateJsonLd(
   const data = {
     "@context": "https://schema.org",
     "@type": "MusicGroup",
+    "@id": `${canonicalUrl}#artist`,
     name: artist.name,
+    alternateName: artist.alternateNames,
     url: canonicalUrl,
     image,
     genre: ["Electronic", "Techno"],
     description: artist.tagline,
+    foundingLocation: {
+      "@type": "Place",
+      name: artist.location,
+    },
     address: {
       "@type": "PostalAddress",
       addressLocality: "Madrid",

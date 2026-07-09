@@ -52,15 +52,20 @@ export function catalogCode(release: Release): string {
   return `${prefix}${String(releaseNumber(release)).padStart(3, "0")}`;
 }
 
+// Release dates are date-only strings parsed as UTC midnight; format in UTC
+// so the rendered date never shifts a day with the viewer's timezone (and
+// prerendered HTML matches what the client hydrates).
 const monthFmt = new Intl.DateTimeFormat("en-GB", {
   month: "short",
   year: "numeric",
+  timeZone: "UTC",
 });
 
 const dayFmt = new Intl.DateTimeFormat("en-GB", {
   day: "2-digit",
   month: "short",
   year: "numeric",
+  timeZone: "UTC",
 });
 
 export function formatMonth(release: Release): string {

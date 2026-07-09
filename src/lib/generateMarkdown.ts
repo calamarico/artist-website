@@ -28,6 +28,10 @@ export function generateMarkdown(
   lines.push("");
   lines.push(`Based in ${artist.location}.`);
   lines.push("");
+  if (artist.alternateNames.length) {
+    lines.push(`Also known as: ${artist.alternateNames.join(", ")}.`);
+    lines.push("");
+  }
   lines.push(`Website: ${canonicalUrl}`);
   lines.push("");
 

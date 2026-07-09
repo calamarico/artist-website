@@ -1,5 +1,5 @@
 import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 
@@ -21,8 +21,17 @@ console.log(
 
 if (!rootElement) throw new Error("Root element #root not found");
 
-createRoot(rootElement).render(
+const app = (
   <StrictMode>
     <App />
-  </StrictMode>,
+  </StrictMode>
 );
+
+// Production builds ship prerendered markup inside #root (see
+// scripts/prerender.ts) — hydrate it. In dev the div only holds the
+// <!--app-html--> comment (no elements), so render from scratch.
+if (rootElement.firstElementChild) {
+  hydrateRoot(rootElement, app);
+} else {
+  createRoot(rootElement).render(app);
+}

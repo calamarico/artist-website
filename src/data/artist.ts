@@ -94,6 +94,7 @@ export type VideoLab = {
 
 export type Artist = {
   name: string;
+  alternateNames: string[];
   tagline: string;
   location: string;
   bio: string;
@@ -106,7 +107,10 @@ export type Artist = {
 
 export const artist: Artist = {
   name: "Kalamarico",
-  tagline: "Electronic Music Producer | Co-CEO of Beta-Time Records",
+  // Other names people search for / know the project by. Surfaced as
+  // Schema.org `alternateName` so Google links those queries to this site.
+  alternateNames: ["Calamarico", "DJ Kalamarico", "Kalamarico DJ"],
+  tagline: "DJ & Electronic Music Producer | Co-CEO of Beta-Time Records",
   location: "Madrid, Spain",
   bio: `Since my first sequences in FastTracker nearly 30 years ago, I've developed a creative approach focused on sound exploration, electronic texture design, and technical evolution in music production. I work with a hybrid setup of software and hardware, with a particular interest in balancing rhythmic structure and atmospheric depth.
 
