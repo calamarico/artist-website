@@ -1,10 +1,12 @@
 import { SiBeatport } from "react-icons/si";
 import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { artist, labelStats } from "../data/artist";
+import { useT } from "../lib/i18n";
 import { SectionHead } from "./SectionHead";
 
 export function Label() {
   const { label } = artist;
+  const t = useT();
 
   return (
     <section
@@ -12,10 +14,10 @@ export function Label() {
       className="relative bg-ink-900 py-16 min-[700px]:py-20 min-[900px]:py-[120px]"
     >
       <div className="mx-auto max-w-[1280px] px-5 min-[700px]:px-8">
-        <SectionHead num="05 / 05" label="The Label">
-          Curating{" "}
+        <SectionHead num="05 / 05" label={t.label.sectionLabel}>
+          {t.label.headTop}{" "}
           <span className="font-normal not-italic text-accent-soft">
-            electronic music
+            {t.label.headAccent}
           </span>
         </SectionHead>
 
@@ -62,7 +64,7 @@ export function Label() {
             <div className="text-center min-[800px]:text-left">
               <p className="m-0 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.28em] text-accent-soft">
                 <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-                {label.role} since 2023
+                {t.label.roleSince(label.role)}
               </p>
               <h3
                 className="m-0 mt-6 font-display font-bold leading-[0.9] tracking-[-0.03em] text-white"
@@ -77,16 +79,24 @@ export function Label() {
               <p
                 className="mx-auto mt-6 max-w-[480px] font-display font-normal leading-[1.4] tracking-[-0.005em] text-gray-300 text-[17px] min-[700px]:mt-8 min-[700px]:text-[clamp(20px,1.8vw,26px)] min-[800px]:mx-0"
               >
-                Releases that push the boundaries of techno and electronic
-                sound — curated, mastered, and shipped from Madrid.
+                {t.label.lead}
               </p>
             </div>
 
             <div className="flex flex-col gap-5 min-[700px]:gap-6">
               <div className="mt-5 grid grid-cols-3 gap-px border border-white/[0.08] bg-white/[0.08] min-[700px]:mt-0">
-                <Stat value={String(labelStats.releases)} label="Releases" />
-                <Stat value={String(labelStats.artists)} label="Artists" />
-                <Stat value={String(labelStats.founded)} label="Founded" />
+                <Stat
+                  value={String(labelStats.releases)}
+                  label={t.label.releases}
+                />
+                <Stat
+                  value={String(labelStats.artists)}
+                  label={t.label.artists}
+                />
+                <Stat
+                  value={String(labelStats.founded)}
+                  label={t.label.founded}
+                />
               </div>
               <div className="flex flex-col flex-wrap gap-3 min-[700px]:flex-row">
                 <a
@@ -100,8 +110,8 @@ export function Label() {
                     min-[700px]:w-auto min-[700px]:px-5 min-[700px]:tracking-[0.22em] min-[700px]:text-[11px]
                   "
                 >
-                  <HiArrowTopRightOnSquare size={14} aria-hidden /> Visit
-                  website
+                  <HiArrowTopRightOnSquare size={14} aria-hidden />{" "}
+                  {t.label.visitWebsite}
                 </a>
                 <a
                   href={label.beatport}
@@ -114,7 +124,7 @@ export function Label() {
                     min-[700px]:w-auto min-[700px]:px-5 min-[700px]:tracking-[0.22em] min-[700px]:text-[11px]
                   "
                 >
-                  <SiBeatport size={14} aria-hidden /> Beatport store
+                  <SiBeatport size={14} aria-hidden /> {t.label.beatportStore}
                 </a>
               </div>
             </div>

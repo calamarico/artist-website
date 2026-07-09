@@ -8,7 +8,9 @@ import {
   formatDuration,
   isAppearsOn,
   otherArtists,
+  releasePagePath,
 } from "../lib/catalog";
+import { useLang, useT, type Strings } from "../lib/i18n";
 import { Cover } from "./Cover";
 
 const SOUNDCLOUD =
@@ -44,12 +46,30 @@ function realTracks(tracks: Track[]) {
   }));
 }
 
+function typeLabel(release: Release, t: Strings): string {
+  switch (release.type) {
+    case "APPEARS_ON":
+      return t.modal.featuredAppearance;
+    case "EP":
+      return t.modal.epOf(release.trackCount);
+    case "ALBUM":
+      return t.modal.albumOf(release.trackCount);
+    case "COMPILATION":
+      return t.modal.compilationOf(release.trackCount);
+    default:
+      return t.modal.single;
+  }
+}
+
 type Props = {
   release: Release | null;
   onClose: () => void;
 };
 
 export function ReleaseModal({ release, onClose }: Props) {
+  const lang = useLang();
+  const t = useT();
+
   useEffect(() => {
     if (!release) return;
     const onKey = (e: KeyboardEvent) => {
@@ -73,6 +93,7 @@ export function ReleaseModal({ release, onClose }: Props) {
   }, [release]);
 
   const open = !!release;
+  const pagePath = release ? releasePagePath(release, lang) : null;
 
   return (
     <div
@@ -108,7 +129,7 @@ export function ReleaseModal({ release, onClose }: Props) {
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close"
+            aria-label={t.modal.close}
             className="absolute right-3 top-3 z-[2] inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.14] bg-ink-950/60 text-white transition-colors duration-200 hover:bg-accent hover:text-ink-950 min-[700px]:right-5 min-[700px]:top-5"
           >
             <HiXMark size={16} />
@@ -133,23 +154,13 @@ export function ReleaseModal({ release, onClose }: Props) {
               </h2>
 
               <div className="flex flex-wrap gap-x-5 gap-y-3.5 min-[700px]:gap-5">
+                <Meta label={t.modal.type} value={typeLabel(release, t)} />
                 <Meta
-                  label="Type"
-                  value={
-                    release.type === "APPEARS_ON"
-                      ? "Featured appearance"
-                      : release.type === "EP"
-                        ? `EP · ${release.trackCount} tracks`
-                        : release.type === "ALBUM"
-                          ? `Album · ${release.trackCount} tracks`
-                          : release.type === "COMPILATION"
-                            ? `Compilation · ${release.trackCount} tracks`
-                            : "Single"
-                  }
+                  label={t.modal.released}
+                  value={formatDay(release, lang)}
                 />
-                <Meta label="Released" value={formatDay(release)} />
                 <Meta
-                  label="Artist"
+                  label={t.modal.artist}
                   value={
                     release.artists && release.artists.length > 0
                       ? release.artists.map((a) => a.name).join(", ")
@@ -157,7 +168,7 @@ export function ReleaseModal({ release, onClose }: Props) {
                   }
                 />
                 <Meta
-                  label="Label"
+                  label={t.modal.labelWord}
                   value={
                     release.label
                       ? release.label
@@ -170,10 +181,10 @@ export function ReleaseModal({ release, onClose }: Props) {
 
               <div>
                 <p className="m-0 mb-2 font-mono text-[11px] uppercase tracking-[0.28em] text-gray-500">
-                  Tracklist
+                  {t.modal.tracklist}
                 </p>
                 <ol className="m-0 list-none border-t border-white/[0.08] p-0">
-                  {tracks.map((t, i) => (
+                  {tracks.map((tr, i) => (
                     <li
                       key={i}
                       className="
@@ -188,25 +199,25 @@ export function ReleaseModal({ release, onClose }: Props) {
                       </span>
                       <span className="flex flex-col gap-0.5">
                         <span className="font-display text-[14px] font-medium text-gray-100 transition-colors duration-200 group-hover:text-accent-soft min-[700px]:text-[15px]">
-                          {t.name}
+                          {tr.name}
                         </span>
-                        {t.isCollab && t.artists.length > 0 && (
+                        {tr.isCollab && tr.artists.length > 0 && (
                           <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-accent-soft min-[700px]:text-[10px] min-[700px]:tracking-[0.22em]">
                             {isAppearsOn(release)
-                              ? `with ${t.artists.join(", ")}`
-                              : `feat. ${t.artists.join(", ")}`}
+                              ? `${t.modal.with} ${tr.artists.join(", ")}`
+                              : `feat. ${tr.artists.join(", ")}`}
                           </span>
                         )}
                       </span>
                       <span className="font-mono text-[12px] text-gray-400">
-                        {t.dur}
+                        {tr.dur}
                       </span>
                     </li>
                   ))}
                 </ol>
               </div>
 
-              <div className="mt-2 flex flex-wrap gap-2 min-[700px]:gap-3">
+              <div className="mt-2 flex flex-wrap items-center gap-2 min-[700px]:gap-3">
                 <a
                   href={release.spotifyUrl}
                   target="_blank"
@@ -218,7 +229,7 @@ export function ReleaseModal({ release, onClose }: Props) {
                     min-[700px]:flex-none min-[700px]:px-5 min-[700px]:tracking-[0.22em] min-[700px]:text-[11px]
                   "
                 >
-                  <FaSpotify size={14} aria-hidden /> Open in Spotify
+                  <FaSpotify size={14} aria-hidden /> {t.modal.openInSpotify}
                 </a>
                 <a
                   href={SOUNDCLOUD}
@@ -233,6 +244,14 @@ export function ReleaseModal({ release, onClose }: Props) {
                 >
                   <FaSoundcloud size={14} aria-hidden /> SoundCloud
                 </a>
+                {pagePath && (
+                  <a
+                    href={pagePath}
+                    className="inline-flex items-center gap-2 px-1 py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-gray-400 transition-colors duration-200 hover:text-accent-soft min-[700px]:text-[11px]"
+                  >
+                    {t.modal.releasePage} →
+                  </a>
+                )}
               </div>
             </div>
           </div>

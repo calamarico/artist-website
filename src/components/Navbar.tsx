@@ -1,14 +1,8 @@
 import { useEffect, useState } from "react";
 import { HiBars3 } from "react-icons/hi2";
 import { useActiveSection } from "../lib/useActiveSection";
+import { langBase, useLang, useT } from "../lib/i18n";
 import { MobileMenu } from "./MobileMenu";
-
-const NAV_LINKS = [
-  { href: "#about", label: "About" },
-  { href: "#tracks", label: "Releases" },
-  { href: "#video", label: "Video" },
-  { href: "#listen", label: "Listen" },
-] as const;
 
 const SECTION_IDS = [
   "about",
@@ -19,18 +13,20 @@ const SECTION_IDS = [
 ] as const;
 type SectionId = (typeof SECTION_IDS)[number];
 
-const SECTION_META: Record<SectionId, { num: string; label: string }> = {
-  about: { num: "01", label: "About" },
-  tracks: { num: "02", label: "Releases" },
-  video: { num: "03", label: "Video Lab" },
-  listen: { num: "04", label: "Listen" },
-  label: { num: "05", label: "The Label" },
+const SECTION_NUM: Record<SectionId, string> = {
+  about: "01",
+  tracks: "02",
+  video: "03",
+  listen: "04",
+  label: "05",
 };
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const active = useActiveSection<SectionId>(SECTION_IDS);
+  const lang = useLang();
+  const t = useT();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -39,7 +35,16 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const meta = active ? SECTION_META[active] : null;
+  const navLinks = [
+    { href: "#about", label: t.nav.links.about },
+    { href: "#tracks", label: t.nav.links.releases },
+    { href: "#video", label: t.nav.links.video },
+    { href: "#listen", label: t.nav.links.listen },
+  ];
+
+  const meta = active
+    ? { num: SECTION_NUM[active], label: t.nav.sectionMeta[active] }
+    : null;
 
   return (
     <>
@@ -60,7 +65,7 @@ export function Navbar() {
           "
         >
           <ul className="hidden items-center gap-7 min-[700px]:flex">
-            {NAV_LINKS.map((link) => (
+            {navLinks.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}
@@ -108,10 +113,18 @@ export function Navbar() {
             >
               Beta-Time ↗
             </a>
+            <a
+              href={langBase(lang === "es" ? "en" : "es")}
+              title={t.nav.otherLangTitle}
+              hrefLang={lang === "es" ? "en" : "es"}
+              className="inline-flex items-center border border-white/[0.14] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-gray-300 transition-colors duration-200 hover:border-accent hover:text-white min-[700px]:text-[11px]"
+            >
+              {t.nav.otherLang}
+            </a>
             <button
               type="button"
               onClick={() => setOpen(true)}
-              aria-label="Open menu"
+              aria-label={t.nav.openMenu}
               aria-expanded={open}
               aria-controls="mobile-menu"
               className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.14] text-gray-200 transition-colors duration-200 hover:border-accent hover:text-white min-[700px]:hidden"

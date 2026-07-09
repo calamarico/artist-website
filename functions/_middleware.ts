@@ -24,10 +24,14 @@ interface Context {
   next: () => Promise<Response>;
 }
 
-// Map HTML page paths → their markdown counterpart. Single-page site for now.
+// Map HTML page paths → their markdown counterpart. The Spanish home shares
+// the English markdown until a localized index.es.md exists.
 const MARKDOWN_FOR_PATH: Record<string, string> = {
   "/": "/index.md",
   "/index.html": "/index.md",
+  "/es": "/index.md",
+  "/es/": "/index.md",
+  "/es/index.html": "/index.md",
 };
 
 export const onRequest = async (context: Context): Promise<Response> => {

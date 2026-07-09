@@ -1,6 +1,7 @@
 import { FaSpotify, FaSoundcloud } from "react-icons/fa";
 import { artist } from "../data/artist";
 import { catalogCode, formatMonth } from "../lib/catalog";
+import { useLang, useT } from "../lib/i18n";
 import { AvatarHero } from "./AvatarHero";
 
 const SPOTIFY = artist.socials.find((s) => s.label === "Spotify")?.url ?? "#";
@@ -11,6 +12,8 @@ const TICKER = artist.releases.slice(0, 8);
 
 export function Hero() {
   const latest = artist.releases[0];
+  const lang = useLang();
+  const t = useT();
 
   return (
     <section
@@ -52,16 +55,17 @@ export function Hero() {
           "
         >
           <span className="basis-[calc(50%-8px)] min-[700px]:basis-auto">
-            <b className="font-medium text-gray-200">K · 01</b> — Artist
+            <b className="font-medium text-gray-200">K · 01</b> — {t.hero.artistTag}
           </span>
           <span className="basis-[calc(50%-8px)] min-[700px]:basis-auto">
-            EST. 1996 — FastTracker → Now
+            {t.hero.est}
           </span>
           <span className="basis-[calc(50%-8px)] min-[700px]:basis-auto">
             Madrid, ES · 40.4°N 3.7°W
           </span>
           <span className="basis-[calc(50%-8px)] min-[700px]:basis-auto">
-            {artist.releases.length} releases · {artist.labels.length} labels
+            {artist.releases.length} {t.hero.releasesWord} ·{" "}
+            {artist.labels.length} {t.hero.labelsWord}
           </span>
         </div>
 
@@ -69,7 +73,7 @@ export function Hero() {
           <div className="text-center min-[900px]:text-left">
             <p className="m-0 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.28em] text-accent-soft">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-              DJ · Electronic music producer
+              {t.hero.eyebrow}
             </p>
 
             <h1
@@ -85,8 +89,7 @@ export function Hero() {
             <p
               className="mx-auto mt-5 max-w-[480px] font-display font-normal leading-[1.45] tracking-[-0.005em] text-gray-300 text-[17px] min-[700px]:mt-8 min-[700px]:leading-[1.4] min-[700px]:text-[clamp(20px,1.8vw,26px)] min-[900px]:mx-0"
             >
-              Sound exploration, electronic texture, and a 30-year obsession
-              with rhythmic structure — built in Madrid.
+              {t.hero.sub}
             </p>
 
             <div className="mt-7 flex flex-wrap items-center justify-center gap-2 min-[700px]:mt-12 min-[700px]:gap-3 min-[900px]:justify-start">
@@ -101,7 +104,7 @@ export function Hero() {
                   min-[700px]:flex-none min-[700px]:px-5 min-[700px]:tracking-[0.22em] min-[700px]:text-[11px]
                 "
               >
-                <FaSpotify size={14} aria-hidden /> Listen on Spotify
+                <FaSpotify size={14} aria-hidden /> {t.hero.listenSpotify}
               </a>
               <a
                 href={SOUNDCLOUD}
@@ -124,14 +127,14 @@ export function Hero() {
             <div className="flex w-full max-w-[480px] items-end justify-between gap-4 border-t border-white/[0.08] pt-4">
               <div>
                 <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-gray-500 min-[700px]:text-[10px] min-[700px]:tracking-[0.22em]">
-                  Latest release
+                  {t.hero.latestRelease}
                 </div>
                 <div className="mt-1.5 font-display text-[18px] font-semibold leading-none tracking-[-0.02em] text-white min-[700px]:text-[22px]">
                   {latest.name}
                 </div>
               </div>
               <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-gray-500 min-[700px]:text-[10px] min-[700px]:tracking-[0.22em]">
-                {formatMonth(latest)}
+                {formatMonth(latest, lang)}
               </div>
             </div>
           </div>
@@ -154,7 +157,7 @@ export function Hero() {
                 <em className="not-italic mr-2 font-mono text-[10px] uppercase tracking-[0.2em] text-accent-soft min-[700px]:mr-3 min-[700px]:text-[12px]">
                   {catalogCode(r)}
                 </em>
-                {r.name} — {formatMonth(r)} · {r.type}
+                {r.name} — {formatMonth(r, lang)} · {r.type}
               </span>
             )),
           )}

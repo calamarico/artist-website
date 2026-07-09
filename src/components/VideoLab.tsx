@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { FaYoutube } from "react-icons/fa";
 import { HiPlay } from "react-icons/hi";
 import { artist, type Video } from "../data/artist";
+import { useT, type Strings } from "../lib/i18n";
 
 function cleanTitle(title: string): string {
   return title
@@ -13,6 +14,7 @@ function cleanTitle(title: string): string {
 
 export function VideoLab() {
   const { djMixes, session, labelPick } = artist.videoLab;
+  const t = useT();
 
   const indexed = djMixes.videos.map((video, i) => ({ video, vol: i + 1 }));
   const featuredSet = new Set<string>(djMixes.featuredIds);
@@ -39,7 +41,7 @@ export function VideoLab() {
         >
           <div className="font-display text-xs font-medium text-gray-500 min-[700px]:text-sm">
             <span className="text-accent">03 / 05</span>
-            &nbsp;— Video Lab
+            &nbsp;— {t.video.sectionLabel}
           </div>
           <div className="grid items-end gap-6 min-[900px]:grid-cols-[1.4fr_1fr] min-[900px]:gap-12">
             <h2
@@ -49,26 +51,23 @@ export function VideoLab() {
                 textWrap: "pretty" as never,
               }}
             >
-              Better the devil you know?{" "}
+              {t.video.headTop}{" "}
               <span className="block font-normal not-italic text-gradient-accent">
-                Let&rsquo;s test that.
+                {t.video.headAccent}
               </span>
             </h2>
             <p className="m-0 max-w-[44ch] font-display leading-[1.5] tracking-[-0.005em] text-gray-300 text-[16px] min-[700px]:text-[18px] min-[900px]:text-[19px]">
-              Six DJ-style mixes pitting today&rsquo;s productions against the
-              classics that still dominate sets — plus a full Beta-Time
-              session.
+              {t.video.lead}
             </p>
           </div>
         </div>
 
         <div className="mb-8 flex flex-col gap-3 min-[700px]:mb-10">
           <p className="m-0 font-mono text-[11px] uppercase tracking-[0.28em] text-accent-soft">
-            The experiment · 6 DJ mixes, old × new
+            {t.video.experiment}
           </p>
           <p className="m-0 max-w-[60ch] font-display text-[15px] leading-[1.55] text-gray-300 min-[700px]:text-[17px]">
-            Two tracks mixed DJ-style — one of mine against a track DJs still
-            spin. The bet: the new one holds the floor.
+            {t.video.experimentSub}
           </p>
         </div>
 
@@ -80,13 +79,14 @@ export function VideoLab() {
               vol={vol}
               total={total}
               index={index}
+              t={t}
             />
           ))}
         </ul>
 
         <div className="mt-12 flex items-center gap-4">
           <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-gray-500">
-            + {rest.length} more in the series
+            + {rest.length} {t.video.moreInSeries}
           </span>
           <span className="h-px flex-1 bg-ink-700" />
         </div>
@@ -99,6 +99,7 @@ export function VideoLab() {
               vol={vol}
               total={total}
               index={index}
+              t={t}
             />
           ))}
         </ul>
@@ -110,28 +111,28 @@ export function VideoLab() {
             rel="noreferrer noopener"
             className="inline-flex items-center gap-3 rounded-full border border-accent px-6 py-3 font-mono text-xs uppercase tracking-[0.24em] text-accent transition-all duration-200 hover:bg-accent hover:text-ink-950"
           >
-            <FaYoutube size={16} aria-hidden /> Watch full playlist on YouTube
+            <FaYoutube size={16} aria-hidden /> {t.video.watchPlaylist}
             <span aria-hidden>→</span>
           </a>
           <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-gray-500">
-            6 videos · ~27 min total
+            {t.video.playlistMeta}
           </span>
         </div>
 
         <div className="mt-24 border-t border-ink-700/60 pt-16">
           <p className="m-0 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.28em] text-accent-soft">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent animate-accent-ping" />
-            Closing piece
+            {t.video.closingPiece}
           </p>
           <h3
             className="m-0 mt-5 font-display font-semibold leading-[1.05] tracking-[-0.02em] text-white"
             style={{ fontSize: "clamp(26px, 3.2vw, 42px)" }}
           >
-            Eleven minutes,{" "}
-            <span className="text-accent-soft">Beta-Time only</span>
+            {t.video.closingTop}{" "}
+            <span className="text-accent-soft">{t.video.closingAccent}</span>
           </h3>
           <p className="m-0 mt-4 max-w-[60ch] font-display text-[15px] leading-[1.55] text-gray-300 min-[700px]:text-[17px]">
-            {session.description}
+            {t.video.sessionDescription}
           </p>
 
           <motion.a
@@ -142,7 +143,7 @@ export function VideoLab() {
             href={`https://youtu.be/${session.id}`}
             target="_blank"
             rel="noreferrer noopener"
-            aria-label={`Watch "${sessionTitle}" on YouTube`}
+            aria-label={t.video.watchAria(sessionTitle)}
             className="
               group relative mt-10 grid grid-cols-1 overflow-hidden rounded-2xl border border-ink-700
               bg-ink-800/70 transition-all duration-300
@@ -175,7 +176,7 @@ export function VideoLab() {
             <div className="flex flex-col justify-center gap-5 p-6 min-[900px]:p-10">
               <p className="m-0 inline-flex items-center gap-2.5 font-mono text-[10px] uppercase tracking-[0.24em] text-accent-soft">
                 <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent animate-accent-ping" />
-                {session.eyebrow}
+                {t.video.sessionEyebrow}
               </p>
               <h4
                 className="m-0 font-display font-semibold leading-[1.05] tracking-[-0.02em] text-white transition-colors duration-200 group-hover:text-accent-soft"
@@ -188,18 +189,18 @@ export function VideoLab() {
               </h4>
               <ul className="m-0 flex flex-wrap items-center gap-2 p-0 font-mono text-[10px] uppercase tracking-[0.22em] text-gray-300">
                 <li className="border border-white/[0.14] bg-white/[0.02] px-2.5 py-1.5">
-                  Duration · {session.duration}
+                  {t.video.duration} · {session.duration}
                 </li>
                 <li className="border border-white/[0.14] bg-white/[0.02] px-2.5 py-1.5">
-                  Label · Beta-Time
+                  {t.video.labelWord} · Beta-Time
                 </li>
                 <li className="border border-white/[0.14] bg-white/[0.02] px-2.5 py-1.5">
-                  Tracks · 100% catalogue
+                  {t.video.tracksCatalogue}
                 </li>
               </ul>
               <div>
                 <span className="inline-flex items-center gap-3 bg-accent px-[22px] py-3.5 font-mono text-[11px] font-semibold uppercase tracking-[0.24em] text-ink-950 transition-all duration-200 group-hover:-translate-y-px group-hover:bg-accent-soft">
-                  <FaYoutube size={14} aria-hidden /> Watch on YouTube
+                  <FaYoutube size={14} aria-hidden /> {t.video.watchOnYouTube}
                   <span aria-hidden>→</span>
                 </span>
               </div>
@@ -207,7 +208,7 @@ export function VideoLab() {
           </motion.a>
         </div>
 
-        {labelPick && <MagoTvCard labelPick={labelPick} />}
+        {labelPick && <MagoTvCard labelPick={labelPick} t={t} />}
       </div>
     </section>
   );
@@ -215,12 +216,12 @@ export function VideoLab() {
 
 type LabelPick = NonNullable<typeof artist.videoLab.labelPick>;
 
-function MagoTvCard({ labelPick }: { labelPick: LabelPick }) {
+function MagoTvCard({ labelPick, t }: { labelPick: LabelPick; t: Strings }) {
   return (
     <div className="mt-24 border-t border-ink-700/60 pt-16">
       <p className="m-0 mb-7 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.28em] text-accent-soft">
         <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent animate-accent-ping" />
-        From the label · Worth a watch
+        {t.video.fromTheLabel}
       </p>
 
       <motion.div
@@ -238,7 +239,7 @@ function MagoTvCard({ labelPick }: { labelPick: LabelPick }) {
             <div className="mago-avatar-ring">
               <img
                 src={labelPick.logo}
-                alt={`${labelPick.artist} Retro Electro TV channel logo`}
+                alt={`${labelPick.artist} Retro Electro TV`}
                 loading="lazy"
                 decoding="async"
                 className="mago-avatar"
@@ -248,7 +249,7 @@ function MagoTvCard({ labelPick }: { labelPick: LabelPick }) {
           </div>
           <span className="mago-live">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent animate-accent-ping" />
-            On air · {labelPick.channelHandle}
+            {t.video.onAir} · {labelPick.channelHandle}
           </span>
           <span className="mago-ch">{labelPick.channelMeta}</span>
         </div>
@@ -264,7 +265,7 @@ function MagoTvCard({ labelPick }: { labelPick: LabelPick }) {
                 <span className="rec" /> MAGO TV
               </span>
               <div className="mago-tv-content">
-                <p className="mago-kicker">{labelPick.eyebrow}</p>
+                <p className="mago-kicker">{t.video.magoEyebrow}</p>
                 <h3 className="mago-name">
                   {labelPick.artist}{" "}
                   <span className="bolt" aria-hidden>
@@ -276,7 +277,7 @@ function MagoTvCard({ labelPick }: { labelPick: LabelPick }) {
                   </span>{" "}
                   TV
                 </h3>
-                <p className="mago-desc">{labelPick.description}</p>
+                <p className="mago-desc">{t.video.magoDescription}</p>
                 <ul className="mago-tags">
                   {labelPick.tags.map((tag) => (
                     <li key={tag}>{tag}</li>
@@ -289,7 +290,7 @@ function MagoTvCard({ labelPick }: { labelPick: LabelPick }) {
                     target="_blank"
                     rel="noreferrer noopener"
                   >
-                    <FaYoutube size={15} aria-hidden /> Visit MAGO TV
+                    <FaYoutube size={15} aria-hidden /> {t.video.visitMago}
                     <span aria-hidden>→</span>
                   </a>
                   <a
@@ -298,7 +299,7 @@ function MagoTvCard({ labelPick }: { labelPick: LabelPick }) {
                     target="_blank"
                     rel="noreferrer noopener"
                   >
-                    Latest transmissions
+                    {t.video.latestTransmissions}
                   </a>
                 </div>
               </div>
@@ -316,15 +317,15 @@ function MagoTvCard({ labelPick }: { labelPick: LabelPick }) {
               </div>
               <div className="mago-tv-knobs" aria-hidden>
                 <div className="mago-knob-wrap">
-                  <span className="mago-knob-lbl">Tuning</span>
+                  <span className="mago-knob-lbl">{t.video.tuning}</span>
                   <div className="mago-knob mago-knob--r1" />
                 </div>
                 <div className="mago-knob-wrap">
-                  <span className="mago-knob-lbl">Volume</span>
+                  <span className="mago-knob-lbl">{t.video.volume}</span>
                   <div className="mago-knob mago-knob--r2" />
                 </div>
                 <div className="mago-knob-wrap">
-                  <span className="mago-knob-lbl">Channel</span>
+                  <span className="mago-knob-lbl">{t.video.channel}</span>
                   <div className="mago-knob mago-knob--r3" />
                 </div>
               </div>
@@ -341,11 +342,13 @@ function FeaturedMixCard({
   vol,
   total,
   index,
+  t,
 }: {
   video: Video;
   vol: number;
   total: number;
   index: number;
+  t: Strings;
 }) {
   const title = cleanTitle(video.title);
   return (
@@ -360,7 +363,7 @@ function FeaturedMixCard({
         href={`https://youtu.be/${video.id}`}
         target="_blank"
         rel="noreferrer noopener"
-        aria-label={`Watch "${title}" on YouTube`}
+        aria-label={t.video.watchAria(title)}
         className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-ink-700 bg-ink-800/70 transition-all duration-300 hover:-translate-y-1 hover:border-accent hover:shadow-2xl hover:shadow-accent/20"
       >
         <div className="relative aspect-video overflow-hidden bg-ink-950">
@@ -376,7 +379,8 @@ function FeaturedMixCard({
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-950/80 via-ink-950/0 to-ink-950/0" />
           <span className="absolute left-3 top-3 rounded-full border border-ink-700/60 bg-ink-950/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.24em] text-accent-soft backdrop-blur">
-            Mix {String(vol).padStart(2, "0")} / {String(total).padStart(2, "0")}
+            {t.video.mixWord} {String(vol).padStart(2, "0")} /{" "}
+            {String(total).padStart(2, "0")}
           </span>
           <span className="absolute bottom-3 right-3 rounded bg-ink-950/80 px-2 py-1 font-mono text-[11px] tracking-wide text-white backdrop-blur">
             {video.duration}
@@ -389,7 +393,9 @@ function FeaturedMixCard({
         </div>
         <div className="flex flex-col gap-3 p-5">
           <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.24em] text-gray-500">
-            <span>DJ Mix · Vol {String(vol).padStart(2, "0")}</span>
+            <span>
+              {t.video.djMixVol} {String(vol).padStart(2, "0")}
+            </span>
             <span className="h-px w-8 bg-ink-700" />
             <span>{video.duration}</span>
           </div>
@@ -400,7 +406,7 @@ function FeaturedMixCard({
             {title}
           </h4>
           <div className="mt-1 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.24em] text-gray-400 transition-colors duration-200 group-hover:text-accent-soft">
-            <FaYoutube size={12} aria-hidden /> Watch on YouTube
+            <FaYoutube size={12} aria-hidden /> {t.video.watchOnYouTube}
             <span aria-hidden>→</span>
           </div>
         </div>
@@ -414,11 +420,13 @@ function CompactMixCard({
   vol,
   total,
   index,
+  t,
 }: {
   video: Video;
   vol: number;
   total: number;
   index: number;
+  t: Strings;
 }) {
   const title = cleanTitle(video.title);
   return (
@@ -433,7 +441,7 @@ function CompactMixCard({
         href={`https://youtu.be/${video.id}`}
         target="_blank"
         rel="noreferrer noopener"
-        aria-label={`Watch "${title}" on YouTube`}
+        aria-label={t.video.watchAria(title)}
         className="group flex h-full flex-col overflow-hidden rounded-xl border border-ink-700 bg-ink-800/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-accent hover:shadow-xl hover:shadow-accent/10"
       >
         <div className="relative aspect-video overflow-hidden bg-ink-950">
@@ -449,7 +457,8 @@ function CompactMixCard({
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-950/70 via-ink-950/0 to-ink-950/0" />
           <span className="absolute left-2 top-2 rounded-full border border-ink-700/60 bg-ink-950/70 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.22em] text-accent-soft backdrop-blur">
-            Mix {String(vol).padStart(2, "0")} / {String(total).padStart(2, "0")}
+            {t.video.mixWord} {String(vol).padStart(2, "0")} /{" "}
+            {String(total).padStart(2, "0")}
           </span>
           <span className="absolute bottom-2 right-2 rounded bg-ink-950/80 px-1.5 py-0.5 font-mono text-[10px] tracking-wide text-white backdrop-blur">
             {video.duration}

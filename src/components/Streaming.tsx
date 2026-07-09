@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { SiBeatport, SiTidal } from "react-icons/si";
 import { artist, type Social } from "../data/artist";
+import { useT } from "../lib/i18n";
 import { SectionHead } from "./SectionHead";
 
 type IconType = ComponentType<{ size?: number | string; className?: string }>;
@@ -39,6 +40,7 @@ const STREAMING = new Set([
 ]);
 
 export function Streaming() {
+  const t = useT();
   const streaming = artist.socials.filter((s) => STREAMING.has(s.label));
   const social = artist.socials.filter((s) => !STREAMING.has(s.label));
 
@@ -48,16 +50,26 @@ export function Streaming() {
       className="relative bg-ink-950 py-16 min-[700px]:py-20 min-[900px]:py-[120px]"
     >
       <div className="mx-auto max-w-[1280px] px-5 min-[700px]:px-8">
-        <SectionHead num="04 / 05" label="Listen">
-          Listen &amp;{" "}
+        <SectionHead num="04 / 05" label={t.streaming.label}>
+          {t.streaming.headTop}{" "}
           <span className="font-normal not-italic text-accent-soft">
-            follow
+            {t.streaming.headAccent}
           </span>
         </SectionHead>
 
-        <Group title="Streaming & stores" items={streaming} action="Stream" />
+        <Group
+          title={t.streaming.streamingStores}
+          items={streaming}
+          action={t.streaming.stream}
+          open={t.streaming.open}
+        />
         <div className="mt-12">
-          <Group title="Social" items={social} action="Follow" />
+          <Group
+            title={t.streaming.social}
+            items={social}
+            action={t.streaming.follow}
+            open={t.streaming.open}
+          />
         </div>
       </div>
     </section>
@@ -68,10 +80,12 @@ function Group({
   title,
   items,
   action,
+  open,
 }: {
   title: string;
   items: Social[];
   action: string;
+  open: string;
 }) {
   return (
     <div>
@@ -86,7 +100,7 @@ function Group({
         "
       >
         {items.map((s, i) => (
-          <Tile key={s.label} item={s} index={i} action={action} />
+          <Tile key={s.label} item={s} index={i} action={action} open={open} />
         ))}
       </ul>
     </div>
@@ -97,10 +111,12 @@ function Tile({
   item,
   index,
   action,
+  open,
 }: {
   item: Social;
   index: number;
   action: string;
+  open: string;
 }) {
   const Glyph = ICONS[item.label];
   return (
@@ -110,7 +126,7 @@ function Tile({
         target="_blank"
         rel="noreferrer noopener"
         className="absolute inset-0"
-        aria-label={`${action} on ${item.label}`}
+        aria-label={`${action} · ${item.label}`}
       />
       <span className="absolute right-2.5 top-2.5 font-mono text-[9px] tracking-[0.18em] text-gray-600 min-[700px]:right-3.5 min-[700px]:top-3.5 min-[700px]:text-[10px]">
         {String(index + 1).padStart(2, "0")}
@@ -127,7 +143,7 @@ function Tile({
         </div>
       </div>
       <span className="absolute bottom-3 right-3 font-mono text-[9px] uppercase tracking-[0.18em] text-gray-500 transition-all duration-200 group-hover:translate-x-1 group-hover:text-accent-soft min-[700px]:bottom-4 min-[700px]:right-4 min-[700px]:text-[11px] min-[700px]:tracking-[0.22em]">
-        Open ↗
+        {open} ↗
       </span>
     </li>
   );

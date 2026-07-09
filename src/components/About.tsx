@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { artist } from "../data/artist";
+import { useT } from "../lib/i18n";
 import { SectionHead } from "./SectionHead";
 
 const fadeIn = {
@@ -14,7 +15,8 @@ const FIRST_RELEASE_YEAR = Math.min(
 );
 
 export function About() {
-  const paragraphs = artist.bio.split(/\n\s*\n/);
+  const t = useT();
+  const paragraphs = t.about.bio.split(/\n\s*\n/);
   const firstChar = paragraphs[0]?.charAt(0) ?? "";
   const firstRest = paragraphs[0]?.slice(1) ?? "";
 
@@ -24,11 +26,11 @@ export function About() {
       className="relative bg-ink-950 py-16 min-[700px]:py-20 min-[900px]:py-[120px]"
     >
       <div className="mx-auto max-w-[1280px] px-5 min-[700px]:px-8">
-        <SectionHead num="01 / 05" label="About">
-          Sound exploration,
+        <SectionHead num="01 / 05" label={t.about.label}>
+          {t.about.headTop}
           <br />
           <span className="font-normal not-italic text-accent-soft">
-            always evolving.
+            {t.about.headAccent}
           </span>
         </SectionHead>
 
@@ -38,23 +40,34 @@ export function About() {
             className="self-start text-center min-[900px]:sticky min-[900px]:top-[120px] min-[900px]:text-left"
           >
             <p className="m-0 font-mono text-[11px] uppercase tracking-[0.28em] text-gray-500">
-              Pull quote
+              {t.about.pullQuote}
             </p>
             <p
               className="mb-6 mt-2 font-display font-semibold leading-[1.25] tracking-[-0.015em] text-white max-[700px]:text-[22px] min-[700px]:mb-8 min-[700px]:leading-[1.15]"
               style={{ fontSize: "clamp(28px, 2.4vw, 36px)" }}
             >
-              &ldquo;Continuous improvement — both in mixing and composition —
-              is a core part of my creative{" "}
-              <span className="not-italic text-accent-soft">process</span>
+              &ldquo;{t.about.quoteBefore}
+              <span className="not-italic text-accent-soft">
+                {t.about.quoteAccent}
+              </span>
               .&rdquo;
             </p>
 
             <div className="grid grid-cols-2 gap-px border border-white/[0.08] bg-white/[0.08]">
-              <Stat value={String(artist.releases.length)} unit="releases" label="Discography" />
-              <Stat value={String(artist.labels.length)} label="Active labels" />
-              <Stat value={String(FIRST_RELEASE_YEAR)} label="Active since" />
-              <Stat value="MAD" label="Based in" />
+              <Stat
+                value={String(artist.releases.length)}
+                unit={t.about.stats.releasesUnit}
+                label={t.about.stats.discography}
+              />
+              <Stat
+                value={String(artist.labels.length)}
+                label={t.about.stats.activeLabels}
+              />
+              <Stat
+                value={String(FIRST_RELEASE_YEAR)}
+                label={t.about.stats.activeSince}
+              />
+              <Stat value="MAD" label={t.about.stats.basedIn} />
             </div>
           </motion.aside>
 
@@ -85,7 +98,7 @@ export function About() {
 
             <div className="mt-14 border-t border-white/[0.08] pt-8">
               <p className="m-0 font-mono text-[11px] uppercase tracking-[0.28em] text-gray-500">
-                Released on
+                {t.about.releasedOn}
               </p>
               <ul className="mt-4 flex flex-col">
                 {artist.labels.map((label, i) => (

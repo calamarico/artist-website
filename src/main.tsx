@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App";
+import { langFromPathname } from "./lib/i18n";
 import "./index.css";
 
 const rootElement = document.getElementById("root");
@@ -23,7 +24,7 @@ if (!rootElement) throw new Error("Root element #root not found");
 
 const app = (
   <StrictMode>
-    <App />
+    <App lang={langFromPathname(window.location.pathname)} />
   </StrictMode>
 );
 

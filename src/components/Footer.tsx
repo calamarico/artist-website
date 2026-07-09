@@ -1,12 +1,5 @@
 import { artist } from "../data/artist";
-
-const SITE = [
-  { href: "#about", label: "About" },
-  { href: "#tracks", label: "Releases" },
-  { href: "#video", label: "Video Lab" },
-  { href: "#listen", label: "Listen" },
-  { href: "#label", label: "Label" },
-];
+import { useT } from "../lib/i18n";
 
 const LISTEN = ["Spotify", "SoundCloud", "Beatport", "Bandcamp"] as const;
 const FOLLOW = ["Instagram", "YouTube", "Facebook"] as const;
@@ -15,6 +8,16 @@ const linkBy = (label: string): string =>
   artist.socials.find((s) => s.label === label)?.url ?? "#";
 
 export function Footer() {
+  const t = useT();
+
+  const site = [
+    { href: "#about", label: t.nav.links.about },
+    { href: "#tracks", label: t.nav.links.releases },
+    { href: "#video", label: t.nav.sectionMeta.video },
+    { href: "#listen", label: t.nav.links.listen },
+    { href: "#label", label: t.nav.links.label },
+  ];
+
   return (
     <footer className="border-t border-white/[0.08] bg-ink-950 px-5 pb-6 pt-12 min-[700px]:px-8 min-[700px]:pb-8 min-[700px]:pt-16">
       <div className="mx-auto max-w-[1280px]">
@@ -37,11 +40,10 @@ export function Footer() {
         >
           <div className="col-span-2 min-[800px]:col-span-1">
             <h4 className="m-0 mb-3 font-mono text-[9px] uppercase tracking-[0.2em] text-gray-500 min-[700px]:mb-4 min-[700px]:text-[10px] min-[700px]:tracking-[0.24em]">
-              Madrid · ES
+              {t.footer.location}
             </h4>
             <p className="mx-auto m-0 max-w-[340px] text-[14px] leading-[1.6] text-gray-300 min-[700px]:mx-0">
-              Electronic music producer &amp; Co-CEO of Beta-Time Records.
-              Available for releases, remixes, and mastering.
+              {t.footer.blurb}
             </p>
             <p className="mt-4">
               <a
@@ -53,8 +55,8 @@ export function Footer() {
             </p>
           </div>
 
-          <FooterCol title="Site">
-            {SITE.map((l) => (
+          <FooterCol title={t.footer.site}>
+            {site.map((l) => (
               <li key={l.href}>
                 <a
                   href={l.href}
@@ -66,7 +68,7 @@ export function Footer() {
             ))}
           </FooterCol>
 
-          <FooterCol title="Listen">
+          <FooterCol title={t.footer.listen}>
             {LISTEN.map((label) => (
               <li key={label}>
                 <a
@@ -81,7 +83,7 @@ export function Footer() {
             ))}
           </FooterCol>
 
-          <FooterCol title="Follow">
+          <FooterCol title={t.footer.follow}>
             {FOLLOW.map((label) => (
               <li key={label}>
                 <a
@@ -104,12 +106,14 @@ export function Footer() {
             min-[700px]:text-left min-[700px]:text-[10px] min-[700px]:tracking-[0.2em]
           "
         >
-          <span>
+          <span suppressHydrationWarning>
             © {new Date().getFullYear()}{" "}
             <b className="font-medium text-gray-300">Kalamarico</b> /
             Beta-Time Records
           </span>
-          <span>v2 · Editorial · {new Date().getFullYear()}</span>
+          <span suppressHydrationWarning>
+            v2 · Editorial · {new Date().getFullYear()}
+          </span>
         </div>
       </div>
     </footer>

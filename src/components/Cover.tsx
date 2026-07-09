@@ -6,6 +6,7 @@ import {
   releaseNumber,
   releaseYear,
 } from "../lib/catalog";
+import { useT } from "../lib/i18n";
 
 type CoverProps = {
   release: Release;
@@ -14,6 +15,7 @@ type CoverProps = {
 };
 
 export function Cover({ release, variant = "default", big = false }: CoverProps) {
+  const t = useT();
   const isMini = variant === "mini";
 
   const num = String(releaseNumber(release)).padStart(2, "0");
@@ -32,7 +34,7 @@ export function Cover({ release, variant = "default", big = false }: CoverProps)
     <div className="group relative h-full w-full overflow-hidden bg-ink-800">
       <img
         src={release.coverArt}
-        alt={`${release.name} cover`}
+        alt={t.cover.alt(release.name)}
         loading="lazy"
         decoding="async"
         draggable={false}

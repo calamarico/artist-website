@@ -2,14 +2,9 @@ import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { HiXMark, HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { artist } from "../data/artist";
+import { langBase, useLang, useT } from "../lib/i18n";
 
-const SECTIONS = [
-  { num: "01", id: "about", label: "About" },
-  { num: "02", id: "tracks", label: "Releases" },
-  { num: "03", id: "video", label: "Video Lab" },
-  { num: "04", id: "listen", label: "Listen" },
-  { num: "05", id: "label", label: "The Label" },
-] as const;
+const SECTION_IDS = ["about", "tracks", "video", "listen", "label"] as const;
 
 type Props = {
   open: boolean;
@@ -17,6 +12,9 @@ type Props = {
 };
 
 export function MobileMenu({ open, onClose }: Props) {
+  const lang = useLang();
+  const t = useT();
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -31,6 +29,12 @@ export function MobileMenu({ open, onClose }: Props) {
     };
   }, [open, onClose]);
 
+  const sections = SECTION_IDS.map((id, i) => ({
+    id,
+    num: String(i + 1).padStart(2, "0"),
+    label: t.nav.sectionMeta[id],
+  }));
+
   return (
     <AnimatePresence>
       {open && (
@@ -38,7 +42,7 @@ export function MobileMenu({ open, onClose }: Props) {
           id="mobile-menu"
           role="dialog"
           aria-modal="true"
-          aria-label="Site navigation"
+          aria-label={t.nav.siteNav}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -65,7 +69,7 @@ export function MobileMenu({ open, onClose }: Props) {
               <button
                 type="button"
                 onClick={onClose}
-                aria-label="Close menu"
+                aria-label={t.nav.closeMenu}
                 className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.14] bg-ink-950/60 text-white transition-colors duration-200 hover:bg-accent hover:text-ink-950"
               >
                 <HiXMark size={18} />
@@ -73,12 +77,12 @@ export function MobileMenu({ open, onClose }: Props) {
             </div>
 
             <p className="mt-10 font-mono text-[10px] uppercase tracking-[0.28em] text-gray-500">
-              Menu
+              {t.nav.menu}
             </p>
 
             <nav className="mt-4 border-t border-white/[0.08]">
               <ul className="m-0 list-none p-0">
-                {SECTIONS.map((s, i) => (
+                {sections.map((s, i) => (
                   <motion.li
                     key={s.id}
                     initial={{ y: 12, opacity: 0 }}
@@ -118,6 +122,13 @@ export function MobileMenu({ open, onClose }: Props) {
               transition={{ delay: 0.4, duration: 0.3 }}
               className="mt-auto flex flex-col gap-3 pt-8"
             >
+              <a
+                href={langBase(lang === "es" ? "en" : "es")}
+                hrefLang={lang === "es" ? "en" : "es"}
+                className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-gray-300 transition-colors duration-200 hover:text-accent-soft"
+              >
+                {t.nav.otherLangTitle} · {t.nav.otherLang} ↗
+              </a>
               <a
                 href={artist.label.website}
                 target="_blank"

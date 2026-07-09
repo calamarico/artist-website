@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type MouseEvent, type ReactNode } from "react";
 import { motion } from "framer-motion";
 import { FaPlay } from "react-icons/fa";
 import { artist, type Release } from "../data/artist";
@@ -9,9 +9,12 @@ import {
   formatMonth,
   isAppearsOn,
   otherArtists,
+  releaseDateParts,
   releaseNumber,
+  releasePagePath,
   releaseYear,
 } from "../lib/catalog";
+import { useLang, useT, type Strings } from "../lib/i18n";
 import { Cover } from "./Cover";
 import { SectionHead } from "./SectionHead";
 
@@ -44,6 +47,49 @@ function writeView(v: View) {
   window.history.replaceState(null, "", url.toString());
 }
 
+/**
+ * Anchor to the release's static page that opens the modal on a plain click.
+ * Crawlers (and cmd/ctrl-click) get a real link to /releases/{slug}/; normal
+ * clicks keep the in-page modal UX. Falls back to a span for releases
+ * without a page (APPEARS_ON).
+ */
+function ReleaseLink({
+  release,
+  onOpen,
+  className,
+  children,
+}: {
+  release: Release;
+  onOpen: () => void;
+  className?: string;
+  children: ReactNode;
+}) {
+  const lang = useLang();
+  const href = releasePagePath(release, lang);
+  if (!href) return <span className={className}>{children}</span>;
+  return (
+    <a
+      href={href}
+      className={`${className ?? ""} text-inherit no-underline`}
+      onClick={(e: MouseEvent) => {
+        e.stopPropagation();
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+        onOpen();
+      }}
+    >
+      {children}
+    </a>
+  );
+}
+
+function typeChip(release: Release, t: Strings): string {
+  if (release.type === "APPEARS_ON") return t.tracks.featured;
+  if (release.type === "EP")
+    return `EP · ${release.trackCount} ${t.tracks.tracksWord}`;
+  return t.tracks.single;
+}
+
 type Props = {
   onOpenRelease: (release: Release) => void;
 };
@@ -51,6 +97,7 @@ type Props = {
 export function Tracks({ onOpenRelease }: Props) {
   const [filter, setFilter] = useState<Filter>("all");
   const [view, setView] = useState<View>(readView);
+  const t = useT();
 
   useEffect(() => writeView(view), [view]);
 
@@ -91,7 +138,11 @@ export function Tracks({ onOpenRelease }: Props) {
       : "";
 
   const filterLabel =
-    filter === "ep" ? "EPs" : filter === "single" ? "singles" : "releases";
+    filter === "ep"
+      ? t.tracks.epsWord
+      : filter === "single"
+        ? t.tracks.singlesWord
+        : t.tracks.releasesWord;
 
   return (
     <section
@@ -99,10 +150,10 @@ export function Tracks({ onOpenRelease }: Props) {
       className="relative bg-ink-900 py-16 min-[700px]:py-20 min-[900px]:py-[120px]"
     >
       <div className="mx-auto max-w-[1280px] px-5 min-[700px]:px-8">
-        <SectionHead num="02 / 05" label="Discography">
-          Latest{" "}
+        <SectionHead num="02 / 05" label={t.tracks.label}>
+          {t.tracks.headTop}{" "}
           <span className="font-normal not-italic text-accent-soft">
-            releases
+            {t.tracks.headAccent}
           </span>
           <span
             className="block font-display font-normal text-gray-500"
@@ -112,7 +163,7 @@ export function Tracks({ onOpenRelease }: Props) {
               letterSpacing: 0,
             }}
           >
-            three featured · full catalogue follows
+            {t.tracks.headNote}
           </span>
         </SectionHead>
 
@@ -149,7 +200,7 @@ export function Tracks({ onOpenRelease }: Props) {
         >
           <div>
             <p className="m-0 font-mono text-[11px] uppercase tracking-[0.28em] text-accent-soft">
-              Full catalogue
+              {t.tracks.fullCatalogue}
             </p>
             <h3
               className="mt-3 m-0 font-display font-semibold leading-[1.1] tracking-[-0.015em] text-white"
@@ -165,7 +216,7 @@ export function Tracks({ onOpenRelease }: Props) {
               value={filter}
               onChange={setFilter}
               options={[
-                { k: "all", l: `All · ${counts.all}` },
+                { k: "all", l: `${t.tracks.all} · ${counts.all}` },
                 { k: "single", l: `Singles · ${counts.single}` },
                 { k: "ep", l: `EPs · ${counts.ep}` },
               ]}
@@ -174,9 +225,9 @@ export function Tracks({ onOpenRelease }: Props) {
               value={view}
               onChange={setView}
               options={[
-                { k: "grid", l: "Grid" },
-                { k: "list", l: "List" },
-                { k: "timeline", l: "Timeline" },
+                { k: "grid", l: t.tracks.grid },
+                { k: "list", l: t.tracks.list },
+                { k: "timeline", l: t.tracks.timeline },
               ]}
             />
           </div>
@@ -225,6 +276,8 @@ function FeaturedCard({
   index: number;
   onClick: () => void;
 }) {
+  const lang = useLang();
+  const t = useT();
   return (
     <motion.li
       initial={{ opacity: 0, y: 16 }}
@@ -238,27 +291,23 @@ function FeaturedCard({
         <Cover release={release} />
       </div>
       <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-[0.2em] text-gray-500">
-        <span className="text-accent-soft">
-          {release.type === "APPEARS_ON"
-            ? "Featured"
-            : release.type === "EP"
-              ? `EP · ${release.trackCount} tracks`
-              : "Single"}
-        </span>
-        <span>{formatDay(release)}</span>
+        <span className="text-accent-soft">{typeChip(release, t)}</span>
+        <span>{formatDay(release, lang)}</span>
       </div>
       <div>
         <h3 className="m-0 font-display text-[20px] font-semibold tracking-[-0.01em] text-white transition-colors duration-200 hover:text-accent-soft min-[700px]:text-[22px]">
-          {release.name}
+          <ReleaseLink release={release} onOpen={onClick}>
+            {release.name}
+          </ReleaseLink>
         </h3>
-        {collaboratorLabel(release) && (
+        {collaboratorLabel(release, lang) && (
           <p className="m-0 mt-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-accent-soft min-[700px]:text-[11px]">
-            {collaboratorLabel(release)}
+            {collaboratorLabel(release, lang)}
           </p>
         )}
       </div>
       <span className="inline-flex items-center gap-2 pt-1 font-mono text-[11px] uppercase tracking-[0.2em] text-gray-300">
-        <FaPlay size={10} aria-hidden /> Listen
+        <FaPlay size={10} aria-hidden /> {t.tracks.listen}
       </span>
     </motion.li>
   );
@@ -271,26 +320,23 @@ function FeaturedLead({
   release: Release;
   onClick: () => void;
 }) {
+  const lang = useLang();
+  const t = useT();
   const streams = artist.socials
     .filter((s) => STREAM_LABELS.has(s.label))
     .slice(0, 6);
 
-  const d = new Date(release.date);
-  const day = String(d.getUTCDate()).padStart(2, "0");
-  const monthShort = d
-    .toLocaleString("en-US", { month: "short", timeZone: "UTC" })
-    .toUpperCase();
-  const year = d.getUTCFullYear();
-  const released = `${day} · ${monthShort} · ${year}`;
+  const { day, month, year } = releaseDateParts(release, lang);
+  const released = `${day} · ${month.toUpperCase()} · ${year}`;
 
   const formatLabel =
     release.type === "EP"
-      ? `EP · ${release.trackCount} tracks`
+      ? `EP · ${release.trackCount} ${t.tracks.tracksWord}`
       : release.type === "ALBUM" || release.type === "COMPILATION"
-        ? `${release.type === "ALBUM" ? "Album" : "Comp."} · ${release.trackCount} tracks`
+        ? `${release.type === "ALBUM" ? t.tracks.album : t.tracks.compilation} · ${release.trackCount} ${t.tracks.tracksWord}`
         : release.type === "APPEARS_ON"
-          ? "Featured"
-          : "Single";
+          ? t.tracks.featured
+          : t.tracks.single;
 
   const num = String(releaseNumber(release)).padStart(3, "0");
 
@@ -321,7 +367,7 @@ function FeaturedLead({
           }}
         >
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent animate-accent-ping" />
-          Latest release · Out now
+          {t.tracks.latestOutNow}
         </span>
       </div>
 
@@ -335,23 +381,25 @@ function FeaturedLead({
         </div>
 
         <h3 className="m-0 mt-7 font-display font-semibold leading-[0.95] tracking-[-0.025em] text-[clamp(32px,9vw,48px)] [text-wrap:balance] text-white transition-colors duration-200 group-hover:text-accent-soft min-[900px]:text-[clamp(40px,5.2vw,76px)]">
-          {release.name}
+          <ReleaseLink release={release} onOpen={onClick}>
+            {release.name}
+          </ReleaseLink>
         </h3>
-        {collaboratorLabel(release) && (
+        {collaboratorLabel(release, lang) && (
           <p className="m-0 mt-3 font-mono text-[11px] uppercase tracking-[0.22em] text-accent-soft">
-            {collaboratorLabel(release)}
+            {collaboratorLabel(release, lang)}
           </p>
         )}
 
         <div className="mt-8 grid grid-cols-3 divide-x divide-white/[0.14] border-y border-white/[0.14]">
-          <LeadMetaCell label="Format" value={formatLabel} />
-          <LeadMetaCell label="Released" value={released} mono />
-          <LeadMetaCell label="Label" value="Beta-Time" />
+          <LeadMetaCell label={t.tracks.format} value={formatLabel} />
+          <LeadMetaCell label={t.tracks.released} value={released} mono />
+          <LeadMetaCell label={t.tracks.labelWord} value="Beta-Time" />
         </div>
 
         <div className="mt-7">
           <p className="m-0 mb-3 font-mono text-[10px] uppercase tracking-[0.28em] text-gray-500">
-            Stream
+            {t.tracks.stream}
           </p>
           <ul className="m-0 flex list-none flex-wrap gap-2 p-0">
             {streams.map((s) => (
@@ -390,11 +438,11 @@ function FeaturedLead({
               hover:-translate-y-px hover:bg-accent-soft
             "
           >
-            <FaPlay size={11} aria-hidden /> Listen now{" "}
+            <FaPlay size={11} aria-hidden /> {t.tracks.listenNow}{" "}
             <span aria-hidden>→</span>
           </a>
           <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-gray-400">
-            Open release →
+            {t.tracks.openRelease} →
           </span>
         </div>
       </div>
@@ -438,6 +486,7 @@ function GridCard({
   index: number;
   onClick: () => void;
 }) {
+  const lang = useLang();
   return (
     <motion.li
       initial={{ opacity: 0, y: 12 }}
@@ -457,7 +506,9 @@ function GridCard({
       <div>
         <div className="flex items-baseline justify-between gap-2">
           <h4 className="m-0 font-display text-[13px] font-semibold leading-tight tracking-[-0.005em] text-white transition-colors duration-200 group-hover:text-accent-soft min-[700px]:text-[15px]">
-            {release.name}
+            <ReleaseLink release={release} onOpen={onClick}>
+              {release.name}
+            </ReleaseLink>
           </h4>
           <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-gray-500 min-[700px]:text-[10px] min-[700px]:tracking-[0.2em]">
             {release.type === "APPEARS_ON"
@@ -467,9 +518,9 @@ function GridCard({
                 : releaseYear(release)}
           </span>
         </div>
-        {collaboratorLabel(release) && (
+        {collaboratorLabel(release, lang) && (
           <div className="mt-1 line-clamp-1 font-mono text-[9px] uppercase tracking-[0.18em] text-accent-soft min-[700px]:text-[10px] min-[700px]:tracking-[0.2em]">
-            {collaboratorLabel(release)}
+            {collaboratorLabel(release, lang)}
           </div>
         )}
       </div>
@@ -484,17 +535,19 @@ function ListView({
   releases: Release[];
   onOpenRelease: (r: Release) => void;
 }) {
+  const lang = useLang();
+  const t = useT();
   return (
     <ul className="list-none">
       <li
         className="hidden gap-5 border-y border-white/[0.14] px-4 py-3.5 font-mono text-[10px] uppercase tracking-[0.22em] text-gray-500 min-[800px]:grid min-[800px]:[grid-template-columns:56px_64px_1fr_100px_80px_90px_36px]"
       >
-        <span>Cat#</span>
-        <span>Cover</span>
-        <span>Title</span>
-        <span>Type</span>
-        <span>Year</span>
-        <span>Tracks</span>
+        <span>{t.tracks.listHead.cat}</span>
+        <span>{t.tracks.listHead.cover}</span>
+        <span>{t.tracks.listHead.title}</span>
+        <span>{t.tracks.listHead.type}</span>
+        <span>{t.tracks.listHead.year}</span>
+        <span>{t.tracks.listHead.tracks}</span>
         <span></span>
       </li>
       {releases.map((r) => (
@@ -516,17 +569,19 @@ function ListView({
             <Cover release={r} variant="mini" />
           </div>
           <span className="flex flex-col gap-1 font-display text-[14px] font-medium tracking-[-0.005em] text-white transition-colors duration-200 group-hover:text-accent-soft min-[700px]:text-[16px]">
-            <span>{r.name}</span>
+            <ReleaseLink release={r} onOpen={() => onOpenRelease(r)}>
+              {r.name}
+            </ReleaseLink>
             <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-gray-500 min-[700px]:text-[10px] min-[700px]:tracking-[0.2em]">
               {(() => {
                 const others = otherArtists(r.artists);
                 if (isAppearsOn(r)) {
-                  return `by ${others.join(", ")} · ${formatMonth(r)}`;
+                  return `${t.tracks.by} ${others.join(", ")} · ${formatMonth(r, lang)}`;
                 }
                 if (others.length > 0) {
-                  return `Kalamarico, ${others.join(", ")} · ${formatMonth(r)}`;
+                  return `Kalamarico, ${others.join(", ")} · ${formatMonth(r, lang)}`;
                 }
-                return `Kalamarico · ${formatMonth(r)}`;
+                return `Kalamarico · ${formatMonth(r, lang)}`;
               })()}
             </span>
           </span>
@@ -563,10 +618,12 @@ function Timeline({
   byYear: [number, Release[]][];
   onOpenRelease: (r: Release) => void;
 }) {
+  const lang = useLang();
+  const t = useT();
   return (
     <>
       <div className="mb-5 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-gray-500">
-        <span>Scroll horizontally</span>
+        <span>{t.tracks.scrollHint}</span>
         <span aria-hidden>→</span>
       </div>
       <div className="-mx-5 min-[700px]:-mx-8">
@@ -595,7 +652,7 @@ function Timeline({
               </div>
             </div>,
             ...items.map((r) => {
-              const collab = collaboratorLabel(r);
+              const collab = collaboratorLabel(r, lang);
               return (
                 <div
                   key={r.id}
@@ -610,7 +667,9 @@ function Timeline({
                     {r.type === "APPEARS_ON" ? "FEATURED" : r.type}
                   </div>
                   <div className="line-clamp-2 min-h-[2.5em] font-display text-[14px] font-semibold leading-[1.2] tracking-[-0.005em] text-white transition-colors duration-200 group-hover:text-accent-soft min-[700px]:text-[16px]">
-                    {r.name}
+                    <ReleaseLink release={r} onOpen={() => onOpenRelease(r)}>
+                      {r.name}
+                    </ReleaseLink>
                   </div>
                   {collab && (
                     <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-accent-soft min-[700px]:text-[10px] min-[700px]:tracking-[0.22em]">
