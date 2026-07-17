@@ -1,11 +1,11 @@
 // AUTO-GENERATED — do not edit by hand.
 // Run `npm run sync:catalog` to refresh.
-// Generated at 2026-07-05T20:45:09.322Z
+// Generated at 2026-07-17T20:45:12.383Z
 
 import type { LabelStats, Release } from "./artist";
 
 export const labelStats: LabelStats = {
-  "releases": 107,
+  "releases": 108,
   "artists": 16,
   "founded": 2022
 };
@@ -13,7 +13,7 @@ export const labelStats: LabelStats = {
 export const releases: Release[] = [
   {
     "id": "780lPsn6rfS5AIEnU9zo5n",
-    "name": "DragonWave",
+    "name": "DragonWake",
     "type": "SINGLE",
     "date": "2026-07-03",
     "datePrecision": "DAY",
@@ -36,7 +36,7 @@ export const releases: Release[] = [
     "tracks": [
       {
         "id": "1pahWt9CliNzRFfBZQNLnF",
-        "name": "DragonWave",
+        "name": "DragonWake",
         "trackNumber": 1,
         "durationMs": 224789,
         "spotifyUrl": "https://open.spotify.com/track/1pahWt9CliNzRFfBZQNLnF",
