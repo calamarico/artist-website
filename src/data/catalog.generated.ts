@@ -1,6 +1,6 @@
 // AUTO-GENERATED — do not edit by hand.
 // Run `npm run sync:catalog` to refresh.
-// Generated at 2026-07-25T20:45:08.824Z
+// Generated at 2026-07-26T20:45:12.230Z
 
 import type { LabelStats, Release } from "./artist";
 
