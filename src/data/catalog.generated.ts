@@ -1,6 +1,6 @@
 // AUTO-GENERATED — do not edit by hand.
 // Run `npm run sync:catalog` to refresh.
-// Generated at 2026-07-26T20:45:12.230Z
+// Generated at 2026-07-31T10:30:13.504Z
 
 import type { LabelStats, Release } from "./artist";
 
@@ -1747,41 +1747,6 @@ export const releases: Release[] = [
     ]
   },
   {
-    "id": "0Zr4UxTKnT5DvPFB7xdH0R",
-    "name": "Unfathomable Fluid",
-    "type": "SINGLE",
-    "date": "2024-01-01",
-    "datePrecision": "YEAR",
-    "trackCount": 1,
-    "coverArt": "https://i.scdn.co/image/ab67616d0000b27379fd02d4e884caf536dd969b",
-    "spotifyUrl": "https://open.spotify.com/album/0Zr4UxTKnT5DvPFB7xdH0R",
-    "artists": [
-      {
-        "id": "69pHpbXQUapyazWqZw1O2d",
-        "name": "Kalamarico",
-        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
-      }
-    ],
-    "isPrimaryArtist": true,
-    "tracks": [
-      {
-        "id": "2sLOOXji6CVh8VW2FZS9ap",
-        "name": "Unfathomable Fluid",
-        "trackNumber": 1,
-        "durationMs": 309600,
-        "spotifyUrl": "https://open.spotify.com/track/2sLOOXji6CVh8VW2FZS9ap",
-        "artists": [
-          {
-            "id": "69pHpbXQUapyazWqZw1O2d",
-            "name": "Kalamarico",
-            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
-          }
-        ],
-        "isCollab": false
-      }
-    ]
-  },
-  {
     "id": "4AvhTIprgEFYF6h8iUAF4t",
     "name": "Nice Shot",
     "type": "SINGLE",
@@ -1805,6 +1770,41 @@ export const releases: Release[] = [
         "trackNumber": 1,
         "durationMs": 328593,
         "spotifyUrl": "https://open.spotify.com/track/029YKR12CieDaziXG9TGfr",
+        "artists": [
+          {
+            "id": "69pHpbXQUapyazWqZw1O2d",
+            "name": "Kalamarico",
+            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+          }
+        ],
+        "isCollab": false
+      }
+    ]
+  },
+  {
+    "id": "0Zr4UxTKnT5DvPFB7xdH0R",
+    "name": "Unfathomable Fluid",
+    "type": "SINGLE",
+    "date": "2024-01-01",
+    "datePrecision": "YEAR",
+    "trackCount": 1,
+    "coverArt": "https://i.scdn.co/image/ab67616d0000b27379fd02d4e884caf536dd969b",
+    "spotifyUrl": "https://open.spotify.com/album/0Zr4UxTKnT5DvPFB7xdH0R",
+    "artists": [
+      {
+        "id": "69pHpbXQUapyazWqZw1O2d",
+        "name": "Kalamarico",
+        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+      }
+    ],
+    "isPrimaryArtist": true,
+    "tracks": [
+      {
+        "id": "2sLOOXji6CVh8VW2FZS9ap",
+        "name": "Unfathomable Fluid",
+        "trackNumber": 1,
+        "durationMs": 309600,
+        "spotifyUrl": "https://open.spotify.com/track/2sLOOXji6CVh8VW2FZS9ap",
         "artists": [
           {
             "id": "69pHpbXQUapyazWqZw1O2d",
@@ -1927,14 +1927,14 @@ export const releases: Release[] = [
     ]
   },
   {
-    "id": "2kvPXNQnTlqWNLdVux541c",
-    "name": "The Gravedigger",
+    "id": "5oAce7LEooZ5CaUOA3iNz0",
+    "name": "Last Uplift",
     "type": "SINGLE",
     "date": "2023-01-01",
     "datePrecision": "YEAR",
     "trackCount": 1,
-    "coverArt": "https://i.scdn.co/image/ab67616d0000b27379e618af4e26b99a314fc994",
-    "spotifyUrl": "https://open.spotify.com/album/2kvPXNQnTlqWNLdVux541c",
+    "coverArt": "https://i.scdn.co/image/ab67616d0000b273e3b6a884b179ba554dc9077c",
+    "spotifyUrl": "https://open.spotify.com/album/5oAce7LEooZ5CaUOA3iNz0",
     "artists": [
       {
         "id": "69pHpbXQUapyazWqZw1O2d",
@@ -1945,11 +1945,11 @@ export const releases: Release[] = [
     "isPrimaryArtist": true,
     "tracks": [
       {
-        "id": "2GzWSSFRVQ9nreNEYeq5Fo",
-        "name": "The Gravedigger",
+        "id": "1RaGPEucRIaRdIXodNljSW",
+        "name": "Last Uplift",
         "trackNumber": 1,
-        "durationMs": 375937,
-        "spotifyUrl": "https://open.spotify.com/track/2GzWSSFRVQ9nreNEYeq5Fo",
+        "durationMs": 312500,
+        "spotifyUrl": "https://open.spotify.com/track/1RaGPEucRIaRdIXodNljSW",
         "artists": [
           {
             "id": "69pHpbXQUapyazWqZw1O2d",
@@ -1997,14 +1997,14 @@ export const releases: Release[] = [
     ]
   },
   {
-    "id": "5oAce7LEooZ5CaUOA3iNz0",
-    "name": "Last Uplift",
+    "id": "2kvPXNQnTlqWNLdVux541c",
+    "name": "The Gravedigger",
     "type": "SINGLE",
     "date": "2023-01-01",
     "datePrecision": "YEAR",
     "trackCount": 1,
-    "coverArt": "https://i.scdn.co/image/ab67616d0000b273e3b6a884b179ba554dc9077c",
-    "spotifyUrl": "https://open.spotify.com/album/5oAce7LEooZ5CaUOA3iNz0",
+    "coverArt": "https://i.scdn.co/image/ab67616d0000b27379e618af4e26b99a314fc994",
+    "spotifyUrl": "https://open.spotify.com/album/2kvPXNQnTlqWNLdVux541c",
     "artists": [
       {
         "id": "69pHpbXQUapyazWqZw1O2d",
@@ -2015,11 +2015,11 @@ export const releases: Release[] = [
     "isPrimaryArtist": true,
     "tracks": [
       {
-        "id": "1RaGPEucRIaRdIXodNljSW",
-        "name": "Last Uplift",
+        "id": "2GzWSSFRVQ9nreNEYeq5Fo",
+        "name": "The Gravedigger",
         "trackNumber": 1,
-        "durationMs": 312500,
-        "spotifyUrl": "https://open.spotify.com/track/1RaGPEucRIaRdIXodNljSW",
+        "durationMs": 375937,
+        "spotifyUrl": "https://open.spotify.com/track/2GzWSSFRVQ9nreNEYeq5Fo",
         "artists": [
           {
             "id": "69pHpbXQUapyazWqZw1O2d",
