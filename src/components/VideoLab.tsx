@@ -13,7 +13,7 @@ function cleanTitle(title: string): string {
 }
 
 export function VideoLab() {
-  const { djMixes, session, labelPick } = artist.videoLab;
+  const { djMixes, session, labelPick, blogPick } = artist.videoLab;
   const t = useT();
 
   const indexed = djMixes.videos.map((video, i) => ({ video, vol: i + 1 }));
@@ -209,6 +209,7 @@ export function VideoLab() {
         </div>
 
         {labelPick && <MagoTvCard labelPick={labelPick} t={t} />}
+        {blogPick && <SpaceyBlogCard blogPick={blogPick} t={t} />}
       </div>
     </section>
   );
@@ -331,6 +332,138 @@ function MagoTvCard({ labelPick, t }: { labelPick: LabelPick; t: Strings }) {
               </div>
             </div>
           </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+type BlogPick = NonNullable<typeof artist.videoLab.blogPick>;
+
+// Fixed coordinates — deterministic so prerendered and hydrated trees match.
+const CONSTELLATION_NODES: Array<[number, number]> = [
+  [46, 214], [92, 108], [158, 148], [210, 58], [266, 128], [312, 96], [286, 226],
+];
+const CONSTELLATION_DUST: Array<[number, number, number]> = [
+  [22, 48, 1.2], [66, 268, 1], [112, 34, 1.4], [148, 250, 1], [190, 182, 1],
+  [232, 22, 1], [252, 282, 1.2], [306, 168, 1], [336, 260, 1.2], [30, 148, 1],
+  [128, 206, 1.3], [204, 300, 1], [332, 32, 1.4], [70, 176, 0.9], [176, 96, 0.9],
+  [246, 200, 1], [296, 296, 1], [14, 306, 1.1], [344, 130, 0.9], [104, 300, 1],
+];
+
+function SpaceyBlogCard({ blogPick, t }: { blogPick: BlogPick; t: Strings }) {
+  return (
+    <div className="mt-24 border-t border-ink-700/60 pt-16">
+      <p className="m-0 mb-7 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.28em] text-accent-soft">
+        <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent animate-accent-ping" />
+        {t.video.inThePress}
+      </p>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="spacey-card"
+      >
+        {/* Featured press piece, dressed in Spacey Panda's own brand */}
+        <div className="spacey-content">
+          <span className="spacey-tag">
+            <span aria-hidden>✦</span> {t.video.blogTag}
+          </span>
+          <p className="spacey-eyebrow">{t.video.spaceyEyebrow}</p>
+          <h3 className="spacey-title">
+            {blogPick.postTitleParts.before}
+            <span className="spacey-title-gradient">
+              {blogPick.postTitleParts.accent}
+            </span>
+            {blogPick.postTitleParts.after}
+          </h3>
+          <p className="spacey-desc">{t.video.spaceyDescription}</p>
+          <div className="spacey-actions">
+            <a
+              className="spacey-btn"
+              href={blogPick.postUrl}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {t.video.readInterview} <span aria-hidden>↗</span>
+            </a>
+            <a
+              className="spacey-ghost"
+              href={blogPick.blogUrl}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {t.video.visitSpacey}
+            </a>
+          </div>
+          <div className="spacey-byline">
+            <img
+              src={blogPick.logo}
+              alt={blogPick.artist}
+              loading="lazy"
+              decoding="async"
+              className="spacey-byline-avatar"
+            />
+            <div className="spacey-byline-text">
+              <span className="spacey-mark">
+                <span className="spacey-mark-spacey">SPACEY</span>
+                <span className="spacey-mark-panda">PANDA</span>
+              </span>
+              <span className="spacey-tagline">{blogPick.tagline}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* The article's featured image, adrift in Spacey's constellation */}
+        <div className="spacey-orbit">
+          <svg
+            viewBox="0 0 360 340"
+            className="spacey-constellation"
+            aria-hidden
+            focusable="false"
+          >
+            <defs>
+              <linearGradient id="spaceyLine" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="rgba(244, 114, 208, 0.6)" />
+                <stop offset="100%" stopColor="rgba(103, 232, 249, 0.4)" />
+              </linearGradient>
+              <linearGradient id="spaceyDot" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#f472d0" />
+                <stop offset="100%" stopColor="#67e8f9" />
+              </linearGradient>
+            </defs>
+            {CONSTELLATION_DUST.map(([x, y, r], i) => (
+              <circle key={i} cx={x} cy={y} r={r} fill="#f6f5ff" opacity={0.22} />
+            ))}
+            <polyline
+              points={CONSTELLATION_NODES.map((p) => p.join(",")).join(" ")}
+              fill="none"
+              stroke="url(#spaceyLine)"
+              strokeWidth="1"
+            />
+            {CONSTELLATION_NODES.map(([x, y], i) => (
+              <g key={i}>
+                {i % 3 === 0 && (
+                  <circle cx={x} cy={y} r={11} fill="#f472d0" opacity={0.14} />
+                )}
+                <circle
+                  cx={x}
+                  cy={y}
+                  r={i % 3 === 0 ? 5 : 3.5}
+                  fill="url(#spaceyDot)"
+                />
+              </g>
+            ))}
+          </svg>
+          <img
+            src={blogPick.cover}
+            alt={blogPick.postTitle}
+            loading="lazy"
+            decoding="async"
+            className="spacey-cover"
+          />
         </div>
       </motion.div>
     </div>

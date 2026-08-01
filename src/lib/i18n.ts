@@ -152,6 +152,12 @@ const en = {
     tuning: "Tuning",
     volume: "Volume",
     channel: "Channel",
+    inThePress: "From the label · In the press",
+    blogTag: "The blog · Interview",
+    spaceyEyebrow: "Featured on spaceypandamusic.com",
+    spaceyDescription: artist.videoLab.blogPick?.description ?? "",
+    readInterview: "Read the interview",
+    visitSpacey: "Visit the blog",
   },
   streaming: {
     label: "Listen",
@@ -353,6 +359,13 @@ Como Co-CEO de Beta-Time Records, gestiono proyectos, superviso lanzamientos y c
     tuning: "Sintonía",
     volume: "Volumen",
     channel: "Canal",
+    inThePress: "Del sello · En prensa",
+    blogTag: "El blog · Entrevista",
+    spaceyEyebrow: "Publicado en spaceypandamusic.com",
+    spaceyDescription:
+      "La entrevista que me hizo Spacey Panda en su blog de música.",
+    readInterview: "Lee la entrevista",
+    visitSpacey: "Visita el blog",
   },
   streaming: {
     label: "Escuchar",

@@ -90,6 +90,18 @@ export type VideoLab = {
     tags: string[];
     channelMeta: string;
   };
+  blogPick?: {
+    artist: string;
+    domain: string;
+    blogUrl: string;
+    postUrl: string;
+    postTitle: string;
+    postTitleParts: { before: string; accent: string; after: string };
+    cover: string;
+    logo: string;
+    tagline: string;
+    description: string;
+  };
 };
 
 export type Artist = {
@@ -221,6 +233,24 @@ As Co-CEO of Beta-Time Records, I manage projects, curate releases, and collabor
         "Beta-Time Records",
       ],
       channelMeta: "CH 01 → CH 105 · transmitting",
+    },
+    blogPick: {
+      artist: "SpaceyPanda",
+      domain: "spaceypandamusic.com",
+      blogUrl: "https://spaceypandamusic.com/",
+      postUrl:
+        "https://spaceypandamusic.com/from-code-to-federado-a-chat-with-kalamarico/",
+      postTitle: "From Code to Federado: A Chat with Kalamarico",
+      postTitleParts: {
+        before: "From Code to ",
+        accent: "Federado",
+        after: ": A Chat with Kalamarico",
+      },
+      cover: "/spacey-interview-cover.jpg",
+      logo: "/spaceypanda-logo.jpg",
+      tagline: "Charting constellations of sound and souls",
+      description:
+        "The interview Spacey Panda did with me on her music blog.",
     },
   },
 };

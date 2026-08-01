@@ -776,3 +776,339 @@ body * {
     opacity: 0;
   }
 }
+
+/* ============================================================
+   VIDEO LAB · "In the press" — SpaceyPanda's blog interview
+   A featured press piece dressed in Spacey Panda's own brand
+   (spaceypandamusic.com): cosmos violet-black, neon magenta,
+   cyan, drifting nebulas, a constellation. The palette is
+   intentionally FIXED to her identity and does not follow this
+   site's theme tokens — the card is a small island of her
+   universe inside kalamarico.com.
+   ============================================================ */
+
+.spacey-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(140deg, rgba(232, 60, 188, 0.08), rgba(34, 211, 238, 0.04) 60%, rgba(167, 139, 250, 0.06)),
+    #04030a;
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 40px 28px;
+  transition:
+    border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (min-width: 900px) {
+  .spacey-card {
+    grid-template-columns: 1.3fr 1fr;
+    gap: 56px;
+    align-items: center;
+    padding: 64px;
+  }
+}
+.spacey-card:hover {
+  border-color: rgba(232, 60, 188, 0.5);
+  box-shadow: 0 16px 48px -12px rgba(232, 60, 188, 0.45);
+}
+/* two soft nebulas drifting in opposite corners */
+.spacey-card::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(232, 60, 188, 0.35), transparent 35%),
+    radial-gradient(circle at 90% 80%, rgba(34, 211, 238, 0.3), transparent 40%);
+  filter: blur(50px);
+  animation: spaceyNebula 38s ease-in-out infinite alternate;
+}
+@keyframes spaceyNebula {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-4%, 3%) scale(1.06);
+  }
+  100% {
+    transform: translate(3%, -2%) scale(0.97);
+  }
+}
+/* a sprinkle of stars over the whole card */
+.spacey-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.7;
+  background-image:
+    radial-gradient(1px 1px at 20% 35%, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1px 1px at 70% 55%, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1px 1px at 45% 75%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(2px 2px at 85% 25%, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1px 1px at 60% 18%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 10% 80%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1.5px 1.5px at 32% 12%, rgba(255, 255, 255, 0.7), transparent);
+}
+
+/* ----- content column ----- */
+.spacey-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  min-width: 0;
+}
+.spacey-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(232, 60, 188, 0.18);
+  border: 1px solid rgba(232, 60, 188, 0.4);
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #f472d0;
+}
+.spacey-eyebrow {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-size: 12px;
+  letter-spacing: 0.32em;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #67e8f9;
+}
+.spacey-eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  flex: none;
+  background: rgba(34, 211, 238, 0.6);
+}
+.spacey-title {
+  margin: 0;
+  font-family: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: #f6f5ff;
+  font-size: clamp(28px, 3.4vw, 44px);
+  text-wrap: balance;
+}
+.spacey-title-gradient {
+  background: linear-gradient(110deg, #67e8f9 0%, #a78bfa 30%, #f472d0 60%, #e83cbc 100%);
+  background-size: 240% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: spaceyGradient 14s ease-in-out infinite;
+}
+@keyframes spaceyGradient {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+.spacey-desc {
+  margin: 0;
+  max-width: 54ch;
+  font-size: 16px;
+  line-height: 1.65;
+  color: #c8c5e8;
+  text-wrap: pretty;
+}
+@media (min-width: 700px) {
+  .spacey-desc {
+    font-size: 17px;
+  }
+}
+.spacey-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 6px;
+}
+.spacey-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: 999px;
+  background: linear-gradient(110deg, #e83cbc 0%, #c026d3 60%, #a78bfa 100%);
+  color: #ffffff;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 8px 24px -6px rgba(232, 60, 188, 0.35);
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.spacey-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 48px -12px rgba(232, 60, 188, 0.45);
+}
+.spacey-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #f6f5ff;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+.spacey-ghost:hover {
+  border-color: rgba(34, 211, 238, 0.7);
+  color: #67e8f9;
+  background: rgba(34, 211, 238, 0.06);
+}
+
+/* ----- byline: the author's signature ----- */
+.spacey-byline {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 16px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  align-self: stretch;
+}
+.spacey-byline-avatar {
+  width: 46px;
+  height: 46px;
+  flex: none;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 1px solid rgba(232, 60, 188, 0.45);
+  box-shadow: 0 0 18px -4px rgba(232, 60, 188, 0.5);
+}
+.spacey-byline-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+/* wordmark: "SPACEY" outlined + "PANDA" solid, as on her site */
+.spacey-mark {
+  display: inline-flex;
+  gap: 6px;
+  font-family: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: #f6f5ff;
+}
+.spacey-mark-spacey {
+  font-weight: 400;
+  -webkit-text-stroke: 1px #f6f5ff;
+  color: transparent;
+  letter-spacing: 0.06em;
+}
+.spacey-mark-panda {
+  font-weight: 700;
+}
+.spacey-tagline {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8b87b6;
+}
+
+/* ----- cover column: the article's featured image in a constellation ----- */
+.spacey-orbit {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+  animation: spaceyFloat 9s ease-in-out infinite;
+}
+@media (max-width: 899px) {
+  .spacey-orbit {
+    order: -1;
+    max-width: 250px;
+    margin: 0 auto 32px;
+  }
+}
+.spacey-constellation {
+  position: absolute;
+  inset: -14%;
+  width: 128%;
+  height: 128%;
+  pointer-events: none;
+}
+.spacey-cover {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 24px;
+  border: 1px solid rgba(232, 60, 188, 0.35);
+  box-shadow:
+    0 0 48px -4px rgba(232, 60, 188, 0.35),
+    0 24px 60px -24px rgba(0, 0, 0, 0.8);
+}
+@keyframes spaceyFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Narrow phones: CTAs wrap instead of clipping. */
+@media (max-width: 699px) {
+  .spacey-card {
+    padding: 32px 22px;
+  }
+  .spacey-btn,
+  .spacey-ghost {
+    white-space: normal;
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+
+/* Honour reduced-motion: the cosmos holds still. */
+@media (prefers-reduced-motion: reduce) {
+  .spacey-card::before,
+  .spacey-title-gradient,
+  .spacey-orbit {
+    animation: none;
+  }
+}
