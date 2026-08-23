@@ -1,6 +1,6 @@
 // AUTO-GENERATED — do not edit by hand.
 // Run `npm run sync:catalog` to refresh.
-// Generated at 2026-08-22T20:45:10.321Z
+// Generated at 2026-08-23T20:45:09.118Z
 
 import type { LabelStats, Release } from "./artist";
 
@@ -1888,41 +1888,6 @@ export const releases: Release[] = [
           }
         ],
         "isCollab": true
-      }
-    ]
-  },
-  {
-    "id": "0FzbHF9X7tXu8WluGXjVGS",
-    "name": "Recursive UseCase Reloaded",
-    "type": "SINGLE",
-    "date": "2023-06-05",
-    "datePrecision": "DAY",
-    "trackCount": 1,
-    "coverArt": "https://i.scdn.co/image/ab67616d0000b2738b84df081e7787bf365cb37b",
-    "spotifyUrl": "https://open.spotify.com/album/0FzbHF9X7tXu8WluGXjVGS",
-    "artists": [
-      {
-        "id": "69pHpbXQUapyazWqZw1O2d",
-        "name": "Kalamarico",
-        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
-      }
-    ],
-    "isPrimaryArtist": true,
-    "tracks": [
-      {
-        "id": "6WAXW2iohn159qfQVGHTJI",
-        "name": "Recursive UseCase Reloaded",
-        "trackNumber": 1,
-        "durationMs": 315480,
-        "spotifyUrl": "https://open.spotify.com/track/6WAXW2iohn159qfQVGHTJI",
-        "artists": [
-          {
-            "id": "69pHpbXQUapyazWqZw1O2d",
-            "name": "Kalamarico",
-            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
-          }
-        ],
-        "isCollab": false
       }
     ]
   },
