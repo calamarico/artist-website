@@ -1,6 +1,6 @@
 // AUTO-GENERATED — do not edit by hand.
 // Run `npm run sync:catalog` to refresh.
-// Generated at 2026-08-28T22:08:30.553Z
+// Generated at 2026-08-30T16:53:00.817Z
 
 import type { LabelStats, Release } from "./artist";
 
@@ -980,41 +980,6 @@ export const releases: Release[] = [
         "trackNumber": 1,
         "durationMs": 318623,
         "spotifyUrl": "https://open.spotify.com/track/3gcNir5fgC32M13kfOoevO",
-        "artists": [
-          {
-            "id": "69pHpbXQUapyazWqZw1O2d",
-            "name": "Kalamarico",
-            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
-          }
-        ],
-        "isCollab": false
-      }
-    ]
-  },
-  {
-    "id": "0nSXFFB7iHZK5Z8UtehLgD",
-    "name": "Mare's-Nest Temple",
-    "type": "SINGLE",
-    "date": "2024-10-11",
-    "datePrecision": "DAY",
-    "trackCount": 1,
-    "coverArt": "https://i.scdn.co/image/ab67616d0000b273985dff06dcdf4527fcd3ed1c",
-    "spotifyUrl": "https://open.spotify.com/album/0nSXFFB7iHZK5Z8UtehLgD",
-    "artists": [
-      {
-        "id": "69pHpbXQUapyazWqZw1O2d",
-        "name": "Kalamarico",
-        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
-      }
-    ],
-    "isPrimaryArtist": true,
-    "tracks": [
-      {
-        "id": "5HArBCAW8n4EIDNHkLzgXZ",
-        "name": "Mare's-Nest Temple",
-        "trackNumber": 1,
-        "durationMs": 286235,
-        "spotifyUrl": "https://open.spotify.com/track/5HArBCAW8n4EIDNHkLzgXZ",
         "artists": [
           {
             "id": "69pHpbXQUapyazWqZw1O2d",
