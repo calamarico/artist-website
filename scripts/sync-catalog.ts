@@ -258,7 +258,6 @@ async function writeOutput(releases: Release[], labelStats: LabelStats) {
   const lines = [
     "// AUTO-GENERATED — do not edit by hand.",
     "// Run `npm run sync:catalog` to refresh.",
-    `// Generated at ${new Date().toISOString()}`,
     "",
     'import type { LabelStats, Release } from "./artist";',
     "",
