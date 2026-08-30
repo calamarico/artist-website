@@ -1,0 +1,48 @@
+# Sincroniza el catálogo desde Spotify una vez al día y commitea el resultado.
+#
+# El push a `main` dispara el build de Cloudflare Pages vía webhook, así que
+# este workflow es la única pieza que necesita programación. Sustituye a los
+# LaunchAgents locales (com.danielhernandez.artist-website-{morning,evening}),
+# que perdían ejecuciones cuando el portátil estaba apagado.
+name: Sync catalog
+
+on:
+  # En UTC y sin ajuste de horario de verano: 10:37 UTC son las 12:37 en
+  # Madrid en verano y las 11:37 en invierno. El minuto 37 evita el pico de
+  # las horas en punta, cuando GitHub retrasa los cron hasta media hora.
+  schedule:
+    - cron: "37 10 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run sync:catalog
+        env:
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+
+      - name: Commit y push si el catálogo cambió
+        run: |
+          git config user.name "catalog-bot"
+          git config user.email "catalog-bot@users.noreply.github.com"
+          git add src/data/catalog.generated.ts
+          if git diff --staged --quiet; then
+            echo "Sin cambios en el catálogo."
+          else
+            git commit -m "update catalog"
+            git push
+          fi
