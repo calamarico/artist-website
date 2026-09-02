@@ -32,7 +32,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "1pahWt9CliNzRFfBZQNLnF",
@@ -73,7 +72,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "3XXPiUPur8LCQFucN99ZFY",
@@ -109,7 +107,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "5HjCc4gBclVOa3q7MhZS9j",
@@ -145,7 +142,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "3LGoezKRv9TCXWR3vyoYeX",
@@ -181,7 +177,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "7MF0IXVyTy8yTa6XfiLqQO",
@@ -222,7 +217,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "393ndekxqaDkAONPdxdQWK",
@@ -263,7 +257,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "7uy6gxTDo77wDVmAZM2Diy",
@@ -304,7 +297,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "03x37gNG1z5Ea1ZNw6YJe1",
@@ -360,7 +352,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "2pbIyg3iEvM4yyWoo5Pn4M",
@@ -396,7 +387,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "1D988rsAYtBKOJiCmJRyqe",
@@ -457,7 +447,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "5zMXKtJRyUSRau2XDh1twi",
@@ -583,7 +572,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "4b7zCG4c5o9dqncV4OysL1",
@@ -629,7 +617,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "1TfNauE0TgR2XnInRR7stZ",
@@ -670,7 +657,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "0UjHbsZDpLjagDSYzbGAeW",
@@ -716,7 +702,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "1E0lTbpDILWV7PSLCm88MO",
@@ -867,7 +852,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Vanta Record",
     "tracks": [
       {
         "id": "160Uh9FHLwUsr6tA1UqDPv",
@@ -908,7 +892,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "5lGJrXNGAI3wgYgrUI6dCQ",
@@ -949,7 +932,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "6UT0hVZgSiLua4w9WZ906u",
@@ -990,7 +972,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "3gcNir5fgC32M13kfOoevO",
@@ -1026,7 +1007,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": false,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "6unfUl4pfrjyoWZgCanTCR",
@@ -1077,7 +1057,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "016G9f8BmLTnuudKnanP02",
@@ -1163,7 +1142,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "20LZXAQW3YNNJ4v8gMfhjX",
@@ -1204,7 +1182,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": false,
-    "label": "Nothing But",
     "tracks": [
       {
         "id": "2yYSIhQy8mLzBhtnDUzA0T",
@@ -1595,7 +1572,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "3eQDd0Eqp2o6Z43wjynmu1",
@@ -1631,7 +1607,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "2gaiw4hb5uijmEU6iuBpT6",
@@ -1682,7 +1657,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Techno Drum Records",
     "tracks": [
       {
         "id": "4nvuXDedf0HfhJiTW1svCJ",
@@ -1718,7 +1692,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "3YsjgSCvSCKP3bebNZ94X1",
@@ -1754,7 +1727,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "029YKR12CieDaziXG9TGfr",
@@ -1790,7 +1762,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "2sLOOXji6CVh8VW2FZS9ap",
@@ -1826,7 +1797,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "4QV1aHASQgnzXeUcURPKY6",
@@ -1862,7 +1832,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": false,
-    "label": "Overdrive",
     "tracks": [
       {
         "id": "56nwtT5tzrLDR3l4ontiyv",
@@ -1903,7 +1872,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "1RaGPEucRIaRdIXodNljSW",
@@ -1939,7 +1907,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "4gRczJURwfiF3mkQfe6tRh",
@@ -1975,7 +1942,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Beta-Time Records",
     "tracks": [
       {
         "id": "2GzWSSFRVQ9nreNEYeq5Fo",
@@ -2011,7 +1977,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Kalamarico",
     "tracks": [
       {
         "id": "1m6Ty08W1aEovCjM0hsJKO",
@@ -2047,7 +2012,6 @@ export const releases: Release[] = [
       }
     ],
     "isPrimaryArtist": true,
-    "label": "Daniel Hernández Zafra",
     "tracks": [
       {
         "id": "0ttUYBJHKz8hGZ4bTRd3tA",
