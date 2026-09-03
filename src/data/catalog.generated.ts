@@ -1994,40 +1994,5 @@ export const releases: Release[] = [
         "isCollab": false
       }
     ]
-  },
-  {
-    "id": "7wCPyAlW77Izn3RGTG5GK3",
-    "name": "Recursive UseCase",
-    "type": "SINGLE",
-    "date": "2022-06-25",
-    "datePrecision": "DAY",
-    "trackCount": 1,
-    "coverArt": "https://i.scdn.co/image/ab67616d0000b273cb81b3b76950d888714093d0",
-    "spotifyUrl": "https://open.spotify.com/album/7wCPyAlW77Izn3RGTG5GK3",
-    "artists": [
-      {
-        "id": "69pHpbXQUapyazWqZw1O2d",
-        "name": "Kalamarico",
-        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
-      }
-    ],
-    "isPrimaryArtist": true,
-    "tracks": [
-      {
-        "id": "0ttUYBJHKz8hGZ4bTRd3tA",
-        "name": "Recursive UseCase",
-        "trackNumber": 1,
-        "durationMs": 251030,
-        "spotifyUrl": "https://open.spotify.com/track/0ttUYBJHKz8hGZ4bTRd3tA",
-        "artists": [
-          {
-            "id": "69pHpbXQUapyazWqZw1O2d",
-            "name": "Kalamarico",
-            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
-          }
-        ],
-        "isCollab": false
-      }
-    ]
   }
 ];
