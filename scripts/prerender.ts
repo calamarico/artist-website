@@ -6,6 +6,7 @@
  *   - dist/index.html            — English home with static markup baked in
  *   - dist/es/index.html         — Spanish home (localized <head> + markup)
  *   - dist{,/es}/releases/{slug}/index.html — zero-JS release landing pages
+ *   - dist{,/es}/404.html        — noindex 404, served with a real 404 status
  *   - dist/sitemap.xml           — every URL with hreflang alternates
  * then removes the intermediate dist-ssr/ bundle.
  *
@@ -29,6 +30,7 @@ interface Release {
 interface SsrBundle {
   render: (lang: Lang) => string;
   renderRelease: (release: Release, lang: Lang) => string;
+  renderNotFound: (lang: Lang) => string;
   releasesWithPages: () => Release[];
   releaseSlug: (release: Release) => string | null;
   releaseCanonical: (release: Release, lang: Lang) => string;
@@ -36,7 +38,10 @@ interface SsrBundle {
   releaseDescription: (release: Release, lang: Lang) => string;
   releaseJsonLd: (release: Release, lang: Lang) => string;
   ORIGIN: string;
-  STRINGS: Record<Lang, { meta: Record<string, string> }>;
+  STRINGS: Record<
+    Lang,
+    { meta: Record<string, string>; notFound: Record<string, string> }
+  >;
 }
 
 const ROOT = resolve(import.meta.dirname, "..");
@@ -148,12 +153,20 @@ async function main() {
     }
   }
 
+  // ---- 404 pages (both languages, zero JS) ----------------------------
+  // Cloudflare Pages serves the nearest 404.html with a 404 status. Without
+  // these, every unknown URL answered 200 with the home page — a soft 404.
+  for (const lang of langs) {
+    const prefix = lang === "es" ? "es/" : "";
+    writeFile(`${prefix}404.html`, notFoundDocument(ssr, lang, cssHref));
+  }
+
   // ---- Sitemap ---------------------------------------------------------
   const today = new Date().toISOString().slice(0, 10);
   writeFile("sitemap.xml", sitemap(ssr, releases, today));
 
   console.log(
-    `[prerender] home ×2 + ${releases.length * 2} release pages + sitemap (${
+    `[prerender] home ×2 + ${releases.length * 2} release pages + 404 ×2 + sitemap (${
       releases.length * 2 + 2
     } URLs)`,
   );
@@ -222,6 +235,41 @@ function releaseDocument(
     <script type="application/ld+json">
 ${jsonLd}
     </script>
+  </head>
+  <body>
+    ${body}
+  </body>
+</html>
+`;
+}
+
+/**
+ * The 404 document. Deliberately different from releaseDocument: no canonical
+ * (there is no canonical URL for a page that stands in for many) and
+ * `noindex` so it never enters the index even if something links to it.
+ */
+function notFoundDocument(ssr: SsrBundle, lang: Lang, cssHref: string): string {
+  const t = ssr.STRINGS[lang].notFound;
+  const title = escapeAttr(t.metaTitle);
+  const description = escapeAttr(t.metaDescription);
+  const body = ssr.renderNotFound(lang);
+
+  return `<!doctype html>
+<html lang="${lang}" data-theme="green">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${title}</title>
+    <meta name="description" content="${description}" />
+    <meta name="robots" content="noindex, follow" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="${cssHref}" />
   </head>
   <body>
     ${body}

@@ -61,14 +61,17 @@ export const onRequest = async (context: Context): Promise<Response> => {
     return next();
   }
 
+  // Read the body first either way: a HEAD response carries no body but must
+  // still advertise the same headers a GET would, including the token count.
+  const text = await mdResponse.text();
+
   if (request.method === "HEAD") {
     return new Response(null, {
       status: 200,
-      headers: buildHeaders(""),
+      headers: buildHeaders(text),
     });
   }
 
-  const text = await mdResponse.text();
   return new Response(text, {
     status: 200,
     headers: buildHeaders(text),

@@ -220,6 +220,16 @@ const en = {
     otherLangLink: "Ver en español",
     coverAlt: (name: string) => `${name} cover art`,
   },
+  notFound: {
+    code: "404",
+    metaTitle: "Page not found — Kalamarico",
+    metaDescription:
+      "That page doesn't exist. Browse the full Kalamarico discography instead.",
+    heading: "This page doesn't exist",
+    lead: "The link may be broken, or the release you were looking for may live under a different address. The full catalogue is one click away.",
+    backHome: "Back to the site",
+    seeReleases: "Full discography",
+  },
   cover: {
     alt: (name: string) => `${name} cover`,
   },
@@ -427,6 +437,16 @@ Como Co-CEO de Beta-Time Records, gestiono proyectos, superviso lanzamientos y c
     next: "Siguiente",
     otherLangLink: "View in English",
     coverAlt: (name: string) => `Portada de ${name}`,
+  },
+  notFound: {
+    code: "404",
+    metaTitle: "Página no encontrada — Kalamarico",
+    metaDescription:
+      "Esta página no existe. Echa un ojo a la discografía completa de Kalamarico.",
+    heading: "Esta página no existe",
+    lead: "Puede que el enlace esté roto o que el lanzamiento que buscabas viva en otra dirección. El catálogo completo está a un clic.",
+    backHome: "Volver al sitio",
+    seeReleases: "Discografía completa",
   },
   cover: {
     alt: (name: string) => `Portada de ${name}`,

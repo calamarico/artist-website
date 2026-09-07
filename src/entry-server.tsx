@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { renderToString } from "react-dom/server";
 import App from "./App";
+import { NotFoundPage } from "./pages/NotFoundPage";
 import { ReleasePage } from "./pages/ReleasePage";
 import type { Release } from "./data/artist";
 import type { Lang } from "./lib/i18n";
@@ -21,6 +22,10 @@ export function render(lang: Lang = "en"): string {
 
 export function renderRelease(release: Release, lang: Lang): string {
   return renderToString(<ReleasePage release={release} lang={lang} />);
+}
+
+export function renderNotFound(lang: Lang): string {
+  return renderToString(<NotFoundPage lang={lang} />);
 }
 
 export { releasesWithPages, releaseSlug } from "./lib/catalog";
