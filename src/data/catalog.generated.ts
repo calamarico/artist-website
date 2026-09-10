@@ -4,12 +4,47 @@
 import type { LabelStats, Release } from "./artist";
 
 export const labelStats: LabelStats = {
-  "releases": 113,
+  "releases": 114,
   "artists": 17,
   "founded": 2022
 };
 
 export const releases: Release[] = [
+  {
+    "id": "3cP5DIzDIO9BmyZONHaBP0",
+    "name": "Recursive UseCase",
+    "type": "SINGLE",
+    "date": "2026-09-10",
+    "datePrecision": "DAY",
+    "trackCount": 1,
+    "coverArt": "https://i.scdn.co/image/ab67616d0000b273f2d62665571965af82c8f258",
+    "spotifyUrl": "https://open.spotify.com/album/3cP5DIzDIO9BmyZONHaBP0",
+    "artists": [
+      {
+        "id": "69pHpbXQUapyazWqZw1O2d",
+        "name": "Kalamarico",
+        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+      }
+    ],
+    "isPrimaryArtist": true,
+    "tracks": [
+      {
+        "id": "1FahGiGo6oBTj3UI2BiAa1",
+        "name": "Recursive UseCase",
+        "trackNumber": 1,
+        "durationMs": 251500,
+        "spotifyUrl": "https://open.spotify.com/track/1FahGiGo6oBTj3UI2BiAa1",
+        "artists": [
+          {
+            "id": "69pHpbXQUapyazWqZw1O2d",
+            "name": "Kalamarico",
+            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+          }
+        ],
+        "isCollab": false
+      }
+    ]
+  },
   {
     "id": "780lPsn6rfS5AIEnU9zo5n",
     "name": "DragonWake",
