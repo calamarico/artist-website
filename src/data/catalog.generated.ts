@@ -4,12 +4,47 @@
 import type { LabelStats, Release } from "./artist";
 
 export const labelStats: LabelStats = {
-  "releases": 114,
+  "releases": 115,
   "artists": 17,
   "founded": 2022
 };
 
 export const releases: Release[] = [
+  {
+    "id": "1N1F5ucZmXT8c6pDlZgOC3",
+    "name": "Recursive UseCase Reloaded",
+    "type": "SINGLE",
+    "date": "2026-09-11",
+    "datePrecision": "DAY",
+    "trackCount": 1,
+    "coverArt": "https://i.scdn.co/image/ab67616d0000b27392358d68213aecc47d4d6a42",
+    "spotifyUrl": "https://open.spotify.com/album/1N1F5ucZmXT8c6pDlZgOC3",
+    "artists": [
+      {
+        "id": "69pHpbXQUapyazWqZw1O2d",
+        "name": "Kalamarico",
+        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+      }
+    ],
+    "isPrimaryArtist": true,
+    "tracks": [
+      {
+        "id": "483xixCrhebdkZ2vlhDDsp",
+        "name": "Recursive UseCase Reloaded",
+        "trackNumber": 1,
+        "durationMs": 315960,
+        "spotifyUrl": "https://open.spotify.com/track/483xixCrhebdkZ2vlhDDsp",
+        "artists": [
+          {
+            "id": "69pHpbXQUapyazWqZw1O2d",
+            "name": "Kalamarico",
+            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+          }
+        ],
+        "isCollab": false
+      }
+    ]
+  },
   {
     "id": "3cP5DIzDIO9BmyZONHaBP0",
     "name": "Recursive UseCase",
