@@ -4,12 +4,47 @@
 import type { LabelStats, Release } from "./artist";
 
 export const labelStats: LabelStats = {
-  "releases": 115,
+  "releases": 117,
   "artists": 17,
   "founded": 2022
 };
 
 export const releases: Release[] = [
+  {
+    "id": "0dZjjIZpnUZjVLnbQHJNrK",
+    "name": "Mare's-nest Temple",
+    "type": "SINGLE",
+    "date": "2026-09-18",
+    "datePrecision": "DAY",
+    "trackCount": 1,
+    "coverArt": "https://i.scdn.co/image/ab67616d0000b273bf154d0e74f290d598a9b26d",
+    "spotifyUrl": "https://open.spotify.com/album/0dZjjIZpnUZjVLnbQHJNrK",
+    "artists": [
+      {
+        "id": "69pHpbXQUapyazWqZw1O2d",
+        "name": "Kalamarico",
+        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+      }
+    ],
+    "isPrimaryArtist": true,
+    "tracks": [
+      {
+        "id": "32OO3Lw3kKqcyQmiy7EXJO",
+        "name": "Mare's-nest Temple",
+        "trackNumber": 1,
+        "durationMs": 286235,
+        "spotifyUrl": "https://open.spotify.com/track/32OO3Lw3kKqcyQmiy7EXJO",
+        "artists": [
+          {
+            "id": "69pHpbXQUapyazWqZw1O2d",
+            "name": "Kalamarico",
+            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+          }
+        ],
+        "isCollab": false
+      }
+    ]
+  },
   {
     "id": "1N1F5ucZmXT8c6pDlZgOC3",
     "name": "Recursive UseCase Reloaded",
