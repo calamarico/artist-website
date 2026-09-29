@@ -1816,41 +1816,6 @@ export const releases: Release[] = [
     ]
   },
   {
-    "id": "4AvhTIprgEFYF6h8iUAF4t",
-    "name": "Nice Shot",
-    "type": "SINGLE",
-    "date": "2024-01-01",
-    "datePrecision": "YEAR",
-    "trackCount": 1,
-    "coverArt": "https://i.scdn.co/image/ab67616d0000b273ef6c56a0ee82e73886933074",
-    "spotifyUrl": "https://open.spotify.com/album/4AvhTIprgEFYF6h8iUAF4t",
-    "artists": [
-      {
-        "id": "69pHpbXQUapyazWqZw1O2d",
-        "name": "Kalamarico",
-        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
-      }
-    ],
-    "isPrimaryArtist": true,
-    "tracks": [
-      {
-        "id": "029YKR12CieDaziXG9TGfr",
-        "name": "Nice Shot",
-        "trackNumber": 1,
-        "durationMs": 328593,
-        "spotifyUrl": "https://open.spotify.com/track/029YKR12CieDaziXG9TGfr",
-        "artists": [
-          {
-            "id": "69pHpbXQUapyazWqZw1O2d",
-            "name": "Kalamarico",
-            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
-          }
-        ],
-        "isCollab": false
-      }
-    ]
-  },
-  {
     "id": "0Zr4UxTKnT5DvPFB7xdH0R",
     "name": "Unfathomable Fluid",
     "type": "SINGLE",
@@ -1874,6 +1839,41 @@ export const releases: Release[] = [
         "trackNumber": 1,
         "durationMs": 309600,
         "spotifyUrl": "https://open.spotify.com/track/2sLOOXji6CVh8VW2FZS9ap",
+        "artists": [
+          {
+            "id": "69pHpbXQUapyazWqZw1O2d",
+            "name": "Kalamarico",
+            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+          }
+        ],
+        "isCollab": false
+      }
+    ]
+  },
+  {
+    "id": "4AvhTIprgEFYF6h8iUAF4t",
+    "name": "Nice Shot",
+    "type": "SINGLE",
+    "date": "2024-01-01",
+    "datePrecision": "YEAR",
+    "trackCount": 1,
+    "coverArt": "https://i.scdn.co/image/ab67616d0000b273ef6c56a0ee82e73886933074",
+    "spotifyUrl": "https://open.spotify.com/album/4AvhTIprgEFYF6h8iUAF4t",
+    "artists": [
+      {
+        "id": "69pHpbXQUapyazWqZw1O2d",
+        "name": "Kalamarico",
+        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+      }
+    ],
+    "isPrimaryArtist": true,
+    "tracks": [
+      {
+        "id": "029YKR12CieDaziXG9TGfr",
+        "name": "Nice Shot",
+        "trackNumber": 1,
+        "durationMs": 328593,
+        "spotifyUrl": "https://open.spotify.com/track/029YKR12CieDaziXG9TGfr",
         "artists": [
           {
             "id": "69pHpbXQUapyazWqZw1O2d",
