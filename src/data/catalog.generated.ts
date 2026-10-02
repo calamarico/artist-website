@@ -4,12 +4,57 @@
 import type { LabelStats, Release } from "./artist";
 
 export const labelStats: LabelStats = {
-  "releases": 119,
+  "releases": 121,
   "artists": 17,
   "founded": 2022
 };
 
 export const releases: Release[] = [
+  {
+    "id": "4JRvW2i6lzFIoZT3TSJjtw",
+    "name": "Tribe",
+    "type": "SINGLE",
+    "date": "2026-10-02",
+    "datePrecision": "DAY",
+    "trackCount": 1,
+    "coverArt": "https://i.scdn.co/image/ab67616d0000b2730446c0855c432815ff8cf4c3",
+    "spotifyUrl": "https://open.spotify.com/album/4JRvW2i6lzFIoZT3TSJjtw",
+    "artists": [
+      {
+        "id": "69pHpbXQUapyazWqZw1O2d",
+        "name": "Kalamarico",
+        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+      },
+      {
+        "id": "1IBaZkovBBEAWHe60q5ed7",
+        "name": "Amok Sun",
+        "spotifyUrl": "https://open.spotify.com/artist/1IBaZkovBBEAWHe60q5ed7"
+      }
+    ],
+    "isPrimaryArtist": true,
+    "tracks": [
+      {
+        "id": "2DFs0kgaCQ8ahpMFvz3aqo",
+        "name": "Tribe",
+        "trackNumber": 1,
+        "durationMs": 326215,
+        "spotifyUrl": "https://open.spotify.com/track/2DFs0kgaCQ8ahpMFvz3aqo",
+        "artists": [
+          {
+            "id": "69pHpbXQUapyazWqZw1O2d",
+            "name": "Kalamarico",
+            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+          },
+          {
+            "id": "1IBaZkovBBEAWHe60q5ed7",
+            "name": "Amok Sun",
+            "spotifyUrl": "https://open.spotify.com/artist/1IBaZkovBBEAWHe60q5ed7"
+          }
+        ],
+        "isCollab": true
+      }
+    ]
+  },
   {
     "id": "0dZjjIZpnUZjVLnbQHJNrK",
     "name": "Mare's-nest Temple",
