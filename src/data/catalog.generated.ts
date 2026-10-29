@@ -1861,41 +1861,6 @@ export const releases: Release[] = [
     ]
   },
   {
-    "id": "0Zr4UxTKnT5DvPFB7xdH0R",
-    "name": "Unfathomable Fluid",
-    "type": "SINGLE",
-    "date": "2024-01-01",
-    "datePrecision": "YEAR",
-    "trackCount": 1,
-    "coverArt": "https://i.scdn.co/image/ab67616d0000b27379fd02d4e884caf536dd969b",
-    "spotifyUrl": "https://open.spotify.com/album/0Zr4UxTKnT5DvPFB7xdH0R",
-    "artists": [
-      {
-        "id": "69pHpbXQUapyazWqZw1O2d",
-        "name": "Kalamarico",
-        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
-      }
-    ],
-    "isPrimaryArtist": true,
-    "tracks": [
-      {
-        "id": "2sLOOXji6CVh8VW2FZS9ap",
-        "name": "Unfathomable Fluid",
-        "trackNumber": 1,
-        "durationMs": 309600,
-        "spotifyUrl": "https://open.spotify.com/track/2sLOOXji6CVh8VW2FZS9ap",
-        "artists": [
-          {
-            "id": "69pHpbXQUapyazWqZw1O2d",
-            "name": "Kalamarico",
-            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
-          }
-        ],
-        "isCollab": false
-      }
-    ]
-  },
-  {
     "id": "4AvhTIprgEFYF6h8iUAF4t",
     "name": "Nice Shot",
     "type": "SINGLE",
@@ -1919,6 +1884,41 @@ export const releases: Release[] = [
         "trackNumber": 1,
         "durationMs": 328593,
         "spotifyUrl": "https://open.spotify.com/track/029YKR12CieDaziXG9TGfr",
+        "artists": [
+          {
+            "id": "69pHpbXQUapyazWqZw1O2d",
+            "name": "Kalamarico",
+            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+          }
+        ],
+        "isCollab": false
+      }
+    ]
+  },
+  {
+    "id": "0Zr4UxTKnT5DvPFB7xdH0R",
+    "name": "Unfathomable Fluid",
+    "type": "SINGLE",
+    "date": "2024-01-01",
+    "datePrecision": "YEAR",
+    "trackCount": 1,
+    "coverArt": "https://i.scdn.co/image/ab67616d0000b27379fd02d4e884caf536dd969b",
+    "spotifyUrl": "https://open.spotify.com/album/0Zr4UxTKnT5DvPFB7xdH0R",
+    "artists": [
+      {
+        "id": "69pHpbXQUapyazWqZw1O2d",
+        "name": "Kalamarico",
+        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+      }
+    ],
+    "isPrimaryArtist": true,
+    "tracks": [
+      {
+        "id": "2sLOOXji6CVh8VW2FZS9ap",
+        "name": "Unfathomable Fluid",
+        "trackNumber": 1,
+        "durationMs": 309600,
+        "spotifyUrl": "https://open.spotify.com/track/2sLOOXji6CVh8VW2FZS9ap",
         "artists": [
           {
             "id": "69pHpbXQUapyazWqZw1O2d",
