@@ -2109,40 +2109,5 @@ export const releases: Release[] = [
         "isCollab": false
       }
     ]
-  },
-  {
-    "id": "6vb1limyIh2EIJtH2z8gLb",
-    "name": "Chapa Kalamarico",
-    "type": "SINGLE",
-    "date": "2022-08-27",
-    "datePrecision": "DAY",
-    "trackCount": 1,
-    "coverArt": "https://i.scdn.co/image/ab67616d0000b273216d1e46db2d1daa79ce73b8",
-    "spotifyUrl": "https://open.spotify.com/album/6vb1limyIh2EIJtH2z8gLb",
-    "artists": [
-      {
-        "id": "69pHpbXQUapyazWqZw1O2d",
-        "name": "Kalamarico",
-        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
-      }
-    ],
-    "isPrimaryArtist": true,
-    "tracks": [
-      {
-        "id": "1m6Ty08W1aEovCjM0hsJKO",
-        "name": "Chapa Kalamarico",
-        "trackNumber": 1,
-        "durationMs": 215783,
-        "spotifyUrl": "https://open.spotify.com/track/1m6Ty08W1aEovCjM0hsJKO",
-        "artists": [
-          {
-            "id": "69pHpbXQUapyazWqZw1O2d",
-            "name": "Kalamarico",
-            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
-          }
-        ],
-        "isCollab": false
-      }
-    ]
   }
 ];
