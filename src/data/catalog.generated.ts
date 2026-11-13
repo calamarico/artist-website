@@ -4,7 +4,7 @@
 import type { LabelStats, Release } from "./artist";
 
 export const labelStats: LabelStats = {
-  "releases": 126,
+  "releases": 127,
   "artists": 17,
   "founded": 2022
 };
