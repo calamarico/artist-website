@@ -245,6 +245,60 @@ function drawEspanyolShirt(worldX,variant=0){
  text('RCD ESPANYOL',0,145,7,'#fff','center');
  ctx.restore();
 }
+
+// Pantallas de los ordenadores: cinco distracciones distintas.
+// El tipo depende del índice de la mesa, no de los fotogramas, para evitar parpadeos.
+function drawIdleMonitor(x, y, variant) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.beginPath();
+  ctx.rect(0, 0, 83, 38);
+  ctx.clip();
+  const mode = ((variant % 5) + 5) % 5;
+  if (mode === 0) { // Tetris
+    rect(0, 0, 83, 38, '#10172a');
+    text('TETRIS', 6, 8, 7, '#ffe46d');
+    for (let row = 0; row < 4; row++)
+      for (let col = 0; col < 7; col++) {
+        const filled = ((col * 7 + row * 3 + variant) % 5 < 3) && (row > 1 || col % 3 === 0);
+        if (filled) rect(6 + col * 6, 13 + row * 6, 5, 5,
+          ['#31d6f0', '#ef59a8', '#f8db54', '#83e36d'][((col + row) % 4)]);
+      }
+    text('004250', 51, 28, 8, '#e2e8f0');
+  } else if (mode === 1) { // Facebook
+    rect(0, 0, 83, 38, '#edf2fa');rect(0, 0, 83, 10, '#2374dc');
+    text('facebook', 4, 8, 8, '#fff');
+    round(5, 14, 12, 12, 6, '#94abd1');
+    rect(22, 15, 44, 3, '#8596b5');rect(22, 21, 30, 3, '#b3bfd1');
+    text('♥  12', 21, 34, 8, '#d64c82');
+  } else if (mode === 2) { // MARCA
+    rect(0, 0, 83, 38, '#fff9ed');rect(0, 0, 83, 13, '#d92e32');
+    text('MARCA', 4, 11, 12, '#fff');
+    text('GOOOL!', 5, 25, 10, '#242936');
+    rect(52, 16, 23, 17, '#3a9a6a');
+    rect(62, 17, 1, 15, '#fff');rect(53, 24, 21, 1, '#fff');
+    text('3 - 2', 5, 34, 7, '#69717a');
+  } else if (mode === 3) { // Póker
+    rect(0, 0, 83, 38, '#16543d');
+    ctx.strokeStyle = '#b3cb78';ctx.lineWidth = 1;
+    ctx.beginPath();ctx.ellipse(41, 21, 35, 14, 0, 0, Math.PI*2);ctx.stroke();
+    for (let j=0; j<3; j++) {
+      round(19+j*18, 11+(j%2)*2, 14, 20, 2, '#fff');
+      text(['A♥','K♠','Q♦'][j], 21+j*18, 21+(j%2)*2, 8, j===1?'#252b37':'#cc283c');
+    }
+    text('ALL IN', 4, 8, 7, '#ffe193');
+  } else { // Humor insinuado, sin mostrar contenido sexual
+    rect(0, 0, 83, 38, '#39224b');
+    rect(0, 0, 83, 11, '#ef72b4');
+    text('18+  PRIVADO', 5, 8, 8, '#fff');
+    round(6, 15, 30, 18, 4, '#5f3b73');
+    text('♥', 21, 29, 16, '#ff8ac2', 'center');
+    text('¡JEFE!', 43, 22, 9, '#fff');
+    text('Alt+Tab', 42, 32, 7, '#e5c8ed');
+  }
+  ctx.restore();
+}
+
 function office(){let g=ctx.createLinearGradient(0,0,0,FLOOR);g.addColorStop(0,'#a7c5e1');g.addColorStop(1,'#edf1ed');rect(0,0,SW,SH,g);rect(0,0,SW,88,'#d6e4ef');rect(0,83,SW,7,'#9bb1c8');
 // Arctempus has an interior office: solid walls, acoustic panels and noticeboards, NO windows.
 const start=Math.floor(cam/380)-1;
@@ -280,7 +334,7 @@ for(let i=Math.floor(cam/2200)-1;i<=Math.floor((cam+SW)/2200)+1;i++){
  drawEspanyolShirt(i*2200+1710,Math.abs(i)+1);
 }
 rect(0,295,SW,150,'#e0e6e6');rect(0,430,SW,14,'#8e9caa');rect(0,444,SW,96,'#687387');for(let i=Math.floor(cam/90)-1;i<Math.floor(cam/90)+15;i++)line(i*90-cam,444,i*90-cam-22,540,'#788599',1);
-for(let i=Math.floor(cam/690)-1;i<Math.floor(cam/690)+4;i++){const x=i*690-cam;round(x+260,306,177,20,4,'#936c55');rect(x+272,326,11,92,'#74798b');rect(x+415,326,11,92,'#74798b');round(x+298,261,97,54,5,'#28374e');rect(x+305,267,83,38,'#3d6588');text('☕  404',x+310,291,14,'#b8e1d6');round(x+337,315,9,19,1,'#b7bdc4');rect(x+309,328,84,5,'#b7bdc4');round(x+238,382,49,42,5,'#c46764');rect(x+253,365,16,26,'#8e414b');}
+for(let i=Math.floor(cam/690)-1;i<Math.floor(cam/690)+4;i++){const x=i*690-cam;round(x+260,306,177,20,4,'#936c55');rect(x+272,326,11,92,'#74798b');rect(x+415,326,11,92,'#74798b');round(x+298,261,97,54,5,'#28374e');drawIdleMonitor(x+305,267,i);round(x+337,315,9,19,1,'#b7bdc4');rect(x+309,328,84,5,'#b7bdc4');round(x+238,382,49,42,5,'#c46764');rect(x+253,365,16,26,'#8e414b');}
 for(let i=Math.floor(cam/920)-1;i<Math.floor(cam/920)+3;i++){let x=i*920+65-cam;round(x,317,72,101,8,'#618c80');rect(x+25,400,18,31,'#96746a');for(let j=0;j<6;j++){ctx.beginPath();ctx.ellipse(x+33+Math.sin(j*2)*22,349+j*10,25,10,j,0,Math.PI*2);ctx.fillStyle=j%2?'#3a8267':'#66a579';ctx.fill()}}
 }
 function drawFaceImage(img, x, y, w, h){
