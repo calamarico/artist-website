@@ -75,11 +75,6 @@ function drawFaceImage(img, x, y, w, h){
   const dx=x+(w-dw)/2, dy=y+(h-dh)/2;
   ctx.drawImage(img,dx,dy,dw,dh);
   ctx.restore();
-  ctx.strokeStyle='#ffffff88';
-  ctx.lineWidth=2;
-  ctx.beginPath();
-  ctx.roundRect(x,y,w,h,12);
-  ctx.stroke();
   return true;
 }
 // Human Resources is a supervisor, never a combat target.
@@ -107,6 +102,16 @@ function drawHR(){
  ctx.restore();
  // Strong identity label and a supervisor-status glyph.
  round(x-52,FLOOR-204,104,26,9,'#842251');text('RR. HH. 👁',x,FLOOR-186,14,'#fff','center');
+ // Globo de diálogo que sigue a RR. HH., visible únicamente al cruzar la pantalla.
+ const bx=clamp(x,145,SW-145), by=FLOOR-288;
+ ctx.save();
+ ctx.shadowColor='#1b254055';ctx.shadowBlur=12;ctx.shadowOffsetY=4;
+ round(bx-142,by,284,50,18,'#fffafc');
+ ctx.restore();
+ ctx.strokeStyle='#942451';ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect(bx-142,by,284,50,18);ctx.stroke();
+ ctx.fillStyle='#fffafc';ctx.beginPath();ctx.moveTo(clamp(x,bx-104,bx+104)-11,by+49);ctx.lineTo(clamp(x,bx-104,bx+104),by+66);ctx.lineTo(clamp(x,bx-104,bx+104)+11,by+49);ctx.closePath();ctx.fill();
+ text('Hola papito...',bx,by+22,17,'#75254c','center');
+ text('papito rico...',bx,by+42,17,'#75254c','center');
 }
 function employee(e){const x=e.x-cam,y=FLOOR+(e.dead?Math.min(30,e.fade*1.2):0);if(x<-150||x>SW+150)return;ctx.save();ctx.translate(x,y);if(e.dead){ctx.globalAlpha=Math.max(0,1-e.fade/45);ctx.rotate(.95*Math.min(1,e.fade/15))}else{ctx.translate(0,Math.sin(e.phase*4)*1.5)}
 round(-23,-10,21,11,4,'#292d3f');round(3,-10,21,11,4,'#292d3f');rect(-19,-51,14,43,e.pants);rect(7,-51,14,43,e.pants);
