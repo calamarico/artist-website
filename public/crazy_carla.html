@@ -49,7 +49,7 @@ let boss=null, endScreen=null, endTimer=0;
 // Balance variables: tweak here for subsequent playtests.
 const BOSS_CARLA_HP=135, BOSS_COVA_HP=165;
 const BOSS_KNIFE_DAMAGE=14, BOSS_BOOK_DAMAGE=11;
-const BOSS_BOOK_SPEED=9.4, BOSS_BOOK_INTERVAL=76;
+const BOSS_BOOK_SPEED=9.4, BOSS_BOOK_INTERVAL=56;
 const BOSS_STUN_COVA=205, BOSS_STUN_CARLA=140;
 const BOSS_CLASH_PRESSES=23, BOSS_CLASH_TIME=320;
 function initBoss(){
@@ -159,6 +159,18 @@ function puff(x,y,name){for(let i=0;i<16;i++)particles.push({x,y,vx:rand(-3.6,3.
 
 
 // FINAL BOSS — keyboard-driven fight; no libraries, works fully offline.
+
+function spawnBossBlood(x,y,side=1){
+  for(let i=0;i<17;i++){
+    const angle=rand(-2.7,-.35), speed=rand(1.8,6.4);
+    particles.push({
+      x,y,vx:Math.cos(angle)*speed*side+rand(-1.5,1.5),
+      vy:Math.sin(angle)*speed,life:rand(17,34),maxLife:34,
+      type:'bossBlood',size:rand(2.5,5.8),rot:rand(0,6.28)
+    });
+  }
+}
+
 function updateBoss(dt){
  const b=boss;if(!b||endScreen)return;
  tick+=dt;
@@ -208,7 +220,7 @@ function updateBoss(dt){
   const tooFar=Math.abs(dist)>365;
   const direction=tooClose?-Math.sign(dist):tooFar?Math.sign(dist):Math.sin(b.aiTime*.028)>0?1:-1;
   const previousX=b.x;
-  b.x=clamp(b.x+direction*2.35*dt,105,SW-90);
+  b.x=clamp(b.x+direction*3.05*dt,105,SW-90);
   if((b.x<113||b.x>SW-99||Math.abs(previousX-b.x)<.05)&&b.y===0){b.vy=-12;b.y=-.1;}
   if(Math.abs(dist)<185&&b.y===0&&Math.random()<.045*dt){b.vy=-12.2;b.y=-.1;}
   b.lastThrow+=dt;
@@ -224,7 +236,7 @@ function updateBoss(dt){
     Math.abs(p.x-b.x)<151 && Math.abs((p.y-115)-(b.y-155))<165 &&
     Math.sign(b.x-p.x)===p.face){
   b.attackTagged=true;b.hp=Math.max(0,b.hp-BOSS_KNIFE_DAMAGE);b.invCova=16;b.damageFlash=12;
-  puff(b.x,FLOOR+b.y-142,'¡ZAS!');
+  spawnBossBlood(b.x,FLOOR+b.y-143,p.face);puff(b.x,FLOOR+b.y-142,'¡ZAS!');
   if(b.hp<=0){finishBoss('victory');return;}
  }
  if(!p.attack)b.attackTagged=false;
@@ -232,7 +244,7 @@ function updateBoss(dt){
   book.x+=book.vx*dt;book.y+=book.vy*dt;book.rot+=.16*dt;book.life-=dt;
   if(b.invCarla<=0&&b.stunCova<=0&&Math.abs(book.x-p.x)<44&&Math.abs(book.y-(FLOOR+p.y-119))<80){
     b.carlaHp=Math.max(0,b.carlaHp-BOSS_BOOK_DAMAGE);b.invCarla=34;p.shake=18;
-    book.life=0;puff(p.x,FLOOR+p.y-95,'¡AY!');
+    book.life=0;spawnBossBlood(p.x,FLOOR+p.y-123,Math.sign(book.vx)||1);puff(p.x,FLOOR+p.y-95,'¡AY!');
     if(b.carlaHp<=0){finishBoss('gameover');return;}
   }
  }
@@ -991,7 +1003,15 @@ function meetingRoomScene(){
   round(230,30,500,54,12,'#213650');text('¡Todos reunidos! · ESPACIO: ATACAR',480,64,20,'#ffe1a1','center');
  }
  if(meeting.stage!=='occupied' && !meeting.stage.startsWith('boss_')){round(22,26,145,37,9,'#263c53');text('E · SALIR',94,51,17,'#fff','center');}
- for(const f of particles){ctx.save();ctx.globalAlpha=clamp(f.life/35,0,1);ctx.translate(f.x,f.y);if(f.type==='label'){text(f.text,0,0,18,'#d72653','center')}else{ctx.rotate(f.rot);rect(-4,-3,8,6,['#fff','#ffd96c','#97cde0'][f.type]);}ctx.restore();}
+ for(const f of particles){ctx.save();ctx.globalAlpha=clamp(f.life/35,0,1);ctx.translate(f.x,f.y);if(f.type==='label'){
+  text(f.text,0,0,18,'#d72653','center');
+}else if(f.type==='bossBlood'){
+  ctx.rotate(f.rot);
+  ctx.fillStyle=f.life>15?'#c52c3e':'#8d2332';
+  ctx.beginPath();ctx.ellipse(0,0,f.size,f.size*.58,0,0,Math.PI*2);ctx.fill();
+}else{
+  ctx.rotate(f.rot);rect(-4,-3,8,6,['#fff','#ffd96c','#97cde0'][f.type]);
+}ctx.restore();}
 }
 
 function draw(){if(endScreen){drawEndScreen();return;}if(meeting){meetingRoomScene();return;}office();garageScene();drawMeetingDoor();const visible=employees.filter(e=>e.x-cam>-120&&e.x-cam<SW+120);visible.sort((a,b)=>a.x-b.x).forEach(employee);drawHR();drawSpecialArturo();carla();
