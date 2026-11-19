@@ -46,7 +46,12 @@ let arturo=null,nextArturoAt=3000,arturoVisits=0,doorHint='';
 let meeting=null,meetingOops=0;const MEETING_DOOR_OFFSET=2650;
 let madness=false, madnessStartedAt=0;
 let boss=null, endScreen=null, endTimer=0;
-const BOSS_CARLA_HP=125, BOSS_COVA_HP=180;
+// Balance variables: tweak here for subsequent playtests.
+const BOSS_CARLA_HP=135, BOSS_COVA_HP=165;
+const BOSS_KNIFE_DAMAGE=14, BOSS_BOOK_DAMAGE=11;
+const BOSS_BOOK_SPEED=9.4, BOSS_BOOK_INTERVAL=76;
+const BOSS_STUN_COVA=205, BOSS_STUN_CARLA=140;
+const BOSS_CLASH_PRESSES=23, BOSS_CLASH_TIME=320;
 function initBoss(){
  boss={x:685,y:0,vy:0,face:-1,hp:BOSS_COVA_HP,carlaHp:BOSS_CARLA_HP,
   books:[],lastThrow:0,aiTime:0,stunCova:0,stunCarla:0,invCarla:0,invCova:0,
@@ -59,7 +64,7 @@ function finishBoss(who){
  if(meeting)meeting.stage=who==='victory'?'victory':'gameover';
 }
 
-const MADNESS_THRESHOLD=100;
+const MADNESS_THRESHOLD=80;
 const MADNESS_QUOTES=[
  'En ocasiones veo muertos',
  'he oído que vuelve Tomás!?',
@@ -81,7 +86,7 @@ function activateMadness(){
 function meetingDoorX(){const n=Math.floor(p.x/BLOCK);return madness?n*BLOCK+MEETING_DOOR_OFFSET:(n%2===0?n*BLOCK+MEETING_DOOR_OFFSET:null);}
 function meetingDoorNearby(){const x=meetingDoorX();return x!==null&&zone(p.x)==='OFFICE'&&Math.abs(p.x-x)<85&&p.y>-65;}
 function enterMeeting(){
- // After 100, every room belongs to Marketing/Cova. Otherwise keep Arturo's 1/3 surprise.
+ // After 80, every room belongs to Marketing/Cova. Otherwise keep Arturo's 1/3 surprise.
  const bossRoom=madness;
  const occupied=!bossRoom&&Math.random()<1/3;
  meeting={returnX:p.x,returnCam:cam,employees:[],count:10+Math.floor(Math.random()*3),spawned:0,callTimer:0,stage:bossRoom?'boss_intro':occupied?'occupied':'waiting',occupiedTimer:0,arturo:occupied?{x:630,phase:0,dir:-1}:null};
@@ -166,16 +171,16 @@ function updateBoss(dt){
   b.clashTimer-=dt;p.vx=0;p.attack=0;p.face=1;b.face=-1;
   p.x+=(410-p.x)*Math.min(1,.12*dt);b.x+=(545-b.x)*Math.min(1,.12*dt);
   p.y=0;b.y=0;p.vy=0;b.vy=0;
-  if(b.clashTimer<=0){meeting.stage='boss_clash';b.clashTimer=310;b.mashes=0;}
+  if(b.clashTimer<=0){meeting.stage='boss_clash';b.clashTimer=BOSS_CLASH_TIME;b.mashes=0;}
   return;
  }
  if(meeting.stage==='boss_clash'){
   b.clashTimer-=dt;
-  // 28 real, distinct presses within ~5 seconds beats Cova.
+  // 23 real, distinct presses within ~5.3 seconds beats Cova.
   if(b.clashTimer<=0){
-   const playerWins=b.mashes>=28;
-   if(playerWins){b.stunCova=185;b.invCova=0;b.hp=Math.max(1,b.hp-17);}
-   else{b.stunCarla=165;b.invCarla=0;b.carlaHp=Math.max(1,b.carlaHp-16);}
+   const playerWins=b.mashes>=BOSS_CLASH_PRESSES;
+   if(playerWins){b.stunCova=BOSS_STUN_COVA;b.invCova=0;b.hp=Math.max(1,b.hp-20);}
+   else{b.stunCarla=BOSS_STUN_CARLA;b.invCarla=0;b.carlaHp=Math.max(1,b.carlaHp-14);}
    meeting.stage='boss_fight';p.cooldown=0;b.lastThrow=12;
   }
   return;
@@ -207,10 +212,10 @@ function updateBoss(dt){
   if((b.x<113||b.x>SW-99||Math.abs(previousX-b.x)<.05)&&b.y===0){b.vy=-12;b.y=-.1;}
   if(Math.abs(dist)<185&&b.y===0&&Math.random()<.045*dt){b.vy=-12.2;b.y=-.1;}
   b.lastThrow+=dt;
-  if(b.lastThrow>=82){
+  if(b.lastThrow>=BOSS_BOOK_INTERVAL){
    b.lastThrow=0;
    const dir=p.x<b.x?-1:1;
-   b.books.push({x:b.x+dir*30,y:FLOOR+b.y-156,vx:dir*6.4,vy:rand(-1.1,.45),rot:0,life:155});
+   b.books.push({x:b.x+dir*30,y:FLOOR+b.y-156,vx:dir*BOSS_BOOK_SPEED,vy:rand(-1.1,.45),rot:0,life:155});
   }
  }
  b.vy+=.58*dt;b.y+=b.vy*dt;if(b.y>0){b.y=0;b.vy=0;}
@@ -218,7 +223,7 @@ function updateBoss(dt){
  if(p.attack>5&&p.attack<17&&!b.attackTagged&&b.invCova<=0&&b.stunCarla<=0&&
     Math.abs(p.x-b.x)<151 && Math.abs((p.y-115)-(b.y-155))<165 &&
     Math.sign(b.x-p.x)===p.face){
-  b.attackTagged=true;b.hp=Math.max(0,b.hp-12);b.invCova=16;b.damageFlash=12;
+  b.attackTagged=true;b.hp=Math.max(0,b.hp-BOSS_KNIFE_DAMAGE);b.invCova=16;b.damageFlash=12;
   puff(b.x,FLOOR+b.y-142,'¡ZAS!');
   if(b.hp<=0){finishBoss('victory');return;}
  }
@@ -226,7 +231,7 @@ function updateBoss(dt){
  for(const book of b.books){
   book.x+=book.vx*dt;book.y+=book.vy*dt;book.rot+=.16*dt;book.life-=dt;
   if(b.invCarla<=0&&b.stunCova<=0&&Math.abs(book.x-p.x)<44&&Math.abs(book.y-(FLOOR+p.y-119))<80){
-    b.carlaHp=Math.max(0,b.carlaHp-12);b.invCarla=34;p.shake=18;
+    b.carlaHp=Math.max(0,b.carlaHp-BOSS_BOOK_DAMAGE);b.invCarla=34;p.shake=18;
     book.life=0;puff(p.x,FLOOR+p.y-95,'¡AY!');
     if(b.carlaHp<=0){finishBoss('gameover');return;}
   }
@@ -271,9 +276,9 @@ function drawBossHUD(){
   text('¡PULSA ESPACIO SIN PARAR!',480,62,34,'#ffe394','center');
   text('CARLA',210,408,27,'#fff','center');text('COVA',750,408,27,'#fff','center');
   round(155,423,650,33,16,'#532d50');
-  const ratio=clamp(b.mashes/28,0,1);
+  const ratio=clamp(b.mashes/BOSS_CLASH_PRESSES,0,1);
   round(159,427,642*ratio,25,12,'#6dec9c');
-  text('ESPACIO: '+b.mashes+' / 28',480,447,17,'#fff','center');
+  text('ESPACIO: '+b.mashes+' / '+BOSS_CLASH_PRESSES,480,447,17,'#fff','center');
   text('TIEMPO: '+Math.ceil(b.clashTimer/60)+' s',480,493,23,'#ffe394','center');
  }
 }
