@@ -211,6 +211,40 @@ employees=employees.filter(e=>e.x>cam-300&&(!e.dead||e.fade<55));for(const f of 
 function rect(x,y,w,h,fill){ctx.fillStyle=fill;ctx.fillRect(x,y,w,h)}function line(x1,y1,x2,y2,color,width=2){ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke()}
 function round(x,y,w,h,r,fill){ctx.fillStyle=fill;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
 function text(s,x,y,size=16,color='#fff',align='left'){ctx.fillStyle=color;ctx.font=`bold ${size}px system-ui`;ctx.textAlign=align;ctx.fillText(s,x,y);ctx.textAlign='left'}
+// Framed Espanyol-style blue-and-white striped shirts hanging on Arctempus's office walls.
+// Drawn in Canvas so the game stays completely self-contained.
+function drawEspanyolShirt(worldX,variant=0){
+ const x=worldX-cam;
+ if(x < -155 || x > SW+155 || zone(worldX)!=='OFFICE')return;
+ const y=111+(variant%2)*15;
+ ctx.save();ctx.translate(x,y);
+ // Frame, glass inset, small brass plaque and real-looking wall shadow.
+ ctx.shadowColor='#1d293e55';ctx.shadowBlur=13;ctx.shadowOffsetY=6;
+ round(-59,-5,118,155,7,'#273a53');ctx.shadowColor='transparent';
+ round(-54,0,108,138,3,'#f9fafb');
+ round(-49,5,98,128,2,'#e2e8ee');
+ // Metal hanger and collar.
+ line(-10,30,0,20,'#7a8593',2);line(0,20,10,30,'#7a8593',2);
+ ctx.beginPath();ctx.arc(0,17,4,Math.PI*.95,Math.PI*1.9);ctx.strokeStyle='#7a8593';ctx.lineWidth=2;ctx.stroke();
+ // Jersey silhouette; clipped stripes to ensure the sleeves are also blue-white.
+ ctx.beginPath();ctx.moveTo(-24,32);ctx.lineTo(-41,38);ctx.lineTo(-49,63);
+ ctx.lineTo(-31,72);ctx.lineTo(-24,59);ctx.lineTo(-24,112);
+ ctx.lineTo(24,112);ctx.lineTo(24,59);ctx.lineTo(31,72);
+ ctx.lineTo(49,63);ctx.lineTo(41,38);ctx.lineTo(24,32);
+ ctx.lineTo(9,27);ctx.quadraticCurveTo(0,40,-9,27);ctx.closePath();
+ ctx.save();ctx.clip();rect(-50,25,100,94,'#f9fbff');
+ for(let i=0;i<9;i++)rect(-45+i*12,25,7,92,'#2472b7');
+ // fabric outline and collar
+ ctx.restore();ctx.strokeStyle='#56728e';ctx.lineWidth=1.6;ctx.stroke();
+ ctx.beginPath();ctx.moveTo(-9,28);ctx.quadraticCurveTo(0,40,9,28);ctx.strokeStyle='#182d56';ctx.lineWidth=3;ctx.stroke();
+ // Shirt number / small chest emblem for visual variety.
+ if(variant%3===0){text('21',0,85,17,'#233c63','center');}
+ else if(variant%3===1){text('RCD',0,85,12,'#233c63','center');}
+ else {text('1900',0,85,11,'#233c63','center');}
+ round(-48,137,96,10,2,'#314964');
+ text('RCD ESPANYOL',0,145,7,'#fff','center');
+ ctx.restore();
+}
 function office(){let g=ctx.createLinearGradient(0,0,0,FLOOR);g.addColorStop(0,'#a7c5e1');g.addColorStop(1,'#edf1ed');rect(0,0,SW,SH,g);rect(0,0,SW,88,'#d6e4ef');rect(0,83,SW,7,'#9bb1c8');
 // Arctempus has an interior office: solid walls, acoustic panels and noticeboards, NO windows.
 const start=Math.floor(cam/380)-1;
@@ -239,6 +273,11 @@ for(let i=Math.floor(cam/1070)-1;i<Math.floor(cam/1070)+4;i++){
  if(companyLogo.complete&&companyLogo.naturalWidth)ctx.drawImage(companyLogo,x+12,125,230,27);
  else text('ARCTEMPUS',x+20,151,26,'#1d1d1b');
  text('OFICINAS · PLANTA '+(Math.abs(i)%6+1),x+14,179,12,'#5c6880');
+}
+// A couple of framed shirts along each long section of the building.
+for(let i=Math.floor(cam/2200)-1;i<=Math.floor((cam+SW)/2200)+1;i++){
+ drawEspanyolShirt(i*2200+880,Math.abs(i));
+ drawEspanyolShirt(i*2200+1710,Math.abs(i)+1);
 }
 rect(0,295,SW,150,'#e0e6e6');rect(0,430,SW,14,'#8e9caa');rect(0,444,SW,96,'#687387');for(let i=Math.floor(cam/90)-1;i<Math.floor(cam/90)+15;i++)line(i*90-cam,444,i*90-cam-22,540,'#788599',1);
 for(let i=Math.floor(cam/690)-1;i<Math.floor(cam/690)+4;i++){const x=i*690-cam;round(x+260,306,177,20,4,'#936c55');rect(x+272,326,11,92,'#74798b');rect(x+415,326,11,92,'#74798b');round(x+298,261,97,54,5,'#28374e');rect(x+305,267,83,38,'#3d6588');text('☕  404',x+310,291,14,'#b8e1d6');round(x+337,315,9,19,1,'#b7bdc4');rect(x+309,328,84,5,'#b7bdc4');round(x+238,382,49,42,5,'#c46764');rect(x+253,365,16,26,'#8e414b');}
@@ -476,8 +515,27 @@ function drawSpecialArturo(){
  const slap=a.state==='slap';const forward=a.side;ctx.save();ctx.scale(forward,1);
  round(-28,-101,15,52,6,'#1c2935');
  round(19,-109,16,slap?25:46,6,'#1c2935');
- if(slap){round(23,-105,44,13,6,'#1c2935');round(64,-111,21,26,10,'#e2ae8e');}
- else round(17,-69,19,15,8,'#e2ae8e');ctx.restore();
+ if(slap){
+   round(23,-105,44,13,6,'#1c2935');
+   round(64,-111,21,26,10,'#e2ae8e');
+   ctx.save();
+   ctx.translate(83,-101);
+   ctx.rotate(-0.18);
+   round(-10,-4,48,8,3,'#7f8791');
+   round(23,-17,8,30,3,'#7f8791');
+   line(-8,0,35,0,'#a7afb7',2);
+   ctx.restore();
+ } else {
+   round(17,-69,19,15,8,'#e2ae8e');
+   ctx.save();
+   ctx.translate(25,-77);
+   ctx.rotate(0.78);
+   round(-8,-4,38,8,3,'#7f8791');
+   round(20,-14,8,28,3,'#7f8791');
+   line(-6,0,27,0,'#a7afb7',2);
+   ctx.restore();
+ }
+ ctx.restore();
  if(faceArturo.complete&&faceArturo.naturalWidth)drawFaceImage(faceArturo,-32,-164,64,77);
  else{text('ARTURO',-33,-141,14,'#fff')}
  ctx.restore();
@@ -514,6 +572,14 @@ function drawOccupiedArturo(a){
  // Arms pumping toward the left as Arturo runs.
  round(-30,-110+stride*.4,15,48,6,'#243544');round(17,-106-stride*.4,15,48,6,'#243544');
  round(-30,-70+stride*.4,17,15,7,'#dbad8b');round(17,-66-stride*.4,17,15,7,'#dbad8b');
+ // Cutre crowbar in hand, always visible while Arturo chases Carla out of the room.
+ ctx.save();
+ ctx.translate(28,-72-stride*.35);
+ ctx.rotate(0.62);
+ round(-8,-4,38,8,3,'#7f8791');
+ round(20,-14,8,28,3,'#7f8791');
+ line(-6,0,28,0,'#a7afb7',2);
+ ctx.restore();
  // The SAME expressive Arturo portrait used by his surprise-attack appearance.
  if(faceArturo.complete&&faceArturo.naturalWidth)drawFaceImage(faceArturo,-34,-167,68,79);
  else {ctx.fillStyle='#e2b08f';ctx.beginPath();ctx.arc(0,-134,25,0,Math.PI*2);ctx.fill();}
