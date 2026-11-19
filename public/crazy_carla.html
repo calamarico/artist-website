@@ -29,8 +29,9 @@ function meetingDoorNearby(){const x=meetingDoorX();return x!==null&&zone(p.x)==
 function enterMeeting(){
  // About 1 in 3 visits: Arturo already has the room booked!
  const occupied=Math.random()<1/3;
- meeting={returnX:p.x,returnCam:cam,employees:[],count:10+Math.floor(Math.random()*3),spawned:0,callTimer:0,stage:occupied?'occupied':'waiting',occupiedTimer:0,arturo:occupied?{...createEmployee(730),kind:'arturo',label:'Arturo',x:730,dir:-1,panic:0,dead:false}:null};
- p.x=170;p.y=0;p.vx=0;p.vy=0;p.attack=0;p.cooldown=0;cam=0;hrWatching=false;
+ meeting={returnX:p.x,returnCam:cam,employees:[],count:10+Math.floor(Math.random()*3),spawned:0,callTimer:0,stage:occupied?'occupied':'waiting',occupiedTimer:0,arturo:occupied?{x:630,phase:0,dir:-1}:null};
+ // Occupied room: Carla enters beside the LEFT door. Arturo waits further inside.
+ p.x=occupied?170:170;p.y=0;p.vx=0;p.vy=0;p.walk=0;p.face=1;p.attack=0;p.cooldown=0;cam=0;hrWatching=false;
 }
 function exitMeeting(arturoChased=false){
  if(!meeting)return;
@@ -43,7 +44,7 @@ function organizeMeeting(){if(!meeting||meeting.stage!=='waiting')return;meeting
 
 function zone(x){let m=((x%BLOCK)+BLOCK)%BLOCK;return m>=GARAGE_START&&m<GARAGE_END?'GARAGE':m>=GARAGE_END&&m<CAFETERIA_END?'CAFETERIA':'OFFICE';}
 function doorOptions(){const base=Math.floor(p.x/BLOCK)*BLOCK;return [{x:base+6270,to:base+6710,label:'CAFETERIA'},{x:base+6480,to:base+7490,label:'OFFICE'}];}
-function useDoor(){if(meeting){exitMeeting();return;}if(meetingDoorNearby()){enterMeeting();return;}for(const d of doorOptions()){if(Math.abs(p.x-d.x)<95 && p.y>-60){p.x=d.to;p.y=0;p.vy=0;p.attack=0;cam=Math.max(0,p.x-215);doorHint='';return;}}}
+function useDoor(){if(meeting){if(meeting.stage!=='occupied')exitMeeting();return;}if(meetingDoorNearby()){enterMeeting();return;}for(const d of doorOptions()){if(Math.abs(p.x-d.x)<95 && p.y>-60){p.x=d.to;p.y=0;p.vy=0;p.attack=0;cam=Math.max(0,p.x-215);doorHint='';return;}}}
 const rand=(a,b)=>a+Math.random()*(b-a),clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 function down(k){if(['ArrowLeft','ArrowRight','ArrowUp','Space',' '].includes(k))return k===' '?'Space':k;return k}
 window.addEventListener('keydown',e=>{let k=down(e.key);if(['ArrowLeft','ArrowRight','ArrowUp','Space','KeyE','r','R'].includes(k))e.preventDefault();keys[k]=true;if(k==='Space'&&!e.repeat)attack();if((k==='e'||k==='E'||k==='KeyE')&&!e.repeat)useDoor();if((k==='r'||k==='R')&&!e.repeat)organizeMeeting()});window.addEventListener('keyup',e=>{keys[down(e.key)]=false});window.addEventListener('blur',()=>Object.keys(keys).forEach(k=>keys[k]=false));
@@ -65,15 +66,22 @@ function puff(x,y,name){for(let i=0;i<16;i++)particles.push({x,y,vx:rand(-3.6,3.
 function updateMeeting(dt){
  tick+=dt;
  if(meeting.stage==='occupied'){
-   // Scripted comic encounter: no slap lands, no attack allowed; Carla escapes in time.
+   // Arturo advances from inside, visibly chasing Carla, who flees on foot via the left door.
    const m=meeting;
    m.occupiedTimer+=dt;
-   p.x=170;p.y=0;p.vx=0;p.vy=0;p.attack=0;
-   p.face=1;
-   m.arturo.phase+=dt*.28;
-   m.arturo.x=Math.max(p.x+135,m.arturo.x-7.5*dt);
+   p.y=0;p.vy=0;p.attack=0;p.wave=0;p.cooldown=0;
+   m.arturo.phase+=dt*.34;
+   // Arturo does not reach her before the escape; never overwrite Carla's position with a timer.
+   m.arturo.x=Math.max(p.x+116,m.arturo.x-8.3*dt);
+   if(m.occupiedTimer>=19){
+     p.face=-1;
+     p.vx=-6.3;
+     p.x=Math.max(48,p.x+p.vx*dt);
+     p.walk+=dt*.38;
+     // Only leave when Carla physically reaches the door.
+     if(p.x<=50){exitMeeting(true);return;}
+   } else {p.vx=0;}
    document.getElementById('zone').textContent='SALA DE REUNIONES · OCUPADA';
-   if(m.occupiedTimer>=96)exitMeeting(true);
    return;
  }
  const move=(keys.ArrowRight?1:0)-(keys.ArrowLeft?1:0);
@@ -404,6 +412,22 @@ function drawMeetingDoor(){
    text('E · ENTRAR',x,211,14,'#25394e','center');
  }
 }
+function drawOccupiedArturo(a){
+ const x=a.x, stride=Math.sin(a.phase*4.5)*11;
+ ctx.save();ctx.translate(x,FLOOR);
+ ctx.fillStyle='#0003';ctx.beginPath();ctx.ellipse(0,-3,32,9,0,0,Math.PI*2);ctx.fill();
+ round(-20+stride*.45,-48,16,44,4,'#25394b');round(5-stride*.45,-48,16,44,4,'#25394b');
+ round(-24+stride*.45,-10,25,11,4,'#111a25');round(3-stride*.45,-10,25,11,4,'#111a25');
+ round(-29,-113,58,70,10,'#243544');
+ // Arms pumping toward the left as Arturo runs.
+ round(-30,-110+stride*.4,15,48,6,'#243544');round(17,-106-stride*.4,15,48,6,'#243544');
+ round(-30,-70+stride*.4,17,15,7,'#dbad8b');round(17,-66-stride*.4,17,15,7,'#dbad8b');
+ // The SAME expressive Arturo portrait used by his surprise-attack appearance.
+ if(faceArturo.complete&&faceArturo.naturalWidth)drawFaceImage(faceArturo,-34,-167,68,79);
+ else {ctx.fillStyle='#e2b08f';ctx.beginPath();ctx.arc(0,-134,25,0,Math.PI*2);ctx.fill();}
+ ctx.restore();
+ round(x-53,FLOOR-198,106,24,7,'#26374a');text('ARTURO',x,FLOOR-180,13,'#fff','center');
+}
 function meetingRoomScene(){
  let g=ctx.createLinearGradient(0,0,0,SH);g.addColorStop(0,'#d9e2e7');g.addColorStop(1,'#c7d1d6');rect(0,0,SW,SH,g);
  rect(0,0,SW,90,'#c5d5df');rect(0,90,SW,9,'#718b9b');
@@ -412,27 +436,32 @@ function meetingRoomScene(){
  rect(0,425,SW,115,'#707d85');rect(0,439,SW,7,'#566773');
  round(260,341,510,24,7,'#8d6550');rect(285,365,14,62,'#545f6c');rect(733,365,14,62,'#545f6c');
  for(let i=0;i<8;i++){const x=315+i*53;round(x,330,30,10,5,'#e4e9e8');}
- round(870,237,78,207,9,'#384859');round(875,244,68,194,6,'#748596');text('SALIDA',909,268,14,'#f4e6a0','center');
- text('E',909,324,20,'#fff','center');
+ if(meeting.stage==='occupied'){
+   // Door is on the LEFT, just behind Carla; visible throughout her on-foot escape.
+   round(26,230,83,215,7,'#324355');round(33,239,69,197,5,'#728496');
+   round(34,248,67,37,4,'#f3e7bd');text('SALIDA',67,272,15,'#29394c','center');
+   round(87,353,8,14,3,'#f4c460');
+ }else{
+   round(870,237,78,207,9,'#384859');round(875,244,68,194,6,'#748596');text('SALIDA',909,268,14,'#f4e6a0','center');
+   text('E',909,324,20,'#fff','center');
+ }
  // Employees share the same photo-sprite renderer as the main office.
  meeting.employees.forEach(employee);
- if(meeting.stage==='occupied'){
-   // Arturo is inside, advances fast toward Carla, but she gets out before being hit.
-   employee(meeting.arturo);
- }
+ if(meeting.stage==='occupied')drawOccupiedArturo(meeting.arturo);
  carla();
  if(meeting.stage==='occupied'){
-   round(304,18,540,69,13,'#fff7e5');
-   text('¡Que esta ocupadaaaa!!',574,59,24,'#a52d35','center');
-   ctx.fillStyle='#fff7e5';ctx.beginPath();ctx.moveTo(585,87);ctx.lineTo(620,87);ctx.lineTo(623,105);ctx.fill();
-   if(meeting.occupiedTimer>23){
-     round(99,151,142,49,14,'#fff');text('Ups',170,182,24,'#26394b','center');
-     ctx.fillStyle='#fff';ctx.beginPath();ctx.moveTo(146,200);ctx.lineTo(162,200);ctx.lineTo(175,215);ctx.fill();
+   // Speech bubbles are screen-space UI: text remains legible while Carla turns left.
+   const ax=clamp(meeting.arturo.x,150,SW-170), bx=clamp(p.x,80,SW-80);
+   round(ax-151,92,302,54,12,'#fff7e5');
+   text('¡Que esta ocupadaaaa!!',ax,127,20,'#a52d35','center');
+   ctx.fillStyle='#fff7e5';ctx.beginPath();ctx.moveTo(ax-10,146);ctx.lineTo(ax+16,146);ctx.lineTo(meeting.arturo.x,164);ctx.fill();
+   if(meeting.occupiedTimer>12){
+     round(bx-55,139,110,43,12,'#fff');text('Ups',bx,168,22,'#26394b','center');
+     ctx.fillStyle='#fff';ctx.beginPath();ctx.moveTo(bx-9,182);ctx.lineTo(bx+10,182);ctx.lineTo(p.x,200);ctx.fill();
    }
    round(15,22,270,43,12,'#213650');
    text('SALA OCUPADA',150,50,18,'#ffe1a1','center');
-   // Speech balloon remains readable regardless of the character's direction.
-   round(325,105,405,35,10,'#9e3147');text('Arturo viene hacia Carla...',527,128,16,'#fff','center');
+   round(325,18,475,43,10,'#9e3147');text('¡Arturo viene corriendo! Carla huye por la puerta',562,46,15,'#fff','center');
  }else if(meeting.stage==='waiting'){
   round(240,30,480,54,12,'#213650');text('Pulsa R → ORGANIZA UNA REUNIÓN',480,64,21,'#ffe1a1','center');
  }else if(meeting.stage==='arriving'){
@@ -440,7 +469,7 @@ function meetingRoomScene(){
  }else{
   round(230,30,500,54,12,'#213650');text('¡Todos reunidos! · ESPACIO: ATACAR',480,64,20,'#ffe1a1','center');
  }
- round(22,26,145,37,9,'#263c53');text('E · SALIR',94,51,17,'#fff','center');
+ if(meeting.stage!=='occupied'){round(22,26,145,37,9,'#263c53');text('E · SALIR',94,51,17,'#fff','center');}
  for(const f of particles){ctx.save();ctx.globalAlpha=clamp(f.life/35,0,1);ctx.translate(f.x,f.y);if(f.type==='label'){text(f.text,0,0,18,'#d72653','center')}else{ctx.rotate(f.rot);rect(-4,-3,8,6,['#fff','#ffd96c','#97cde0'][f.type]);}ctx.restore();}
 }
 
