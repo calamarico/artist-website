@@ -183,7 +183,6 @@ if(p.complaint>0){
   // Comedic reaction: impact stars, flinch and an audible-looking complaint bubble.
   const alpha=Math.min(1,p.complaint/15);
   ctx.save();ctx.globalAlpha=alpha;
-  round(-73,-273,170,36,12,'#fff9df');text('¡AU! ¡ARTURO! 😤',12,-249,16,'#8f2b48','center');
   for(let i=0;i<3;i++)text('✦',-72+i*24,-196+Math.sin(tick*.13+i)*9,22,'#ffcb44');
   ctx.restore();
 }
@@ -191,10 +190,24 @@ if(p.wave>0 && hrWatching){
   // Carla looks innocent and waves rather than using the knife.
   ctx.save();ctx.translate(40,-133);ctx.rotate(-.1+Math.sin(tick*.55)*.22);
   round(-6,-8,15,37,6,'#cf4750');round(-8,-23,18,22,9,'#e4a381');ctx.restore();
-  round(-52,-262,146,30,10,'#fff');text('¡Buenos días! 😇',21,-241,14,'#4c6073','center');
 }
 if(p.attack>0 && !hrWatching){const progress=p.attack>10?(19-p.attack)/9:p.attack/10;const reach=Math.sin(Math.max(0,Math.min(1,progress))*Math.PI/2)*69;ctx.save();ctx.translate(23+reach,-111);ctx.rotate(-.10);ctx.fillStyle='#cf4750';ctx.fillRect(-reach-10,-13,reach+14,25);for(let i=0;i<Math.floor((reach+10)/12);i++){ctx.fillStyle=['#4282d3','#8ebb64','#e7bd61','#c44f82'][i%4];ctx.fillRect(-reach-8+i*12,-13,7,25)}round(-1,-16,24,31,12,'#d99671');round(14,-9,24,16,4,'#2d323a');ctx.fillStyle='#c4d1dc';ctx.beginPath();ctx.moveTo(35,-12);ctx.lineTo(83,-8);ctx.lineTo(35,5);ctx.fill();line(35,-9,76,-6,'#effbff',2);ctx.restore();ctx.save();ctx.globalAlpha=.75* Math.sin(Math.PI*progress);ctx.strokeStyle='#fff9cd';ctx.lineWidth=5;ctx.beginPath();ctx.arc(64+reach/2,-113,39,-.7,.68);ctx.stroke();ctx.restore();}
-ctx.restore()}
+ctx.restore();
+// Speech bubbles are drawn in screen coordinates, outside Carla's flip transform.
+// This keeps the letters readable even while Carla is facing left.
+const bubbleX=x+(p.shake>0?Math.sin(tick*1.55)*6:0);
+const bubbleY=y+(p.ouch>0?Math.abs(Math.sin(tick*.67))*4:0)-bounce;
+if(p.complaint>0){
+  ctx.save();ctx.globalAlpha=Math.min(1,p.complaint/15);
+  round(bubbleX-73,bubbleY-273,170,36,12,'#fff9df');
+  text('¡AU! ¡ARTURO! 😤',bubbleX+12,bubbleY-249,16,'#8f2b48','center');
+  ctx.restore();
+}
+if(p.wave>0 && hrWatching){
+  round(bubbleX-52,bubbleY-262,146,30,10,'#fff');
+  text('¡Buenos días! 😇',bubbleX+21,bubbleY-241,14,'#4c6073','center');
+}
+}
 
 function carWithCover(x,y,w,color){
  ctx.save();ctx.translate(x,y);
