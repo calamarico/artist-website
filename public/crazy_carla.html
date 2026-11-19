@@ -42,7 +42,7 @@ const p={x:120,y:0,vy:0,vx:0,face:1,attack:0,cooldown:0,hit:new Set(),walk:0,wav
 const BLOCK=8200,GARAGE_START=4700,GARAGE_END=6600,CAFETERIA_END=7400;
 let arturo=null,nextArturoAt=3000,arturoVisits=0,doorHint='';
 let meeting=null,meetingOops=0;const MEETING_DOOR_OFFSET=2650;
-function meetingDoorX(){const n=Math.floor(p.x/BLOCK);return n%3===0?n*BLOCK+MEETING_DOOR_OFFSET:null;}
+function meetingDoorX(){const n=Math.floor(p.x/BLOCK);return n%2===0?n*BLOCK+MEETING_DOOR_OFFSET:null;}
 function meetingDoorNearby(){const x=meetingDoorX();return x!==null&&zone(p.x)==='OFFICE'&&Math.abs(p.x-x)<85&&p.y>-65;}
 function enterMeeting(){
  // About 1 in 3 visits: Arturo already has the room booked!
@@ -604,7 +604,7 @@ function drawSpecialArturo(){
 function drawMeetingDoor(){
  const min=Math.floor(cam/BLOCK)-1,max=Math.floor((cam+SW)/BLOCK)+1;
  for(let n=min;n<=max;n++){
-   if(n%3!==0)continue;
+   if(n%2!==0)continue;
    const wx=n*BLOCK+MEETING_DOOR_OFFSET;
    if(zone(wx)!=='OFFICE')continue;
    const x=wx-cam;if(x<-160||x>SW+160)continue;
