@@ -92,12 +92,20 @@ function enemyKind(){
   }
   return enemyBag.pop();
 }
+const TECH_PHRASES=[
+  'Y nuestras camisetas?',
+  'Mi subida de sueldo cuando?',
+  'Dame el tlf que llamo a las enanas',
+  'Felicidades Yercko'
+];
+function randomTechPhrase(){return TECH_PHRASES[Math.floor(Math.random()*TECH_PHRASES.length)];}
 function createEmployee(x, forcedKind=null){
   const kind=forcedKind??enemyKind();
   return {
     id:Math.random(),x,dir:Math.random()<.5?-1:1,speed:rand(.25,.85),phase:rand(0,7),
     shirt:['#5b7ed6','#7aa77f','#c9955c','#9b72ad','#cf6f79'][Math.floor(rand(0,5))],
     pants:'#344055',hair:['#3f292a','#67422a','#1c2430'][Math.floor(rand(0,3))],dead:false,fade:0,panic:0,
+    speech:(kind==='carlos'||kind==='nacho')?randomTechPhrase():null,
     kind,label:({generic:'Empleado',carlos:'Carlos',nacho:'Nacho',gon:'Gon',david:'David',luis:'Luis',carlota:'Carlota',cristo:'Cristo',javier:'Javier',juan:'Juan',lara:'Lara',yercko:'Yercko',angel:'Angel',alberto:'Alberto',lucas:'Lucas'})[kind]
   }
 }
@@ -313,6 +321,40 @@ line(-4,-97,0,-63,'#fff',4);line(0,-63,7,-96,'#fff',4);ctx.fillStyle='#8f3652';c
 ctx.restore();
 if(e.kind!=='generic'&&!e.dead){text(e.label,x,y-176,11,'#1d2c44','center')}
 if(e.panic&&!e.dead&&e.kind==='generic')text('!',x-5,y-167,28,'#f64662')
+// Carlos and Nacho choose a new random catchphrase each time they spawn.
+// Draw speech in screen coordinates after ctx.restore(): never mirrored.
+if((e.kind==='carlos'||e.kind==='nacho')&&!e.dead&&e.speech){
+  const phrase=e.speech;
+  const lines=phrase==='Dame el tlf que llamo a las enanas'
+    ? ['Dame el tlf que llamo','a las enanas']
+    : phrase==='Mi subida de sueldo cuando?'
+    ? ['Mi subida de sueldo','cuando?']
+    : [phrase];
+  const bubbleW=286,bubbleH=lines.length===1?46:64;
+  const bx=clamp(x,bubbleW/2+8,SW-bubbleW/2-8),by=Math.max(108,y-265);
+  round(bx-bubbleW/2,by,bubbleW,bubbleH,12,'#fff9ee');
+  ctx.strokeStyle='#3b4c62';ctx.lineWidth=2;
+  ctx.beginPath();ctx.roundRect(bx-bubbleW/2,by,bubbleW,bubbleH,12);ctx.stroke();
+  ctx.fillStyle='#fff9ee';ctx.beginPath();
+  const tip=clamp(x,bx-bubbleW/2+22,bx+bubbleW/2-22);
+  ctx.moveTo(tip-10,by+bubbleH);ctx.lineTo(tip+10,by+bubbleH);
+  ctx.lineTo(tip,by+bubbleH+14);ctx.closePath();ctx.fill();
+  lines.forEach((line,i)=>text(line,bx,by+(lines.length===1?29:25+i*24),17,'#24354a','center'));
+}
+// Lucas always delivers his line whenever he is visible, including meetings.
+// The bubble is drawn AFTER ctx.restore(), so it never mirrors when he walks left.
+if(e.kind==='lucas'&&!e.dead){
+  const bubbleX=clamp(x,148,SW-148), bubbleY=Math.max(125,y-265);
+  round(bubbleX-143,bubbleY,286,62,12,'#fff9ee');
+  ctx.strokeStyle='#3b4c62';ctx.lineWidth=2;
+  ctx.beginPath();ctx.roundRect(bubbleX-143,bubbleY,286,62,12);ctx.stroke();
+  ctx.fillStyle='#fff9ee';ctx.beginPath();
+  ctx.moveTo(clamp(x,bubbleX-115,bubbleX+115)-10,bubbleY+62);
+  ctx.lineTo(clamp(x,bubbleX-115,bubbleX+115)+10,bubbleY+62);
+  ctx.lineTo(clamp(x,bubbleX-115,bubbleX+115),bubbleY+77);ctx.fill();
+  text('Osshe, que rico el cocido,',bubbleX,bubbleY+26,17,'#24354a','center');
+  text('menos la sopa',bubbleX,bubbleY+49,17,'#24354a','center');
+}
 }
 function carla(){const x=p.x-cam,y=FLOOR+p.y;ctx.save();ctx.translate(x+(p.shake>0?Math.sin(tick*1.55)*6:0),y+(p.ouch>0?Math.abs(Math.sin(tick*.67))*4:0));ctx.scale(p.face,1);ctx.fillStyle='#0003';ctx.beginPath();ctx.ellipse(0,-3,57,11,0,0,7);ctx.fill();let bounce=p.y===0&&Math.abs(p.vx)>1?Math.abs(Math.sin(p.walk))*4:0;ctx.translate(0,-bounce);
 if(sprite.complete&&sprite.naturalWidth){ctx.drawImage(sprite,-78,-234,156,240)}else{round(-50,-180,100,140,30,'#60749b');text('Carla',-25,-200,14,'#fff')}
