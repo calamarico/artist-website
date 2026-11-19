@@ -58,7 +58,17 @@ function exitMeeting(arturoChased=false){
  cam=Math.max(0,p.x-215);
  if(arturoChased)meetingOops=95; // Text after Carla escapes, outside the mirrored sprite.
 }
-function organizeMeeting(){if(!meeting||meeting.stage!=='waiting')return;meeting.stage='arriving';meeting.callTimer=0;}
+function organizeMeeting(){
+ if(!meeting||meeting.stage!=='waiting')return;
+ // Cada reunión escoge 10-12 compañeros conocidos, sin repetidos ni genéricos.
+ const attendees=[...NORMAL_ENEMY_KINDS];
+ for(let i=attendees.length-1;i>0;i--){
+   const j=Math.floor(Math.random()*(i+1));
+   [attendees[i],attendees[j]]=[attendees[j],attendees[i]];
+ }
+ meeting.attendeeKinds=attendees.slice(0,meeting.count);
+ meeting.stage='arriving';meeting.callTimer=0;
+}
 
 function zone(x){let m=((x%BLOCK)+BLOCK)%BLOCK;return m>=GARAGE_START&&m<GARAGE_END?'GARAGE':m>=GARAGE_END&&m<CAFETERIA_END?'CAFETERIA':'OFFICE';}
 function doorOptions(){const base=Math.floor(p.x/BLOCK)*BLOCK;return [{x:base+6270,to:base+6710,label:'CAFETERIA'},{x:base+6480,to:base+7490,label:'OFFICE'}];}
@@ -82,8 +92,8 @@ function enemyKind(){
   }
   return enemyBag.pop();
 }
-function createEmployee(x){
-  const kind=enemyKind();
+function createEmployee(x, forcedKind=null){
+  const kind=forcedKind??enemyKind();
   return {
     id:Math.random(),x,dir:Math.random()<.5?-1:1,speed:rand(.25,.85),phase:rand(0,7),
     shirt:['#5b7ed6','#7aa77f','#c9955c','#9b72ad','#cf6f79'][Math.floor(rand(0,5))],
@@ -129,7 +139,7 @@ function updateMeeting(dt){
    m.callTimer+=dt;
    if(m.spawned<m.count&&m.callTimer>=33){
      m.callTimer=0;
-     let e=createEmployee(930+m.spawned*8);
+     let e=createEmployee(930+m.spawned*8,m.attendeeKinds[m.spawned]);
      e.meetingSpot=300+m.spawned*49;
      e.dir=-1;e.speed=2.8;e.panic=0;
      m.employees.push(e);m.spawned++;
