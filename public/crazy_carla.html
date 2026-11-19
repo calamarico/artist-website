@@ -51,7 +51,7 @@ const BOSS_CARLA_HP=135, BOSS_COVA_HP=165;
 const BOSS_KNIFE_DAMAGE=14, BOSS_BOOK_DAMAGE=11;
 const BOSS_BOOK_SPEED=9.4, BOSS_BOOK_INTERVAL=56;
 const BOSS_STUN_COVA=205, BOSS_STUN_CARLA=140;
-const BOSS_CLASH_PRESSES=23, BOSS_CLASH_TIME=320;
+const BOSS_CLASH_PRESSES=23, BOSS_CLASH_TIME=260;
 function initBoss(){
  boss={x:685,y:0,vy:0,face:-1,hp:BOSS_COVA_HP,carlaHp:BOSS_CARLA_HP,
   books:[],lastThrow:0,aiTime:0,stunCova:0,stunCarla:0,invCarla:0,invCova:0,
@@ -220,7 +220,7 @@ function updateBoss(dt){
   const tooFar=Math.abs(dist)>365;
   const direction=tooClose?-Math.sign(dist):tooFar?Math.sign(dist):Math.sin(b.aiTime*.028)>0?1:-1;
   const previousX=b.x;
-  b.x=clamp(b.x+direction*3.05*dt,105,SW-90);
+  b.x=clamp(b.x+direction*3.55*dt,105,SW-90);
   if((b.x<113||b.x>SW-99||Math.abs(previousX-b.x)<.05)&&b.y===0){b.vy=-12;b.y=-.1;}
   if(Math.abs(dist)<185&&b.y===0&&Math.random()<.045*dt){b.vy=-12.2;b.y=-.1;}
   b.lastThrow+=dt;
