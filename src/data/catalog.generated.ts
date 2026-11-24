@@ -2006,41 +2006,6 @@ export const releases: Release[] = [
     ]
   },
   {
-    "id": "5oAce7LEooZ5CaUOA3iNz0",
-    "name": "Last Uplift",
-    "type": "SINGLE",
-    "date": "2023-01-01",
-    "datePrecision": "YEAR",
-    "trackCount": 1,
-    "coverArt": "https://i.scdn.co/image/ab67616d0000b273e3b6a884b179ba554dc9077c",
-    "spotifyUrl": "https://open.spotify.com/album/5oAce7LEooZ5CaUOA3iNz0",
-    "artists": [
-      {
-        "id": "69pHpbXQUapyazWqZw1O2d",
-        "name": "Kalamarico",
-        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
-      }
-    ],
-    "isPrimaryArtist": true,
-    "tracks": [
-      {
-        "id": "1RaGPEucRIaRdIXodNljSW",
-        "name": "Last Uplift",
-        "trackNumber": 1,
-        "durationMs": 312500,
-        "spotifyUrl": "https://open.spotify.com/track/1RaGPEucRIaRdIXodNljSW",
-        "artists": [
-          {
-            "id": "69pHpbXQUapyazWqZw1O2d",
-            "name": "Kalamarico",
-            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
-          }
-        ],
-        "isCollab": false
-      }
-    ]
-  },
-  {
     "id": "02ago43O1xgl1dkdoP18UB",
     "name": "Sönar",
     "type": "SINGLE",
@@ -2064,6 +2029,41 @@ export const releases: Release[] = [
         "trackNumber": 1,
         "durationMs": 342656,
         "spotifyUrl": "https://open.spotify.com/track/4gRczJURwfiF3mkQfe6tRh",
+        "artists": [
+          {
+            "id": "69pHpbXQUapyazWqZw1O2d",
+            "name": "Kalamarico",
+            "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+          }
+        ],
+        "isCollab": false
+      }
+    ]
+  },
+  {
+    "id": "5oAce7LEooZ5CaUOA3iNz0",
+    "name": "Last Uplift",
+    "type": "SINGLE",
+    "date": "2023-01-01",
+    "datePrecision": "YEAR",
+    "trackCount": 1,
+    "coverArt": "https://i.scdn.co/image/ab67616d0000b273e3b6a884b179ba554dc9077c",
+    "spotifyUrl": "https://open.spotify.com/album/5oAce7LEooZ5CaUOA3iNz0",
+    "artists": [
+      {
+        "id": "69pHpbXQUapyazWqZw1O2d",
+        "name": "Kalamarico",
+        "spotifyUrl": "https://open.spotify.com/artist/69pHpbXQUapyazWqZw1O2d"
+      }
+    ],
+    "isPrimaryArtist": true,
+    "tracks": [
+      {
+        "id": "1RaGPEucRIaRdIXodNljSW",
+        "name": "Last Uplift",
+        "trackNumber": 1,
+        "durationMs": 312500,
+        "spotifyUrl": "https://open.spotify.com/track/1RaGPEucRIaRdIXodNljSW",
         "artists": [
           {
             "id": "69pHpbXQUapyazWqZw1O2d",
